@@ -1,8 +1,9 @@
+import { Title } from "@/components/shared/title";
 
 export default function ShopPage() {
   return (
     <div>
-      <h1>Shop Page</h1>
+      <Title title="Tienda" subTitle="todos los productos" />
     </div>
   );
 }
