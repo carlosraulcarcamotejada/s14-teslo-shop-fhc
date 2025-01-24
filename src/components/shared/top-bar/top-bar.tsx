@@ -1,11 +1,3 @@
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  Button,
-  Badge,
-} from "@heroui/react";
 import { SearchIcon, ShoppingCart } from "lucide-react";
 import { TopBarMenu } from "./components/top-bar-menu";
 import { TopBarMenuToggle } from "@/components/shared/top-bar/components/top-bar-menu-toggle";
@@ -15,9 +7,9 @@ import { AcmeLogo } from "@/components/icons/acme-logo";
 
 export const TopBar = () => {
   return (
-    <Navbar isBordered>
+    <div>
       {/* Start Section (Brand) */}
-      <NavbarBrand>
+      <div>
         <Link
           className="cursor-pointer flex items-center gap-x-4 sm:gap-x-0"
           href="/"
@@ -26,33 +18,33 @@ export const TopBar = () => {
           <AcmeLogo />
           <p className="font-bold text-inherit">Teslo</p>
         </Link>
-      </NavbarBrand>
+      </div>
       {/* Center Section */}
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      <div className="hidden sm:flex gap-4" >
         <TopBarMenuTabs />
-      </NavbarContent>
+      </div>
       {/* End Section */}
-      <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Button as={Link} href="/search" variant="light" size="sm">
+      <div >
+        <div className="hidden lg:flex">
+          <Link  href="/search">
             <SearchIcon className="size-4" />
-          </Button>
-        </NavbarItem>
-        <NavbarItem className="hidden lg:flex">
-          <Badge color="primary" content="5">
-            <Button as={Link} href="/cart" variant="light" size="sm">
+          </Link>
+        </div>
+        <div className="hidden lg:flex">
+          <div color="primary" content="5">
+            <Link href="/cart">
               <ShoppingCart className="size-4" />
-            </Button>
-          </Badge>
-        </NavbarItem>
-        <NavbarItem>
-          <Button color="secondary" variant="flat" size="sm">
+            </Link>
+          </div>
+        </div>
+        <div>
+          <div color="secondary" >
             Menu
-          </Button>
-        </NavbarItem>
-      </NavbarContent>
+          </div>
+        </div>
+      </div>
       {/* Menu For Mobile  */}
       <TopBarMenu />
-    </Navbar>
+    </div>
   );
 };

@@ -1,4 +1,5 @@
-import { Link, NavbarMenu, NavbarMenuItem } from "@heroui/react";
+import Link from "next/link";
+
 
 export const TopBarMenu = () => {
   const menuItems: string[] = [
@@ -15,9 +16,9 @@ export const TopBarMenu = () => {
   ];
 
   return (
-    <NavbarMenu>
+    <div>
       {menuItems.map((item, index) => (
-        <NavbarMenuItem key={`${item}-${index}`}>
+        <div key={`${item}-${index}`}>
           <Link
             className="w-full"
             color={
@@ -28,12 +29,11 @@ export const TopBarMenu = () => {
                 : "foreground"
             }
             href="#"
-            size="lg"
           >
             {item}
           </Link>
-        </NavbarMenuItem>
+        </div>
       ))}
-    </NavbarMenu>
+    </div>
   );
 };

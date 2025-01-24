@@ -1,5 +1,4 @@
 "use client";
-import { Tab, Tabs } from "@heroui/react";
 import { useRouter } from "next/navigation";
 
 export const TopBarMenuTabs = () => {
@@ -22,9 +21,9 @@ export const TopBarMenuTabs = () => {
   };
 
   return (
-    <Tabs aria-label="Tabs radius" radius={"lg"}>
+    <div aria-label="Tabs radius">
       {tabs.map(({ id, label, path }) => (
-        <Tab
+        <div
           key={id}
           title={label}
           onClick={() => {
@@ -33,6 +32,6 @@ export const TopBarMenuTabs = () => {
           }}
         />
       ))}
-    </Tabs>
+    </div>
   );
 };
