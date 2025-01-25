@@ -1,50 +1,47 @@
-import { SearchIcon, ShoppingCart } from "lucide-react";
-import { TopBarMenu } from "./components/top-bar-menu";
-import { TopBarMenuToggle } from "@/components/shared/top-bar/components/top-bar-menu-toggle";
-import { TopBarMenuTabs } from "@/components/shared/top-bar/components/top-bar-menu-tabs";
 import Link from "next/link";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/navbar";
+import { Search, ShoppingCart } from "lucide-react";
+import { TopBarMenuLinks } from "@/components/shared/top-bar/components/top-bar-menu-links";
 import { AcmeLogo } from "@/components/icons/acme-logo";
+import { cn } from "@/lib/utils";
 
 export const TopBar = () => {
   return (
-    <div>
-      {/* Start Section (Brand) */}
-      <div>
-        <Link
-          className="cursor-pointer flex items-center gap-x-4 sm:gap-x-0"
-          href="/"
-        >
-          <TopBarMenuToggle />
+    <Navbar isBordered>
+      {/* Brand Logo */}
+      <NavbarBrand>
+        <Link href="/" className="flex  items-center">
           <AcmeLogo />
           <p className="font-bold text-inherit">Teslo</p>
         </Link>
-      </div>
-      {/* Center Section */}
-      <div className="hidden sm:flex gap-4" >
-        <TopBarMenuTabs />
-      </div>
-      {/* End Section */}
-      <div >
-        <div className="hidden lg:flex">
-          <Link  href="/search">
-            <SearchIcon className="size-4" />
+      </NavbarBrand>
+      {/* Center Content */}
+      <TopBarMenuLinks />
+      {/* End Content */}
+      <NavbarContent justify="end">
+        <NavbarItem className="hidden lg:flex">
+          <Link
+            href="/cart"
+            className={cn(buttonVariants({ size: "md", variant: "ghost" }))}
+          >
+            <Search />
           </Link>
-        </div>
-        <div className="hidden lg:flex">
-          <div color="primary" content="5">
-            <Link href="/cart">
-              <ShoppingCart className="size-4" />
-            </Link>
-          </div>
-        </div>
-        <div>
-          <div color="secondary" >
-            Menu
-          </div>
-        </div>
-      </div>
-      {/* Menu For Mobile  */}
-      <TopBarMenu />
-    </div>
+        </NavbarItem>
+        <NavbarItem className="hidden lg:flex">
+          <Link
+            className={cn(buttonVariants({ size: "md", variant: "ghost" }))}
+            href="/cart"
+          >
+            <ShoppingCart />
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Button size={"md"} variant="ghost">
+            Menú
+          </Button>
+        </NavbarItem>
+      </NavbarContent>
+    </Navbar>
   );
 };
