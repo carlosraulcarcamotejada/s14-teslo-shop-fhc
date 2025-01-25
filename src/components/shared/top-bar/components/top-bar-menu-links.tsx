@@ -1,9 +1,8 @@
 "use client";
 import Link from "next/link";
-import { NavbarContent, NavbarItem } from "@heroui/navbar";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
+import { NavbarContent, NavbarItem } from "@heroui/navbar";
+import { Button } from "@/components/ui/button";
 
 interface Path {
   id: number;
@@ -26,17 +25,13 @@ export const TopBarMenuLinks = () => {
         const isCurrentPath: boolean = path === pathname;
         return (
           <NavbarItem key={id}>
-            <Link
-              className={cn(
-                buttonVariants({
-                  size: "md",
-                  variant: isCurrentPath ? "secondary" : "ghost",
-                }),"font-semibold@"
-              )}
-              href={path}
+            <Button
+              variant={isCurrentPath ? "default" : "ghost"}
+              size="md"
+              asChild
             >
-              {label}
-            </Link>
+              <Link href={path}>{label}</Link>
+            </Button>
           </NavbarItem>
         );
       })}
