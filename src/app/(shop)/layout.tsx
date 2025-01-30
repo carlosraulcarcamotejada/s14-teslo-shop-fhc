@@ -8,7 +8,7 @@ export default function ShopLayout({
   return (
     <main className="min-h-screen">
       <TopBar />
-      {children}
+      <div className="p-6">{children}</div>
     </main>
   );
 }
