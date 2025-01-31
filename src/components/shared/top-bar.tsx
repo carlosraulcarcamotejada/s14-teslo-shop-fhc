@@ -35,9 +35,9 @@ interface Path {
 }
 
 const paths: Path[] = [
-  { id: 1, label: "Hombres", path: "/category/hombres" },
-  { id: 2, label: "Mujeres", path: "/category/mujeres" },
-  { id: 3, label: "Niños", path: "/category/ninos" },
+  { id: 1, label: "Hombres", path: "/category/men" },
+  { id: 2, label: "Mujeres", path: "/category/women" },
+  { id: 3, label: "Niños", path: "/category/kid" },
 ];
 
 export const TopBar = () => {

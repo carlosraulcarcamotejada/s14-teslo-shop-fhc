@@ -1,4 +1,4 @@
-import { TopBar } from "@/components/shared/top-bar/top-bar";
+import { TopBar } from "@/components/shared/top-bar";
 
 export default function ShopLayout({
   children,
@@ -8,7 +8,7 @@ export default function ShopLayout({
   return (
     <main className="min-h-screen">
       <TopBar />
-      <div className="p-6">{children}</div>
+      <div className="flex flex-col gap-y-10 pb-40 px-6 py-6">{children}</div>
     </main>
   );
 }

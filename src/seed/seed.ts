@@ -3,22 +3,21 @@ interface Product {
   images: string[];
   inStock: number;
   price: number;
-  sizes: ValidSizes[];
+  sizes: Size[];
   slug: string;
   tags: string[];
   title: string;
-  type: ValidTypes;
-  gender: "men" | "women" | "kid" | "unisex";
+  type: Type;
+  gender: Category;
 }
 
-type ValidSizes = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
-type ValidTypes = "shirts" | "pants" | "hoodies" | "hats";
+type Category = "men" | "women" | "kid" | "unisex";
+type Size = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
+type Type = "shirts" | "pants" | "hoodies" | "hats";
 
 interface SeedData {
   products: Product[];
 }
-
-export type { Product };
 
 export const initialData: SeedData = {
   products: [
@@ -442,7 +441,7 @@ export const initialData: SeedData = {
     },
     {
       description:
-        "ntroducing the Tesla Turbine Collection. Designed for style, comfort and everyday lifestyle, the Women's Turbine Cropped Short Sleeve Tee features a subtle, water-based Tesla wordmark across the chest and our T logo below the back collar. The lightweight material is double-dyed, creating a soft, casual style with a cropped silhouette. Made from 50% cotton and 50% polyester.",
+        "Introducing the Tesla Turbine Collection. Designed for style, comfort and everyday lifestyle, the Women's Turbine Cropped Short Sleeve Tee features a subtle, water-based Tesla wordmark across the chest and our T logo below the back collar. The lightweight material is double-dyed, creating a soft, casual style with a cropped silhouette. Made from 50% cotton and 50% polyester.",
       images: ["1741441-00-A_0_2000.jpg", "1741441-00-A_1.jpg"],
       inStock: 0,
       price: 40,
@@ -702,3 +701,7 @@ export const initialData: SeedData = {
     },
   ],
 };
+
+export type { Size };
+export type { Product };
+export type { Category };

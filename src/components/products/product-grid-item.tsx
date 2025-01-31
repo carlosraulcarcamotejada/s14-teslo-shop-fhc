@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { Product } from "@/seed/seed";
-import Link from "next/link";
 
 const ProductGridItem = (product: Product) => {
   const { slug, title, images, price } = product;
@@ -24,7 +24,7 @@ const ProductGridItem = (product: Product) => {
         <Image
           src={displayImage}
           alt={`image product ${title}`}
-          className="w-full object-cover rounded-md"
+          className="w-full object-cover rounded-t-md"
           height={500}
           width={500}
           onMouseEnter={handleMouseEnter}
