@@ -1,8 +1,9 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   Carousel,
+  CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
@@ -28,53 +29,62 @@ export const ProductSlideshow = ({
   showArrows = true,
   title = "",
 }: ProductSlideshowProps) => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [emblaMainRef, emblaMainApi] = useEmblaCarousel(opts);
-  const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
-    containScroll: "keepSnaps",
-    dragFree: true,
-  });
-
-  const onThumbClick = useCallback(
-    (index: number) => {
-      if (!emblaMainApi) return;
-      emblaMainApi.scrollTo(index);
-    },
-    [emblaMainApi]
-  );
-
-  const onSelect = useCallback(() => {
-    if (!emblaMainApi) return;
-    setSelectedIndex(emblaMainApi.selectedScrollSnap());
-    emblaThumbsApi?.scrollTo(emblaMainApi.selectedScrollSnap());
-  }, [emblaMainApi, emblaThumbsApi]);
-
-  useEffect(() => {
-    if (!emblaMainApi) return;
-    onSelect();
-    emblaMainApi.on("select", onSelect).on("reInit", onSelect);
-  }, [emblaMainApi, onSelect]);
-
   const { isDesktop } = useResponsive();
 
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [emblaMainApi, setEmblaMainApi] = useState<CarouselApi>();
+  const [emblaThumbsApi, setEmblaThumbsApi] = useState<CarouselApi>();
+
+  // Carousel Main
+  const [emblaMainRef] = useEmblaCarousel({
+    ...opts,
+  });
+
+  // Carousel Thumbnails
+  const [emblaThumbsRef] = useEmblaCarousel({
+    containScroll: "keepSnaps",
+    dragFree: true,
+    align: "center",
+  });
+
+  // Sync Thumbnails and Main Carousel
+  useEffect(() => {
+    if (!emblaMainApi || !emblaThumbsApi) return;
+
+    emblaMainApi.on("select", () => {
+      setSelectedIndex(emblaMainApi.selectedScrollSnap());
+    });
+
+    emblaThumbsApi.on("select", () => {
+      emblaMainApi.scrollTo(emblaThumbsApi.selectedScrollSnap());
+    });
+  }, [emblaMainApi, emblaThumbsApi]);
+
+  // Thumbnail Click Handler
+  const onThumbClick = (index: number) => {
+    emblaMainApi?.scrollTo(index);
+    emblaThumbsApi?.scrollTo(index);
+  };
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-y-4">
       {/* Slideshow Principal */}
       <Carousel
         ref={emblaMainRef}
-        opts={{ ...opts }}
+        setApi={setEmblaMainApi}
+        opts={opts}
         plugins={autoPlay ? [Autoplay({ delay: autoPlay?.duration })] : []}
         className="border# overflow-hidden rounded-md"
       >
-        <CarouselContent>
+        <CarouselContent className="">
           {images.map((image, index) => (
-            <CarouselItem key={index}>
+            <CarouselItem className="flex justify-center" key={index}>
               <Image
-                className="object-cover rounded-md"
+                className="object-cover# rounded-md"
                 src={`/products/${image}`}
                 alt={title}
-                width={1100}
-                height={800}
+                width={500}
+                height={500}
               />
             </CarouselItem>
           ))}
@@ -87,29 +97,37 @@ export const ProductSlideshow = ({
         )}
       </Carousel>
 
-      {/* Thumbnails */}
+      {/* Thumbnails Carousel */}
       {isDesktop && (
-        <div className="flex justify-center gap-2" ref={emblaThumbsRef}>
-          {images.map((image, index) => (
-            <button
-              key={index}
-              onClick={() => onThumbClick(index)}
-              className={`border-2 rounded-md overflow-hidden transition ${
-                selectedIndex === index
-                  ? "border-blue-500"
-                  : "border-transparent"
-              }`}
-            >
-              <Image
-                src={`/products/${image}`}
-                alt={title}
-                width={80}
-                height={80}
-                className="w-20 h-20 object-cover"
-              />
-            </button>
-          ))}
-        </div>
+        <Carousel
+          ref={emblaThumbsRef}
+          setApi={setEmblaThumbsApi}
+          className="overflow-hidden rounded-md bg-red-600@"
+        >
+          <CarouselContent className="flex justify-center gap-x-4 rounded-md bg-green-500@">
+            {images.map((image, index) => {
+              const selected: boolean = index === selectedIndex;
+              return (
+                <CarouselItem
+                  key={index}
+                  onClick={() => onThumbClick(index)}
+                  className={`flex flex-grow-0@ flex-shrink-0@ basis-24 justify-center items-center min-w-0 pl-0 rounded-md bg-sky-500@
+                   ${selected ? "border border-black" : ""}
+                   `}
+                >
+                  <Image
+                    src={`/products/${image}`}
+                    alt={title}
+                    height={100}
+                    width={100}
+                    className={`h-24 w-24 object-cover rounded-md bg-black@ transition
+                      ${selected ? "brightness-50" : ""}`}
+                  />
+                </CarouselItem>
+              );
+            })}
+          </CarouselContent>
+        </Carousel>
       )}
     </div>
   );

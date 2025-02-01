@@ -29,6 +29,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       {/* Slideshow */}
       <div className="col-span-1 md:col-span-2">
         <ProductSlideshow images={images} title={title} />
+        {/* <ProductSlideshow2 slides={[0,1,2,3,4]}   /> */}
       </div>
 
       {/* Details */}
