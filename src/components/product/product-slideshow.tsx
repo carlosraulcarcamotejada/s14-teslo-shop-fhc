@@ -31,14 +31,12 @@ export const ProductSlideshow = ({
 }: ProductSlideshowProps) => {
   const { isDesktop } = useResponsive();
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [emblaMainApi, setEmblaMainApi] = useState<CarouselApi>();
   const [emblaThumbsApi, setEmblaThumbsApi] = useState<CarouselApi>();
 
   // Carousel Main
-  const [emblaMainRef] = useEmblaCarousel({
-    ...opts,
-  });
+  const [emblaMainRef] = useEmblaCarousel({ ...opts });
 
   // Carousel Thumbnails
   const [emblaThumbsRef] = useEmblaCarousel({
@@ -52,11 +50,11 @@ export const ProductSlideshow = ({
     if (!emblaMainApi || !emblaThumbsApi) return;
 
     emblaMainApi.on("select", () => {
-      setSelectedIndex(emblaMainApi.selectedScrollSnap());
+      setSelectedIndex(emblaMainApi?.selectedScrollSnap());
     });
 
-    emblaThumbsApi.on("select", () => {
-      emblaMainApi.scrollTo(emblaThumbsApi.selectedScrollSnap());
+    emblaThumbsApi?.on("select", () => {
+      emblaMainApi?.scrollTo(emblaThumbsApi?.selectedScrollSnap());
     });
   }, [emblaMainApi, emblaThumbsApi]);
 
@@ -78,9 +76,9 @@ export const ProductSlideshow = ({
       >
         <CarouselContent className="">
           {images.map((image, index) => (
-            <CarouselItem className="flex justify-center" key={index}>
+            <CarouselItem className="flex justify-center" key={image + index}>
               <Image
-                className="object-cover# rounded-md"
+                className="object-cover rounded-md"
                 src={`/products/${image}`}
                 alt={title}
                 width={500}
@@ -104,15 +102,15 @@ export const ProductSlideshow = ({
           setApi={setEmblaThumbsApi}
           className="overflow-hidden rounded-md bg-red-600@"
         >
-          <CarouselContent className="flex justify-center gap-x-4 rounded-md bg-green-500@">
+          <CarouselContent className="flex justify-center gap-x-4 px-0 rounded-md bg-green-500@">
             {images.map((image, index) => {
               const selected: boolean = index === selectedIndex;
               return (
                 <CarouselItem
-                  key={index}
+                  key={image + index}
                   onClick={() => onThumbClick(index)}
-                  className={`flex flex-grow-0@ flex-shrink-0@ basis-24 justify-center items-center min-w-0 pl-0 rounded-md bg-sky-500@
-                   ${selected ? "border border-black" : ""}
+                  className={`flex flex-shrink-0@ basis-24 justify-center items-center overflow-hidden px-0 rounded-md bg-sky-500@
+                   ${selected ? "border border-gray-500" : ""}
                    `}
                 >
                   <Image
@@ -120,7 +118,7 @@ export const ProductSlideshow = ({
                     alt={title}
                     height={100}
                     width={100}
-                    className={`h-24 w-24 object-cover rounded-md bg-black@ transition
+                    className={`h-24 w-24 object-cover  bg-black@ transition hover:brightness-50
                       ${selected ? "brightness-50" : ""}`}
                   />
                 </CarouselItem>

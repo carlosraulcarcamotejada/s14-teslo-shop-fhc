@@ -33,7 +33,7 @@ export const QuantitySelector = ({
         >
           <MinusIcon />
         </Button>
-        <span className="h-11 w-20 bg-accent rounded-md grid place-content-center">
+        <span className="h-11 w-20 bg-accent rounded-md grid place-content-center select-none">
           {quantity}
         </span>
         <Button

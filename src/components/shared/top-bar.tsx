@@ -4,10 +4,14 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/navbar";
 import { Badge } from "@heroui/badge";
 import {
+  Calendar,
+  Home,
+  Inbox,
   LogInIcon,
   LogOutIcon,
   Search,
   SearchIcon,
+  Settings,
   ShirtIcon,
   ShoppingCart,
   TicketIcon,
@@ -19,14 +23,18 @@ import { Separator } from "@/components/ui/separator";
 import { usePathname } from "next/navigation";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { titleFont } from "@/config/fonts";
+import { ScrollArea } from "../ui/scroll-area";
+import { useEffect, useRef } from "react";
 
 interface Path {
   id: number;
@@ -40,10 +48,40 @@ const paths: Path[] = [
   { id: 3, label: "Niños", path: "/category/kid" },
 ];
 
+// Menu items.
+const items = [
+  {
+    title: "Home",
+    url: "#",
+    icon: Home,
+  },
+  {
+    title: "Inbox",
+    url: "#",
+    icon: Inbox,
+  },
+  {
+    title: "Calendar",
+    url: "#",
+    icon: Calendar,
+  },
+  {
+    title: "Search",
+    url: "#",
+    icon: Search,
+  },
+  {
+    title: "Settings",
+    url: "#",
+    icon: Settings,
+  },
+];
+
 export const TopBar = () => {
   const pathname = usePathname();
+
   return (
-    <Navbar isBordered maxWidth="full">
+    <Navbar isBordered maxWidth="full" isBlurred={false}>
       {/* Brand Logo */}
       <NavbarBrand>
         <Link href="/" className="flex items-center h-6 space-x-2">
@@ -89,89 +127,213 @@ export const TopBar = () => {
           </Badge>
         </NavbarItem>
         <NavbarItem>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button size="md" variant="outline">
-                Menú
-              </Button>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader className="hidden">
-                <SheetTitle>Side Menu</SheetTitle>
-                <SheetDescription />
-              </SheetHeader>
-              <div className="grid gap-y-10 py-10">
-                <div className="grid grid-cols-4 items-center gap-4 relative">
-                  <SearchIcon className="size-4 absolute top-1/2 left-2 -translate-y-1/2" />
-                  <Input id="name" className="col-span-4 pl-8" type="search" />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-y-4">
-                  <Link
-                    className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-12 rounded-md hover:bg-accent transition-all duration-75"
-                    href="#"
-                  >
-                    <UserIcon className="size-6" />
-                    <span className="">Perfil</span>
-                  </Link>
-                  <Link
-                    className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-12 rounded-md hover:bg-accent transition-all duration-75"
-                    href="#"
-                  >
-                    <TicketIcon className="size-6" />
-                    <span className="">Ordenes</span>
-                  </Link>
-                  <Link
-                    className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-12 rounded-md hover:bg-accent transition-all duration-75"
-                    href="#"
-                  >
-                    <LogInIcon className="size-6" />
-                    <span className="">Ingresar</span>
-                  </Link>
-                  <Link
-                    className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-12 rounded-md hover:bg-accent transition-all duration-75"
-                    href="#"
-                  >
-                    <LogOutIcon className="size-6" />
-                    <span className="">Salir</span>
-                  </Link>
-
-                  <Separator
-                    orientation="horizontal"
-                    className="my-6 col-span-4"
-                  />
-
-                  <Link
-                    className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-12 rounded-md hover:bg-accent transition-all duration-75"
-                    href="#"
-                  >
-                    <ShirtIcon className="size-6" />
-                    <span className="">Productos</span>
-                  </Link>
-                  <Link
-                    className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-12 rounded-md hover:bg-accent transition-all duration-75"
-                    href="#"
-                  >
-                    <TicketIcon className="size-6" />
-                    <span className="">Ordenes</span>
-                  </Link>
-                  <Link
-                    className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-12 rounded-md hover:bg-accent transition-all duration-75"
-                    href="#"
-                  >
-                    <UsersIcon className="size-6" />
-                    <span className="">Usuarios</span>
-                  </Link>
-                </div>
-              </div>
-              {/* <SheetFooter>
-                <SheetClose asChild>
-                  <Button type="submit">Save changes</Button>
-                </SheetClose>
-              </SheetFooter> */}
-            </SheetContent>
-          </Sheet>
+          <MenuTopBar />
         </NavbarItem>
       </NavbarContent>
     </Navbar>
+  );
+};
+
+const MenuTopBar = () => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      setTimeout(() => {
+        inputRef.current?.blur(); // Remueve el foco después de abrir el Sheet
+      }, 0);
+    }
+  }, []);
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button size="md" variant="outline">
+          Menú
+        </Button>
+      </SheetTrigger>
+      <SheetContent className="border pt-10 pb-28 px-2 lg:px-4 bg-sidebar text-sidebar-foreground text-sm">
+        <SheetHeader className="">
+          <SheetTitle className="hidden" />
+          <SheetDescription className="hidden" />
+          <div className="relative p-1">
+            <SearchIcon className="size-4 absolute top-1/2 left-4 -translate-y-1/2" />
+            <Input
+              ref={inputRef}
+              id="name"
+              autoFocus={false}
+              className="col-span-4 pl-10"
+              type="search"
+            />
+          </div>
+        </SheetHeader>
+        <ScrollArea className="w-full h-full px-0 pb-4">
+          <div className="grid grid-cols-4 items-center gap-y-4 mt-4">
+            <SheetClose asChild>
+              <Link
+                className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
+                href="#"
+              >
+                <UserIcon className="size-4" />
+                <span className="text-md">Perfil</span>
+              </Link>
+            </SheetClose>
+            <SheetClose asChild>
+              <Link
+                className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
+                href="#"
+              >
+                <TicketIcon className="size-4" />
+                <span className="">Ordenes</span>
+              </Link>
+            </SheetClose>
+            <SheetClose asChild>
+              <Link
+                className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
+                href="#"
+              >
+                <LogInIcon className="size-4" />
+                <span className="">Ingresar</span>
+              </Link>
+            </SheetClose>
+            <SheetClose asChild>
+              <Link
+                className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
+                href="#"
+              >
+                <LogOutIcon className="size-4" />
+                <span className="">Salir</span>
+              </Link>
+            </SheetClose>
+
+            <Separator orientation="horizontal" className="col-span-4" />
+
+            <SheetClose asChild>
+              <Link
+                className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
+                href="#"
+              >
+                <ShirtIcon className="size-4" />
+                <span className="">Productos</span>
+              </Link>
+            </SheetClose>
+            <SheetClose asChild>
+              <Link
+                className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
+                href="#"
+              >
+                <TicketIcon className="size-4" />
+                <span className="">Ordenes</span>
+              </Link>
+            </SheetClose>
+
+            <SheetClose asChild>
+              <Link
+                className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
+                href="#"
+              >
+                <UsersIcon className="size-4" />
+                <span className="">Usuarios</span>
+              </Link>
+            </SheetClose>
+
+            <SheetClose asChild>
+              <Link
+                className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
+                href="#"
+              >
+                <ShirtIcon className="size-4" />
+                <span className="">Productos</span>
+              </Link>
+            </SheetClose>
+
+            <SheetClose asChild>
+              <Link
+                className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
+                href="#"
+              >
+                <TicketIcon className="size-4" />
+                <span className="">Ordenes</span>
+              </Link>
+            </SheetClose>
+
+            <SheetClose asChild>
+              <Link
+                className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
+                href="#"
+              >
+                <UsersIcon className="size-4" />
+                <span className="">Usuarios</span>
+              </Link>
+            </SheetClose>
+
+            <SheetClose asChild>
+              <Link
+                className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
+                href="#"
+              >
+                <ShirtIcon className="size-4" />
+                <span className="">Productos</span>
+              </Link>
+            </SheetClose>
+
+            <SheetClose asChild>
+              <Link
+                className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
+                href="#"
+              >
+                <TicketIcon className="size-4" />
+                <span className="">Ordenes</span>
+              </Link>
+            </SheetClose>
+
+            <SheetClose asChild>
+              <Link
+                className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
+                href="#"
+              >
+                <UsersIcon className="size-4" />
+                <span className="">Usuarios</span>
+              </Link>
+            </SheetClose>
+
+            <SheetClose asChild>
+              <Link
+                className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
+                href="#"
+              >
+                <ShirtIcon className="size-4" />
+                <span className="">Productos</span>
+              </Link>
+            </SheetClose>
+
+            <SheetClose asChild>
+              <Link
+                className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
+                href="#"
+              >
+                <TicketIcon className="size-4" />
+                <span className="">Ordenes</span>
+              </Link>
+            </SheetClose>
+
+            <SheetClose asChild>
+              <Link
+                className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
+                href="#"
+              >
+                <UsersIcon className="size-4" />
+                <span className="">Usuarios</span>
+              </Link>
+            </SheetClose>
+          </div>
+        </ScrollArea>
+
+        <SheetFooter className="">
+          <SheetClose asChild>
+            <Button className="w-full">Save changes</Button>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
 };
