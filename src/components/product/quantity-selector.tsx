@@ -1,14 +1,22 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { ClassValue } from "clsx";
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
 
 interface QuantitySelectorProps {
   quantityDefault?: number;
+  className?: ClassValue;
+  title?: string;
+  limit?: number;
 }
 
 export const QuantitySelector = ({
   quantityDefault = 1,
+  className,
+  limit = 5,
+  title,
 }: QuantitySelectorProps) => {
   const [quantity, setQuantity] = useState<number>(quantityDefault);
 
@@ -16,13 +24,13 @@ export const QuantitySelector = ({
     setQuantity((preVal) => preVal + value);
   };
 
-  const isDisableAddButton: boolean = quantity >= 5;
+  const isDisableAddButton: boolean = quantity >= limit;
 
   const isDisableSubtractButton: boolean = quantity <= 1;
 
   return (
-    <div className="flex flex-col gap-y-4">
-      <h3 className="font-bold">Cantidad:</h3>
+    <div className={cn("flex flex-col gap-y-4", className)}>
+      {title && <h3 className="font-bold">Cantidad:</h3>}
       <div className="flex gap-x-4">
         <Button
           onClick={() => onQuantityChange(-1)}

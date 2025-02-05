@@ -8,7 +8,7 @@ export default function ShopLayout({
   return (
     <main className="min-h-screen">
       <TopBar />
-      <div className="flex flex-col gap-y-10 pb-40 px-6 py-6">{children}</div>
+      {children}
     </main>
   );
 }

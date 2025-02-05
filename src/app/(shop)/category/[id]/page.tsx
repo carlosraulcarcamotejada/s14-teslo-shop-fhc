@@ -25,9 +25,9 @@ export default async function CategoryPage({ params }: PageProps) {
       : "Desconocido";
 
   return (
-    <>
+    <div className="flex flex-col gap-y-10 pb-40 px-4 py-6">
       <Title title={categoryLabel} subTitle="todos los productos" />
       <ProductGrid products={filteredProducts} />
-    </>
+    </div>
   );
 }
