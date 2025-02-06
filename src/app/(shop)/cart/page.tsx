@@ -1,4 +1,4 @@
-import { CheckoutSummary } from "@/components/cart/checkout-summary";
+import { CartSummary } from "@/components/cart/cart-summary";
 import { ItemProductCart } from "@/components/cart/item-product-cart";
 import { Title } from "@/components/shared/title";
 import { initialData } from "@/seed/seed";
@@ -27,7 +27,7 @@ export default function CartPage() {
       </div>
 
       {/* Checkout Summary */}
-      <CheckoutSummary className="lg:col-start-7 lg:col-span-3  sticky top-20" />
+      <CartSummary className="lg:col-start-7 lg:col-span-3  sticky top-20" />
     </div>
   );
 }

@@ -7,12 +7,15 @@ import { QuantitySelector } from "@/components/product/quantity-selector";
 import { Button } from "@/components/ui/button";
 import { Trash2Icon } from "lucide-react";
 
-interface ItemProps {
+interface ItemProductCartProps {
   product: Product;
   className?: ClassValue;
 }
 
-export const ItemProductCart = ({ className, product }: ItemProps) => {
+export const ItemProductCart = ({
+  className,
+  product,
+}: ItemProductCartProps) => {
   const { images, title, price } = product;
 
   return (
