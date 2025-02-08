@@ -8,14 +8,11 @@ interface TitleProps {
   className?: ClassValue;
 }
 
-export const Title = ({ title, subTitle, className }: TitleProps) => {
+export const TitlePage = ({ title, subTitle, className }: TitleProps) => {
   return (
-    <div>
+    <div className={cn(className)}>
       <h1
-        className={cn(
-          `${titleFont.className} antialiased text-4xl font-semibold`,
-          className
-        )}
+        className={`${titleFont.className} antialiased text-4xl font-semibold`}
       >
         {title}
       </h1>

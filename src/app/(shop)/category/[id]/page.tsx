@@ -1,5 +1,5 @@
 import { ProductGrid } from "@/components/products/product-grid";
-import { Title } from "@/components/shared/title";
+import { TitlePage } from "@/components/shared/title-page";
 import { PageProps } from "@/interfaces/page/page-props";
 import { Category, initialData, Product } from "@/seed/seed";
 
@@ -25,9 +25,16 @@ export default async function CategoryPage({ params }: PageProps) {
       : "Desconocido";
 
   return (
-    <div className="flex flex-col gap-y-10 pb-40 px-4 py-6">
-      <Title title={categoryLabel} subTitle="todos los productos" />
-      <ProductGrid products={filteredProducts} />
+    <div className="grid lg:grid-cols-10 pb-40 px-4 py-6">
+      <TitlePage
+        title={categoryLabel}
+        subTitle="todos los productos"
+        className="col-start-1 col-span-full border row-start-1"
+      />
+      <ProductGrid
+        products={filteredProducts}
+        className="col-start-1 col-span-full  row-start-2 mt-10"
+      />
     </div>
   );
 }

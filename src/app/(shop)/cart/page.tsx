@@ -1,6 +1,6 @@
 import { CartSummary } from "@/components/cart/cart-summary";
 import { ItemProductCart } from "@/components/cart/item-product-cart";
-import { Title } from "@/components/shared/title";
+import { TitlePage } from "@/components/shared/title-page";
 import { initialData } from "@/seed/seed";
 import Link from "next/link";
 
@@ -12,9 +12,9 @@ const productsInCart = [
 
 export default function CartPage() {
   return (
-    <div className="grid lg:grid-cols-10 pb-40 py-6">
-      <div className="flex flex-col items-start lg:col-start-2 lg:col-span-3 ">
-        <Title title="Carrito" />
+    <div className="grid lg:grid-cols-10 pb-40 px-4 py-6">
+      <div className="flex flex-col items-start lg:col-start-1 lg:col-span-3 ">
+        <TitlePage title="Carrito" />
         <div className="text-xl mt-8">Agregar más items</div>
         <Link href="/" className="underline mt-2">
           Continúa comprando
@@ -27,7 +27,7 @@ export default function CartPage() {
       </div>
 
       {/* Checkout Summary */}
-      <CartSummary className="lg:col-start-7 lg:col-span-3  sticky top-20" />
+      <CartSummary className="lg:col-start-8 lg:col-span-3  sticky top-20" />
     </div>
   );
 }

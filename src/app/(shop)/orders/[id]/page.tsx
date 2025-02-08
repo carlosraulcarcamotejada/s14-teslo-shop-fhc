@@ -1,4 +1,4 @@
-import { Title } from "@/components/shared/title";
+import { TitlePage } from "@/components/shared/title-page";
 import { initialData } from "@/seed/seed";
 import { ItemProductCheckout } from "@/components/checkout/item-product-checkout";
 import { PageProps } from "@/interfaces/page/page-props";
@@ -14,9 +14,9 @@ const productsInCart = [
 export default async function OrderPage({ params }: PageProps) {
   const { id } = await params;
   return (
-    <div className="grid lg:grid-cols-10 pb-40 py-6">
-      <div className="flex flex-col items-start lg:col-start-2 lg:col-span-3 ">
-        <Title title={`Orden #${id}`} />
+    <div className="grid lg:grid-cols-10 pb-40 px-4 py-6">
+      <div className="flex flex-col items-start lg:col-start-1 lg:col-span-3 ">
+        <TitlePage title={`Orden #${id}`} />
         <StatusOrders title="Pendiente de pago" />
         <div className="flex flex-col gap-y-4 mt-6">
           {productsInCart.map((product, index) => (
@@ -26,7 +26,7 @@ export default async function OrderPage({ params }: PageProps) {
       </div>
 
       {/* Checkout Summary */}
-      <OrdersSummary className="lg:col-start-7 lg:col-span-3  sticky top-20" />
+      <OrdersSummary className="lg:col-start-8 lg:col-span-3  sticky top-20" />
     </div>
   );
 }

@@ -75,7 +75,7 @@ export const ProductSlideshow = ({
         setApi={setEmblaMainApi}
         opts={opts}
         plugins={autoPlay ? [Autoplay({ delay: autoPlay?.delay })] : []}
-        className="border# overflow-hidden"
+        className="overflow-hidden"
       >
         <CarouselContent className="">
           {images.map((image, index) => (
@@ -132,7 +132,6 @@ export const ProductSlideshow = ({
                 onClick={() => onSelect(index)}
                 className={cn(
                   "flex flex-shrink-0 basis-24 justify-center items-center overflow-hidden px-0",
-                  selected && "border border-gray-500"
                 )}
               >
                 <Image

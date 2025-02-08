@@ -35,6 +35,8 @@ import { Input } from "@/components/ui/input";
 import { titleFont } from "@/config/fonts";
 import { ScrollArea } from "../ui/scroll-area";
 import { useEffect, useRef } from "react";
+import { ClassValue } from "clsx";
+import { cn } from "@/lib/utils";
 
 interface Path {
   id: number;
@@ -83,16 +85,8 @@ export const TopBar = () => {
   return (
     <Navbar isBordered maxWidth="full" isBlurred={false}>
       {/* Brand Logo */}
-      <NavbarBrand>
-        <Link href="/" className="flex items-center h-6 space-x-2">
-          <AcmeLogo />
-          <Separator orientation="vertical" />
-          <p
-            className={`${titleFont.className} antialiased font-bold text-inherit`}
-          >
-            Teslo shop
-          </p>
-        </Link>
+      <NavbarBrand className="h-6">
+        <NavbarLogo />
       </NavbarBrand>
       {/* Center Content */}
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
@@ -335,5 +329,25 @@ const MenuTopBar = () => {
         </SheetFooter>
       </SheetContent>
     </Sheet>
+  );
+};
+
+interface NavbarLogoProps {
+  className?: ClassValue;
+}
+export const NavbarLogo = ({ className }: NavbarLogoProps) => {
+  return (
+    <Link
+      href="/"
+      className={cn("flex items-center h-full space-x-2", className)}
+    >
+      <AcmeLogo />
+      <Separator orientation="vertical" />
+      <p
+        className={`${titleFont.className} antialiased font-bold text-inherit`}
+      >
+        Teslo shop
+      </p>
+    </Link>
   );
 };
