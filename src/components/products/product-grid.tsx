@@ -1,16 +1,16 @@
+import { ComponentPropsWithoutRef } from "react";
 import { Product } from "@/seed/seed";
 import { ProductGridItem } from "@/components/products/product-grid-item";
-import { ClassValue } from "clsx";
 import { cn } from "@/lib/utils";
 
-interface ProductGridProps {
+interface ProductGridProps extends ComponentPropsWithoutRef<"div"> {
   products: Product[];
-  className?: ClassValue;
 }
 
-const ProductGrid = ({ className, products }: ProductGridProps) => {
+const ProductGrid = ({ className, products, ...props }: ProductGridProps) => {
   return (
     <div
+      {...props}
       className={cn(
         `
         grid 
@@ -39,7 +39,7 @@ const ProductGrid = ({ className, products }: ProductGridProps) => {
       )}
     >
       {products.map((product) => (
-        <ProductGridItem key={product.slug} {...product} />
+        <ProductGridItem key={product.slug} product={product} />
       ))}
     </div>
   );

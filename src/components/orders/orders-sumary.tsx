@@ -1,17 +1,15 @@
-import React from "react";
+import React, { ComponentPropsWithoutRef } from "react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { ClassValue } from "clsx";
 import { StatusOrders } from "./status-orders";
 
-interface OrdersSummaryProps {
-  className?: ClassValue;
-}
+interface OrdersSummaryProps extends ComponentPropsWithoutRef<"div"> {}
 
-export const OrdersSummary = ({ className }: OrdersSummaryProps) => {
+export const OrdersSummary = ({ className, ...props }: OrdersSummaryProps) => {
   return (
-    <Card className={cn("w-full h-fit p-4", className)}>
+    <Card className={cn("w-full h-fit p-4", className)} {...props}>
       <h2 className="text-2xl mb-6 text-center font-bold">
         Dirección de entrega
       </h2>

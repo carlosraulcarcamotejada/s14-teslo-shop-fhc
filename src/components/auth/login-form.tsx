@@ -19,10 +19,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-export const LoginForm = ({
-  className,
-  ...props
-}: ComponentPropsWithoutRef<"div">) => {
+interface LoginFormProps extends ComponentPropsWithoutRef<"div"> {}
+
+export const LoginForm = ({ className, ...props }: LoginFormProps) => {
   // 1. Define your schema.
   const LoginFormSchema = z.object({
     email: z.string().email("Debe proporcionar un email válido."),
@@ -49,8 +48,8 @@ export const LoginForm = ({
   }
 
   return (
-    <div className={cn("", className)}>
-      <Form {...form} {...props}>
+    <div className={cn("", className)} {...props}>
+      <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-6"

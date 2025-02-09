@@ -1,21 +1,21 @@
-import { Product } from "@/seed/seed";
-import { ClassValue } from "clsx";
-import { Card } from "../ui/card";
+import { ComponentPropsWithoutRef } from "react";
 import Image from "next/image";
+import { Product } from "@/seed/seed";
+import { Card } from "../ui/card";
 import { cn } from "@/lib/utils";
 
-interface ItemProductCheckoutProps {
+interface ItemProductCheckoutProps extends ComponentPropsWithoutRef<"div"> {
   product: Product;
-  className?: ClassValue;
 }
 
 export const ItemProductCheckout = ({
   product,
   className,
+  ...props
 }: ItemProductCheckoutProps) => {
   const { images, title, price } = product;
   return (
-    <Card className={cn("flex gap-x-2 overflow-hidden", className)}>
+    <Card className={cn("flex gap-x-2 overflow-hidden", className)} {...props}>
       <Image
         src={`/products/${images[0]}`}
         alt={title}

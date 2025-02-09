@@ -1,21 +1,19 @@
-import Link from "next/link";
+import { ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/utils";
-import { NavbarLogo } from "@/components/shared/top-bar";
-import { ClassValue } from "clsx";
+import { NavbarBrandLogo } from "@/components/shared/navbar/navbar-brand-logo";
 
-interface FooterProps {
-  className?: ClassValue;
-}
+interface FooterProps extends ComponentPropsWithoutRef<"div"> {}
 
-export const Footer = ({ className }: FooterProps) => {
+export const Footer = ({ className, ...props }: FooterProps) => {
   return (
     <div
+      {...props}
       className={cn(
         "flex text-xs justify-center items-center w-full h-10 py-2 border gap-x-4",
         className
       )}
     >
-      <NavbarLogo />
+      <NavbarBrandLogo />
       <div className="font-bold flex gap-x-2">
         <span>©</span>
         <span> {new Date().getFullYear()} </span>

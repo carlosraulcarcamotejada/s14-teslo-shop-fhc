@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import { ComponentPropsWithoutRef, useState } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -34,8 +34,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ClassValue } from "clsx";
 import { cn } from "@/lib/utils";
+
 export type Payment = {
   id: string;
   amount: number;
@@ -167,18 +167,13 @@ const columns: ColumnDef<Payment>[] = [
   },
 ];
 
-interface TableOrdersProps {
-  className?: ClassValue;
-}
+interface TableOrdersProps extends ComponentPropsWithoutRef<"div"> {}
 
-export const TableOrders = ({ className }: TableOrdersProps) => {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+export const OrdersTable = ({ className, ...props }: TableOrdersProps) => {
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
     data,
@@ -200,7 +195,7 @@ export const TableOrders = ({ className }: TableOrdersProps) => {
   });
 
   return (
-    <div className={cn("w-full", className)}>
+    <div className={cn("w-full", className)} {...props}>
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter emails..."

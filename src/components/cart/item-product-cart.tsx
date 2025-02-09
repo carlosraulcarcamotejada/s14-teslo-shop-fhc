@@ -1,4 +1,4 @@
-import { ClassValue } from "clsx";
+import { ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/utils";
 import { Product } from "@/seed/seed";
 import Image from "next/image";
@@ -7,19 +7,19 @@ import { QuantitySelector } from "@/components/product/quantity-selector";
 import { Button } from "@/components/ui/button";
 import { Trash2Icon } from "lucide-react";
 
-interface ItemProductCartProps {
+interface ItemProductCartProps extends ComponentPropsWithoutRef<"div"> {
   product: Product;
-  className?: ClassValue;
 }
 
 export const ItemProductCart = ({
   className,
   product,
+  ...props
 }: ItemProductCartProps) => {
   const { images, title, price } = product;
 
   return (
-    <Card className={cn("flex gap-x-2 overflow-hidden", className)}>
+    <Card className={cn("flex gap-x-2 overflow-hidden", className)} {...props}>
       <Image
         src={`/products/${images[0]}`}
         alt={title}

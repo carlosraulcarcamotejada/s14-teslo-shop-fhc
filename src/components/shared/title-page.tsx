@@ -1,16 +1,20 @@
+import { ComponentPropsWithoutRef } from "react";
 import { titleFont } from "@/config/fonts";
 import { cn } from "@/lib/utils";
-import { ClassValue } from "clsx";
 
-interface TitleProps {
+interface TitleProps extends ComponentPropsWithoutRef<"div"> {
   title: string;
   subTitle?: string;
-  className?: ClassValue;
 }
 
-export const TitlePage = ({ title, subTitle, className }: TitleProps) => {
+export const TitlePage = ({
+  title,
+  subTitle,
+  className,
+  ...props
+}: TitleProps) => {
   return (
-    <div className={cn(className)}>
+    <div {...props} className={cn("", className)}>
       <h1
         className={`${titleFont.className} antialiased text-4xl font-semibold`}
       >

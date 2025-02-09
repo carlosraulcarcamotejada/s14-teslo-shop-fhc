@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { ComponentPropsWithoutRef, useEffect, useState } from "react";
 import Image from "next/image";
 import {
   Carousel,
@@ -12,16 +12,14 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import { EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
-import { ClassValue } from "clsx";
 import { cn } from "@/lib/utils";
 
-interface ProductSlideshowProps {
+interface ProductSlideshowProps extends ComponentPropsWithoutRef<"div"> {
   autoPlay?: { delay: number };
   images?: string[];
   opts?: Partial<EmblaOptionsType>;
   showArrows?: boolean;
   title?: string;
-  className?: ClassValue;
 }
 
 export const ProductSlideshow = ({
@@ -31,6 +29,7 @@ export const ProductSlideshow = ({
   opts = {},
   showArrows = true,
   title = "",
+  ...props
 }: ProductSlideshowProps) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [emblaMainApi, setEmblaMainApi] = useState<CarouselApi>();
@@ -67,6 +66,7 @@ export const ProductSlideshow = ({
 
   return (
     <div
+      {...props}
       className={cn("flex flex-col gap-y-4 base-styles# relative", className)}
     >
       {/* Slideshow Principal */}
@@ -131,7 +131,7 @@ export const ProductSlideshow = ({
                 key={`thumbnail-${image + index}`}
                 onClick={() => onSelect(index)}
                 className={cn(
-                  "flex flex-shrink-0 basis-24 justify-center items-center overflow-hidden px-0",
+                  "flex flex-shrink-0 basis-24 justify-center items-center overflow-hidden px-0"
                 )}
               >
                 <Image

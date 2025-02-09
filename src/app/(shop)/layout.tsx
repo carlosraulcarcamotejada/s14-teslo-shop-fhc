@@ -1,5 +1,5 @@
 import { Footer } from "@/components/shared/footer";
-import { TopBar } from "@/components/shared/top-bar";
+import { Navbar } from "@/components/shared/navbar/navbar";
 
 export default function ShopLayout({
   children,
@@ -8,7 +8,7 @@ export default function ShopLayout({
 }) {
   return (
     <main className="min-h-screen">
-      <TopBar />
+      <Navbar />
       {children}
       <Footer />
     </main>

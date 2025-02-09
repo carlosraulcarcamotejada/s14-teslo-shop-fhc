@@ -17,10 +17,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-export const SignInForm = ({
-  className,
-  ...props
-}: ComponentPropsWithoutRef<"div">) => {
+interface SignInFormProps extends ComponentPropsWithoutRef<"div"> {}
+
+export const SignInForm = ({ className, ...props }: SignInFormProps) => {
   // 1. Define your schema.
   const SignInFormSchema = z.object({
     email: z.string().email("Debe ser un email válido."),
@@ -52,8 +51,8 @@ export const SignInForm = ({
   }
 
   return (
-    <div className={cn("", className)}>
-      <Form {...form} {...props}>
+    <div className={cn("", className)} {...props}>
+      <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-6"
@@ -132,7 +131,7 @@ export const SignInForm = ({
               <Link
                 href="login"
                 className={cn(
-                  buttonVariants({ variant: "secondary" }),
+                  buttonVariants({ variant: "outline" }),
                   "w-full"
                 )}
               >

@@ -1,4 +1,5 @@
 "use client";
+import { ComponentPropsWithoutRef } from "react";
 import Link from "next/link";
 import { TitlePage } from "@/components/shared/title-page";
 import { buttonVariants } from "@/components/ui/button";
@@ -24,13 +25,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { ClassValue } from "clsx";
+interface CheckoutAddressProps extends ComponentPropsWithoutRef<"div"> {}
 
-interface CheckoutAddressProps {
-  className?: ClassValue;
-}
-
-export const CheckoutAddressForm = ({ className }: CheckoutAddressProps) => {
+export const CheckoutAddressForm = ({
+  className,
+  ...props
+}: CheckoutAddressProps) => {
   // 1. Define your schema.
   const formSchema = z.object({
     names: z
@@ -89,153 +89,155 @@ export const CheckoutAddressForm = ({ className }: CheckoutAddressProps) => {
   }
 
   return (
-    <Form {...form}>
-      <form
-        className={cn(`grid lg:grid-cols-10 pb-40 px-4 py-6`, className)}
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
-        <div className={`lg:col-start-1 lg:col-span-10`}>
-          <TitlePage title="Dirección" subTitle="Dirección de entrega" />
+    <div
+      className={cn(`grid lg:grid-cols-10 pb-40 px-4 py-6`, className)}
+      {...props}
+    >
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className={`lg:col-start-1 lg:col-span-10`}>
+            <TitlePage title="Dirección" subTitle="Dirección de entrega" />
 
-          <div className="grid grid-cols-1 gap-2 sm:gap-5 sm:grid-cols-2 mt-8">
-            <FormField
-              control={form.control}
-              name="names"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nombres</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Nombres" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="lastnames"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Apellidos</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Apellidos" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Dirección</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Dirección" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="address2"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Dirección 2 (opcional)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Dirección 2 (opcional)" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="zipCode"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Código postal</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Código postal" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Ciudad</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Ciudad" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="country"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>País</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+            <div className="grid grid-cols-1 gap-2 sm:gap-5 sm:grid-cols-2 mt-8">
+              <FormField
+                control={form.control}
+                name="names"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nombres</FormLabel>
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="País" />
-                      </SelectTrigger>
+                      <Input placeholder="Nombres" {...field} />
                     </FormControl>
-                    <SelectContent>
-                      <SelectItem value="cr">Costa Rica</SelectItem>
-                      <SelectItem value="hn">Honduras</SelectItem>
-                      <SelectItem value="sv">El Salvador</SelectItem>
-                      <SelectItem value="nc">Nicaragua</SelectItem>
-                      <SelectItem value="gt">Guatemala</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="mobilePhone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Teléfono</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Teléfono" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="lastnames"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Apellidos</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Apellidos" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <div className="grid w-full items-center gap-1.5">
-              <Link
-                href="/checkout"
-                type="submit"
-                className={cn(buttonVariants({ variant: "default" }))}
-              >
-                Siguiente
-              </Link>
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Dirección</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Dirección" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="address2"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Dirección 2 (opcional)</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Dirección 2 (opcional)" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="zipCode"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Código postal</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Código postal" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Ciudad</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ciudad" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="country"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>País</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="País" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="cr">Costa Rica</SelectItem>
+                        <SelectItem value="hn">Honduras</SelectItem>
+                        <SelectItem value="sv">El Salvador</SelectItem>
+                        <SelectItem value="nc">Nicaragua</SelectItem>
+                        <SelectItem value="gt">Guatemala</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="mobilePhone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Teléfono</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Teléfono" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="grid w-full items-center gap-1.5">
+                <Link
+                  href="/checkout"
+                  type="submit"
+                  className={cn(buttonVariants({ variant: "default" }))}
+                >
+                  Siguiente
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
-      </form>
-    </Form>
+        </form>
+      </Form>
+    </div>
   );
 };

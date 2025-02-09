@@ -1,11 +1,20 @@
 "use client";
-import { useState } from "react";
+import { ComponentPropsWithoutRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { Product } from "@/seed/seed";
+import { cn } from "@/lib/utils";
 
-const ProductGridItem = (product: Product) => {
+interface ProductGridItemProps extends ComponentPropsWithoutRef<"div"> {
+  product: Product;
+}
+
+const ProductGridItem = ({
+  product,
+  className,
+  ...props
+}: ProductGridItemProps) => {
   const { slug, title, images, price } = product;
 
   const [displayImage, setDisplayImage] = useState(`/products/${images[0]}`);
@@ -19,7 +28,7 @@ const ProductGridItem = (product: Product) => {
   };
 
   return (
-    <Card>
+    <Card {...props} className={cn("", className)}>
       <Link href={`/product/${slug}`}>
         <Image
           src={displayImage}

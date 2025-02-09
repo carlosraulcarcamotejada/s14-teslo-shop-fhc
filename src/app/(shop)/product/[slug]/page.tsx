@@ -40,6 +40,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
         {sizes && sizes.length > 0 && (
           <SizeSelector
+            aria-label="Galería de imágenes"
             className="mt-4"
             availableSizes={sizes}
             selectedSize={sizes[0]}

@@ -1,17 +1,18 @@
+import { ComponentPropsWithoutRef } from "react";
 import Link from "next/link";
-import { ClassValue } from "clsx";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { buttonVariants } from "@/components/ui/button";
 
-interface CheckoutSummaryProps {
-  className?: ClassValue;
-}
+interface CheckoutSummaryProps extends ComponentPropsWithoutRef<"div"> {}
 
-export const CheckoutSummary = ({ className }: CheckoutSummaryProps) => {
+export const CheckoutSummary = ({
+  className,
+  ...props
+}: CheckoutSummaryProps) => {
   return (
-    <Card className={cn("w-full h-fit p-4", className)}>
+    <Card className={cn("w-full h-fit p-4", className)} {...props}>
       <h2 className="text-2xl mb-6 text-center font-bold">
         Dirección de entrega
       </h2>
@@ -48,11 +49,11 @@ export const CheckoutSummary = ({ className }: CheckoutSummaryProps) => {
         <span className="text-xs">
           Al hacer click en "colocar orden", aceptas nuestros&nbsp;
           <Link href="#" className="underline">
-          términos y condiciones de uso 
+            términos y condiciones de uso
           </Link>
           &nbsp;y&nbsp;
           <Link href="#" className="underline">
-            políticas de privacidad 
+            políticas de privacidad
           </Link>
         </span>
       </p>
