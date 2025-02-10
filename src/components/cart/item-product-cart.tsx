@@ -21,6 +21,7 @@ export const ItemProductCart = ({
   return (
     <Card className={cn("flex gap-x-2 overflow-hidden", className)} {...props}>
       <Image
+        className="h-52 w-24 object-cover"
         src={`/products/${images[0]}`}
         alt={title}
         height={200}
@@ -30,7 +31,7 @@ export const ItemProductCart = ({
         <div className="flex flex-col gap-y-2">
           <div className="font-bold">{title}</div>
           <div>${price}</div>
-          <QuantitySelector />
+          <QuantitySelector size="auto" />
         </div>
         <Button variant="outline" className="flex items-center justify-center">
           Remover <Trash2Icon />

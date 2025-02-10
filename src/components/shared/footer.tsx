@@ -9,11 +9,11 @@ export const Footer = ({ className, ...props }: FooterProps) => {
     <div
       {...props}
       className={cn(
-        "flex text-xs justify-center items-center w-full h-10 py-2 border gap-x-4",
+        "flex text-xs justify-center items-center w-full py-2 border gap-x-4",
         className
       )}
     >
-      <NavbarBrandLogo />
+      <NavbarBrandLogo className="h-full" />
       <div className="font-bold flex gap-x-2">
         <span>©</span>
         <span> {new Date().getFullYear()} </span>

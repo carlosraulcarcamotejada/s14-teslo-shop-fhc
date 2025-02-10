@@ -9,7 +9,7 @@ interface CartSummaryProps extends ComponentPropsWithoutRef<"div"> {}
 
 export const CartSummary = ({ className, ...props }: CartSummaryProps) => {
   return (
-    <Card {...props} className={cn("w-full h-fit p-4", className)}>
+    <Card {...props} className={cn("p-4 h-fit", className)}>
       <h2 className="text-2xl mb-6 text-center font-bold">Resumen de orden</h2>
       <div className="grid grid-cols-2 ">
         <span>No. Artículos</span>

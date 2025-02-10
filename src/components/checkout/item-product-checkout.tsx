@@ -17,6 +17,7 @@ export const ItemProductCheckout = ({
   return (
     <Card className={cn("flex gap-x-2 overflow-hidden", className)} {...props}>
       <Image
+        className="h-52 w-48 object-cover"
         src={`/products/${images[0]}`}
         alt={title}
         height={200}

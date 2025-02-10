@@ -12,22 +12,22 @@ const productsInCart = [
 
 export default function CartPage() {
   return (
-    <div className="grid lg:grid-cols-10 pb-40 px-4 py-6">
-      <div className="flex flex-col items-start lg:col-start-1 lg:col-span-3 ">
+    <>
+      <div className="col-start-1 px-4 md:px-0 col-span-4 md:ml-4 md:col-span-4 lg:col-span-4">
         <TitlePage title="Carrito" />
         <div className="text-xl mt-8">Agregar más items</div>
-        <Link href="/" className="underline mt-2">
+        <Link href="/" className="underline underline-offset-4 mt-2">
           Continúa comprando
         </Link>
         <div className="flex flex-col gap-y-4 mt-6">
           {productsInCart.map((product, index) => (
-            <ItemProductCart key={product.slug + index} product={product} />
+            <ItemProductCart key={product.slug + index} product={product}  />
           ))}
         </div>
       </div>
 
       {/* Checkout Summary */}
-      <CartSummary className="lg:col-start-8 lg:col-span-3  sticky top-20" />
-    </div>
+      <CartSummary className="mt-10 mx-4 col-start-1 col-span-4 md:mt-0 md:right-4 md:col-span-4 md:col-start-6 lg:col-start-9 lg:col-span-4 md:sticky md:top-20" />
+    </>
   );
 }

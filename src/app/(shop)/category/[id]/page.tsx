@@ -25,16 +25,9 @@ export default async function CategoryPage({ params }: PageProps) {
       : "Desconocido";
 
   return (
-    <div className="grid lg:grid-cols-10 pb-40 px-4 py-6">
-      <TitlePage
-        title={categoryLabel}
-        subTitle="todos los productos"
-        className="col-start-1 col-span-full border row-start-1"
-      />
-      <ProductGrid
-        products={filteredProducts}
-        className="col-start-1 col-span-full  row-start-2 mt-10"
-      />
+    <div className="col-start-1 col-span-4 md:col-span-8 lg:col-span-12 px-4">
+      <TitlePage title={categoryLabel} subTitle="todos los productos" />
+      <ProductGrid className="mt-10" products={filteredProducts} />
     </div>
   );
 }

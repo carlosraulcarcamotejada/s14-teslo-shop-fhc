@@ -25,22 +25,25 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const { description, title, price, sizes, images } = product;
 
   return (
-    <div className="grid lg:grid-cols-10 pb-40 px-4 py-6">
+    <>
       {/* Slideshow */}
-      <div className="col-start-1 col-span-5">
-        <ProductSlideshow images={images} title={title} />
+      <div className="col-start-1 col-span-4 md:col-span-4 lg:col-span-8">
+        <ProductSlideshow
+          aria-label="Galería de imágenes"
+          images={images}
+          title={title}
+        />
       </div>
 
       {/* Details */}
-      <div className="col-start-7 col-span-5 flex flex-col gap-y-6@ mx-6">
+      <div className="flex flex-col mt-10 px-4 md:mt-0 md:mx-4 col-span-4 sm:col-start-1 md:col-start-5 md:col-span-4 lg:col-start-9 lg:col-span-5">
         <h1 className={`${titleFont.className} antialiased font-bold text-2xl`}>
           {title}
         </h1>
-        <div className="text-lg mt-4">{`$ ${price.toFixed(2)}`}</div>
+        <div className="text-lg mt-4">{`$${price.toFixed(2)}`}</div>
 
         {sizes && sizes.length > 0 && (
           <SizeSelector
-            aria-label="Galería de imágenes"
             className="mt-4"
             availableSizes={sizes}
             selectedSize={sizes[0]}
@@ -51,14 +54,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <QuantitySelector title="Cantidad" className="mt-4" />
 
         {/* Add To Cart Button */}
-        <Button variant="default" size="lg" className="select-none mt-4">
+        <Button variant="default" size="lg" className="select-none mt-8">
           Agregar al carrrito
           <ShoppingCartIcon />
         </Button>
 
-        <h3 className="font-bold text-sm mt-4">Descripción:</h3>
+        <h3 className="font-bold text-sm mt-12">Descripción:</h3>
         <p className="font-light text-justify mt-2">{description}</p>
       </div>
-    </div>
+    </>
   );
 }

@@ -12,7 +12,7 @@ export const CheckoutSummary = ({
   ...props
 }: CheckoutSummaryProps) => {
   return (
-    <Card className={cn("w-full h-fit p-4", className)} {...props}>
+    <Card className={cn("h-fit p-4", className)} {...props}>
       <h2 className="text-2xl mb-6 text-center font-bold">
         Dirección de entrega
       </h2>

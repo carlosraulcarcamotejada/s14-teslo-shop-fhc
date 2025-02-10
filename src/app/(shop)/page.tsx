@@ -6,9 +6,9 @@ const products = initialData.products;
 
 export default function ShopPage() {
   return (
-    <div className="flex flex-col gap-y-10 pb-40 px-4 py-6">
+    <div className="col-start-1 col-span-4 md:col-span-8 lg:col-span-12 px-4">
       <TitlePage title="Tienda" subTitle="todos los productos" />
-      <ProductGrid products={products} />
+      <ProductGrid className="mt-10" products={products} />
     </div>
   );
 }

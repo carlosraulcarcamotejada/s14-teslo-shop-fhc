@@ -42,7 +42,7 @@ export const ProductSlideshow = ({
   const [emblaThumbsRef] = useEmblaCarousel({
     containScroll: "keepSnaps",
     dragFree: true,
-    align: "center",
+    align: "start",
   });
 
   // Sync Thumbnails and Main Carousel
@@ -81,7 +81,7 @@ export const ProductSlideshow = ({
           {images.map((image, index) => (
             <CarouselItem className="flex justify-center" key={image + index}>
               <Image
-                className="object-cover"
+                className="object-cover rounded-md"
                 src={`/products/${image}`}
                 alt={title}
                 width={500}
@@ -99,7 +99,7 @@ export const ProductSlideshow = ({
       </Carousel>
 
       {/* DotButtons Carousel (Mobile) */}
-      <div className="absolute bottom-2 -translate-x-1/2 left-1/2 flex gap-x-1.5 lg:hidden rounded-l-full rounded-r-full bg-black/30 p-1.5">
+      <div className="absolute bottom-1 -translate-x-1/2 left-1/2 flex gap-x-1.5 lg:hidden rounded-l-full rounded-r-full bg-black/30 p-1.5">
         {images.map((dot, index) => {
           const selected = index === selectedIndex;
           return (
@@ -123,7 +123,7 @@ export const ProductSlideshow = ({
         setApi={setEmblaThumbsApi}
         className="hidden lg:block overflow-hidden"
       >
-        <CarouselContent className="flex justify-center gap-x-4 px-0">
+        <CarouselContent className="flex justify-start gap-x-4 pl-5">
           {images.map((image, index) => {
             const selected: boolean = index === selectedIndex;
             return (
@@ -131,7 +131,7 @@ export const ProductSlideshow = ({
                 key={`thumbnail-${image + index}`}
                 onClick={() => onSelect(index)}
                 className={cn(
-                  "flex flex-shrink-0 basis-24 justify-center items-center overflow-hidden px-0"
+                  "flex flex-shrink-0 basis-24 justify-center items-center overflow-hidden px-0 rounded-md"
                 )}
               >
                 <Image
@@ -140,7 +140,7 @@ export const ProductSlideshow = ({
                   height={100}
                   width={100}
                   className={cn(
-                    "h-24 w-24 object-cover bg-black transition hover:brightness-50",
+                    "h-24 w-24 object-cover transition hover:brightness-50 rounded-md",
                     selected && "brightness-50"
                   )}
                 />
