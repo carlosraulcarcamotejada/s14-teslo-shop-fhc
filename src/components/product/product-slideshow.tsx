@@ -123,7 +123,7 @@ export const ProductSlideshow = ({
         setApi={setEmblaThumbsApi}
         className="hidden lg:block overflow-hidden"
       >
-        <CarouselContent className="flex justify-start gap-x-4 pl-5">
+        <CarouselContent className="flex justify-start gap-x-2 px-4">
           {images.map((image, index) => {
             const selected: boolean = index === selectedIndex;
             return (
