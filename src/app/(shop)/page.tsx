@@ -1,10 +1,21 @@
+import { getPaginatedProductsWithImages } from "@/actions/product/product-pagination";
 import { ProductGrid } from "@/components/products/product-grid";
 import { TitlePage } from "@/components/shared/title-page";
-import { initialData } from "@/seed/seed";
+import { PageProps } from "@/interfaces/page/page-props";
+import { redirect } from "next/navigation";
 
-const products = initialData.products;
+export default async function ShopPage({ searchParams }: PageProps) {
+  // Espera el objeto completo
+  const params = await searchParams;
 
-export default function ShopPage() {
+  const page = params?.page ? parseInt(params?.page ?? "1") : 1;
+
+  const { products } = await getPaginatedProductsWithImages({ page });
+
+  if (products.length === 0) {
+    redirect("/");
+  }
+
   return (
     <div className="col-start-1 col-span-4 md:col-span-8 lg:col-span-12 px-4">
       <TitlePage title="Tienda" subTitle="todos los productos" />

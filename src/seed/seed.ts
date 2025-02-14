@@ -1,4 +1,5 @@
 interface Product {
+  id?: string;
   description: string;
   images: string[];
   inStock: number;
@@ -16,10 +17,12 @@ type Size = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
 type Type = "shirts" | "pants" | "hoodies" | "hats";
 
 interface SeedData {
+  categories: Type[];
   products: Product[];
 }
 
 export const initialData: SeedData = {
+  categories: ["shirts", "pants", "hoodies", "hats"],
   products: [
     {
       description:
@@ -142,7 +145,7 @@ export const initialData: SeedData = {
     },
     {
       description:
-        "Designed for fit, comfort and style, the Tesla T Logo Tee is made from 100% Peruvian cotton and features a silicone-printed T Logo on the left chest.",
+        "Designed for fit, comfort and style, the Tesla T Logo Tee is made from 100% Peruvian cotton and features a silicone-printed T Logo on the left chest and it is for men.",
       images: ["7652426-00-A_0_2000.jpg", "7652426-00-A_1.jpg"],
       inStock: 5,
       price: 35,
@@ -324,7 +327,7 @@ export const initialData: SeedData = {
     },
     {
       description:
-        "Introducing the Tesla Chill Collection. The Men’s Chill Quarter Zip Pullover has a premium, heavyweight exterior and soft fleece interior for comfort in any season. The pullover features subtle thermoplastic polyurethane Tesla logos on the left chest and below the back collar, as well as a custom matte zipper pull. Made from 60% cotton and 40% recycled polyester.",
+        "Introducing the Tesla Chill Collection. The Men’s Chill Quarter Zip Pullover has a premium, heavyweight exterior and soft fleece interior for comfort in any season. The pullover features subtle thermoplastic polyurethane Tesla logos on the left chest and below the back collar, as well as a custom matte zipper pull. Made from 60% cotton and 40% recycled polyester and it is for men.",
       images: ["1740145-00-A_2_2000.jpg", "1740145-00-A_1.jpg"],
       inStock: 15,
       price: 85,
@@ -376,7 +379,7 @@ export const initialData: SeedData = {
     },
     {
       description:
-        "The Relaxed T Logo Hat is a classic silhouette combined with modern details, featuring a 3D T logo and a custom metal buckle closure. The ultrasoft design is flexible and abrasion resistant, while the inner sweatband includes quilted padding for extra comfort and moisture wicking. The visor is fully made from recycled plastic bottles. 100% Cotton.",
+        "The Relaxed T Logo Hat is a classic silhouette combined with modern details, featuring a 3D T logo and a custom metal buckle closure. The ultrasoft design is flexible and abrasion resistant, while the inner sweatband includes quilted padding for extra comfort and moisture wicking. The visor is fully made from recycled plastic bottles. 100% Cotton and it is unisex.",
       images: ["1740417-00-A_0_2000.jpg", "1740417-00-A_1.jpg"],
       inStock: 13,
       price: 35,
@@ -506,7 +509,7 @@ export const initialData: SeedData = {
     },
     {
       description:
-        "Designed to celebrate Tesla's incredible performance mode, the Plaid Mode Tee features great fit, comfort and style. Made from 100% cotton, it's the next best thing to riding shotgun at the Nürburgring.",
+        "Designed to celebrate Tesla's incredible performance mode, the Plaid Mode Tee features great fit, comfort and style. Made from 100% cotton, it's the next best thing to riding shotgun at the Nürburgring and its is for women.",
       images: ["1549275-00-A_0_2000.jpg", "1549275-00-A_1.jpg"],
       inStock: 16,
       price: 35,
@@ -705,3 +708,4 @@ export const initialData: SeedData = {
 export type { Size };
 export type { Product };
 export type { Category };
+export type { Type };
