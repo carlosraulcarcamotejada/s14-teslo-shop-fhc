@@ -1,8 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { Type } from "@/seed/seed";
-import { Gender } from "@prisma/client";
+import { Category, Product, Type } from "@/seed/seed";
 
 interface PaginationOptions {
   page?: number;
@@ -12,7 +11,11 @@ interface PaginationOptions {
 export const getPaginatedProductsWithImages = async ({
   page = 1,
   take = 12,
-}: PaginationOptions) => {
+}: PaginationOptions): Promise<{
+  currentPage: number;
+  totalPages: number;
+  products: Product[];
+}> => {
   if (isNaN(Number(page))) page = 1;
   if (page < 1) page = 1;
 
@@ -35,19 +38,16 @@ export const getPaginatedProductsWithImages = async ({
     return {
       currentPage: page,
       totalPages,
-      products: products.map((product) => ({
-        id: product.id,
-        description: product.description,
-        images: product.productImage.map((image) => image.url), // Mapea las imágenes
-        inStock: product.inStock,
-        price: product.price,
-        sizes: product.sizes,
-        slug: product.slug,
-        tags: product.tags,
-        title: product.title,
-        type: product.categoryId as Type, // Tipado como Type
-        gender: product.gender as Gender, // Tipado como Category
-      })),
+      products: products.map((product) => {
+        const { categoryId, typeId, productImage, ...restProduct } = product;
+
+        return {
+          images: productImage.map((image) => image.url),
+          category: categoryId as Category,
+          type: typeId as Type,
+          ...restProduct,
+        };
+      }),
     };
   } catch (error) {
     throw new Error("Servicio no disponible");

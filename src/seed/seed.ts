@@ -9,20 +9,22 @@ interface Product {
   tags: string[];
   title: string;
   type: Type;
-  gender: Category;
+  category: Category;
 }
 
-type Category = "men" | "women" | "kid" | "unisex";
+type Category = "men" | "women" | "kid" | "unisex" | "non-category";
 type Size = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
-type Type = "shirts" | "pants" | "hoodies" | "hats";
+type Type = "shirts" | "pants" | "hoodies" | "hats" | "non-type";
 
 interface SeedData {
-  categories: Type[];
+  types: Type[];
+  categories: Category[];
   products: Product[];
 }
 
 export const initialData: SeedData = {
-  categories: ["shirts", "pants", "hoodies", "hats"],
+  categories: ["men", "women", "kid", "unisex"],
+  types: ["shirts", "pants", "hoodies", "hats"],
   products: [
     {
       description:
@@ -35,7 +37,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["sweatshirt"],
       title: "Men’s Chill Crew Neck Sweatshirt",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -48,7 +50,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["jacket"],
       title: "Men's Quilted Shirt Jacket",
-      gender: "men",
+      category: "men",
     },
 
     {
@@ -62,7 +64,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men's Raven Lightweight Zip Up Bomber Jacket",
-      gender: "men",
+      category: "men",
     },
 
     {
@@ -76,7 +78,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men's Turbine Long Sleeve Tee",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -89,7 +91,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men's Turbine Short Sleeve Tee",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -102,7 +104,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men's Cybertruck Owl Tee",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -115,7 +117,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men's Solar Roof Tee",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -128,7 +130,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men's Let the Sun Shine Tee",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -141,11 +143,11 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men's 3D Large Wordmark Tee",
-      gender: "men",
+      category: "men",
     },
     {
       description:
-        "Designed for fit, comfort and style, the Tesla T Logo Tee is made from 100% Peruvian cotton and features a silicone-printed T Logo on the left chest and it is for men.",
+        "Designed for fit, comfort and style, the Tesla T Logo Tee is made from 100% Peruvian cotton and features a silicone-printed T Logo on the left chest.",
       images: ["7652426-00-A_0_2000.jpg", "7652426-00-A_1.jpg"],
       inStock: 5,
       price: 35,
@@ -154,7 +156,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men's 3D T Logo Tee",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -167,7 +169,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men’s 3D Small Wordmark Tee",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -180,7 +182,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men's Plaid Mode Tee",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -193,7 +195,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men's Powerwall Tee",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -206,7 +208,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men's Battery Day Tee",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -219,7 +221,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men’s Cybertruck Bulletproof Tee",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -232,7 +234,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men's Haha Yes Tee",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -245,7 +247,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men's S3XY Tee",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -258,7 +260,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men's 3D Wordmark Long Sleeve Tee",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -271,7 +273,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men's 3D T Logo Long Sleeve Tee",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -284,7 +286,7 @@ export const initialData: SeedData = {
       type: "hoodies",
       tags: ["hoodie"],
       title: "Men's Raven Lightweight Hoodie",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -297,7 +299,7 @@ export const initialData: SeedData = {
       type: "hoodies",
       tags: ["hoodie"],
       title: "Chill Pullover Hoodie",
-      gender: "unisex",
+      category: "unisex",
     },
     {
       description:
@@ -310,7 +312,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men's Chill Full Zip Hoodie",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -323,11 +325,11 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men's Chill Quarter Zip Pullover - Gray",
-      gender: "men",
+      category: "men",
     },
     {
       description:
-        "Introducing the Tesla Chill Collection. The Men’s Chill Quarter Zip Pullover has a premium, heavyweight exterior and soft fleece interior for comfort in any season. The pullover features subtle thermoplastic polyurethane Tesla logos on the left chest and below the back collar, as well as a custom matte zipper pull. Made from 60% cotton and 40% recycled polyester and it is for men.",
+        "Introducing the Tesla Chill Collection. The Men’s Chill Quarter Zip Pullover has a premium, heavyweight exterior and soft fleece interior for comfort in any season. The pullover features subtle thermoplastic polyurethane Tesla logos on the left chest and below the back collar, as well as a custom matte zipper pull. Made from 60% cotton and 40% recycled polyester.",
       images: ["1740145-00-A_2_2000.jpg", "1740145-00-A_1.jpg"],
       inStock: 15,
       price: 85,
@@ -336,7 +338,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Men's Chill Quarter Zip Pullover - White",
-      gender: "men",
+      category: "men",
     },
     {
       description:
@@ -349,7 +351,7 @@ export const initialData: SeedData = {
       type: "hoodies",
       tags: ["hoodie"],
       title: "3D Large Wordmark Pullover Hoodie",
-      gender: "unisex",
+      category: "unisex",
     },
     {
       description:
@@ -362,7 +364,7 @@ export const initialData: SeedData = {
       type: "hoodies",
       tags: ["hoodie"],
       title: "Cybertruck Graffiti Hoodie",
-      gender: "unisex",
+      category: "unisex",
     },
     {
       description:
@@ -375,11 +377,11 @@ export const initialData: SeedData = {
       type: "hats",
       tags: ["hats"],
       title: "Relaxed T Logo Hat",
-      gender: "unisex",
+      category: "unisex",
     },
     {
       description:
-        "The Relaxed T Logo Hat is a classic silhouette combined with modern details, featuring a 3D T logo and a custom metal buckle closure. The ultrasoft design is flexible and abrasion resistant, while the inner sweatband includes quilted padding for extra comfort and moisture wicking. The visor is fully made from recycled plastic bottles. 100% Cotton and it is unisex.",
+        "The Relaxed T Logo Hat is a classic silhouette combined with modern details, featuring a 3D T logo and a custom metal buckle closure. The ultrasoft design is flexible and abrasion resistant, while the inner sweatband includes quilted padding for extra comfort and moisture wicking. The visor is fully made from recycled plastic bottles. 100% Cotton.",
       images: ["1740417-00-A_0_2000.jpg", "1740417-00-A_1.jpg"],
       inStock: 13,
       price: 35,
@@ -388,7 +390,7 @@ export const initialData: SeedData = {
       type: "hats",
       tags: ["hats"],
       title: "Thermal Cuffed Beanie",
-      gender: "unisex",
+      category: "unisex",
     },
     {
       description:
@@ -401,7 +403,7 @@ export const initialData: SeedData = {
       type: "hoodies",
       tags: ["hoodie"],
       title: "Women's Cropped Puffer Jacket",
-      gender: "women",
+      category: "women",
     },
     {
       description:
@@ -414,7 +416,7 @@ export const initialData: SeedData = {
       type: "hoodies",
       tags: ["hoodie"],
       title: "Women's Chill Half Zip Cropped Hoodie",
-      gender: "women",
+      category: "women",
     },
     {
       description:
@@ -427,7 +429,7 @@ export const initialData: SeedData = {
       type: "hoodies",
       tags: ["hoodie"],
       title: "Women's Raven Slouchy Crew Sweatshirt",
-      gender: "women",
+      category: "women",
     },
     {
       description:
@@ -440,11 +442,11 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Women's Turbine Cropped Long Sleeve Tee",
-      gender: "women",
+      category: "women",
     },
     {
       description:
-        "Introducing the Tesla Turbine Collection. Designed for style, comfort and everyday lifestyle, the Women's Turbine Cropped Short Sleeve Tee features a subtle, water-based Tesla wordmark across the chest and our T logo below the back collar. The lightweight material is double-dyed, creating a soft, casual style with a cropped silhouette. Made from 50% cotton and 50% polyester.",
+        "ntroducing the Tesla Turbine Collection. Designed for style, comfort and everyday lifestyle, the Women's Turbine Cropped Short Sleeve Tee features a subtle, water-based Tesla wordmark across the chest and our T logo below the back collar. The lightweight material is double-dyed, creating a soft, casual style with a cropped silhouette. Made from 50% cotton and 50% polyester.",
       images: ["1741441-00-A_0_2000.jpg", "1741441-00-A_1.jpg"],
       inStock: 0,
       price: 40,
@@ -453,7 +455,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Women's Turbine Cropped Short Sleeve Tee",
-      gender: "women",
+      category: "women",
     },
     {
       description:
@@ -466,7 +468,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Women's T Logo Short Sleeve Scoop Neck Tee",
-      gender: "women",
+      category: "women",
     },
     {
       description:
@@ -479,7 +481,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Women's T Logo Long Sleeve Scoop Neck Tee",
-      gender: "women",
+      category: "women",
     },
     {
       description:
@@ -492,7 +494,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Women's Small Wordmark Short Sleeve V-Neck Tee",
-      gender: "women",
+      category: "women",
     },
     {
       description:
@@ -505,11 +507,11 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Women's Large Wordmark Short Sleeve Crew Neck Tee",
-      gender: "women",
+      category: "women",
     },
     {
       description:
-        "Designed to celebrate Tesla's incredible performance mode, the Plaid Mode Tee features great fit, comfort and style. Made from 100% cotton, it's the next best thing to riding shotgun at the Nürburgring and its is for women.",
+        "Designed to celebrate Tesla's incredible performance mode, the Plaid Mode Tee features great fit, comfort and style. Made from 100% cotton, it's the next best thing to riding shotgun at the Nürburgring.",
       images: ["1549275-00-A_0_2000.jpg", "1549275-00-A_1.jpg"],
       inStock: 16,
       price: 35,
@@ -518,7 +520,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Women's Plaid Mode Tee",
-      gender: "women",
+      category: "women",
     },
     {
       description:
@@ -531,7 +533,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Women’s Powerwall Tee",
-      gender: "women",
+      category: "women",
     },
     {
       description:
@@ -544,7 +546,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Women's Corp Jacket",
-      gender: "women",
+      category: "women",
     },
     {
       description:
@@ -557,7 +559,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Women's Raven Joggers",
-      gender: "women",
+      category: "women",
     },
     {
       description:
@@ -570,7 +572,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Kids Cybertruck Long Sleeve Tee",
-      gender: "kid",
+      category: "kid",
     },
     {
       description:
@@ -583,7 +585,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Kids Scribble T Logo Tee",
-      gender: "kid",
+      category: "kid",
     },
     {
       description:
@@ -596,7 +598,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Kids Cybertruck Tee",
-      gender: "kid",
+      category: "kid",
     },
     {
       description:
@@ -609,7 +611,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Kids Racing Stripe Tee",
-      gender: "kid",
+      category: "kid",
     },
     {
       description:
@@ -622,7 +624,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Kids 3D T Logo Tee",
-      gender: "kid",
+      category: "kid",
     },
     {
       description:
@@ -635,7 +637,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Kids Checkered Tee",
-      gender: "kid",
+      category: "kid",
     },
     {
       description:
@@ -648,7 +650,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Made on Earth by Humans Onesie",
-      gender: "kid",
+      category: "kid",
     },
     {
       description:
@@ -661,7 +663,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Scribble T Logo Onesie",
-      gender: "kid",
+      category: "kid",
     },
     {
       description:
@@ -674,7 +676,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Zero Emissions (Almost) Onesie",
-      gender: "kid",
+      category: "kid",
     },
     {
       description:
@@ -687,7 +689,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Kids Cyberquad Bomber Jacket",
-      gender: "kid",
+      category: "kid",
     },
     {
       description:
@@ -700,7 +702,7 @@ export const initialData: SeedData = {
       type: "shirts",
       tags: ["shirt"],
       title: "Kids Corp Jacket",
-      gender: "kid",
+      category: "kid",
     },
   ],
 };

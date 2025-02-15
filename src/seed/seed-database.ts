@@ -7,47 +7,55 @@ async function main() {
   await prisma.productImage.deleteMany();
   await prisma.product.deleteMany();
   await prisma.category.deleteMany();
+  await prisma.type.deleteMany();
 
-  
-  const { categories, products } = initialData;
-
+  const { categories, products, types } = initialData;
 
   const categoriesData = categories.map((category) => ({ name: category }));
 
+  const typesData = types.map((type) => ({ name: type }));
+
   await prisma.category.createMany({ data: categoriesData });
+
+  await prisma.type.createMany({ data: typesData });
 
   const categoriesDB = await prisma.category.findMany();
 
+  const typesDB = await prisma.type.findMany();
+
   const categoriesMap = new Map<string, string>();
+
+  const typesMap = new Map<string, string>();
 
   categoriesDB.forEach((category) => {
     categoriesMap.set(category.name, category.id);
   });
 
-  products.forEach( async(product) => {
+  typesDB.forEach((type) => {
+    typesMap.set(type.name, type.id);
+  });
 
-    const { type, images, ...rest } = product;
+  products.forEach(async (product) => {
+    const { type, category, images, ...restProduct } = product;
 
     const dbProduct = await prisma.product.create({
       data: {
-        ...rest,
-        categoryId: categoriesMap.get(type) || "non-category"
-      }
-    })
-
+        typeId: typesMap.get(type) ?? "non-type",
+        categoryId: categoriesMap.get(category) ?? "non-category",
+        ...restProduct,
+      },
+    });
 
     // Images
-    const imagesData = images.map( image => ({
+    const imagesData = images.map((image) => ({
       url: image,
-      productId: dbProduct.id
+      productId: dbProduct.id,
     }));
 
     await prisma.productImage.createMany({
-      data: imagesData
+      data: imagesData,
     });
-
   });
-
 
   console.log("seed efecutado exitosamente");
 }

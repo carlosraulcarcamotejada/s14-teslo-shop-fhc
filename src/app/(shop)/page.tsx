@@ -6,13 +6,13 @@ import { PageProps } from "@/interfaces/page/page-props";
 import { redirect } from "next/navigation";
 
 export default async function ShopPage({ searchParams }: PageProps) {
-  // Espera el objeto completo
   const params = await searchParams;
 
   const page = params?.page ? parseInt(params?.page ?? "1") : 1;
 
-  const { products, currentPage, totalPages } =
-    await getPaginatedProductsWithImages({ page });
+  const { products, totalPages } = await getPaginatedProductsWithImages({
+    page,
+  });
 
   if (products.length === 0) {
     redirect("/");

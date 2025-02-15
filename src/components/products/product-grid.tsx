@@ -33,8 +33,7 @@ const ProductGrid = ({ className, products, ...props }: ProductGridProps) => {
 
         2xl:grid-cols-5
         2xl:gap-x-6
-        2xl:gap-y-6
-        `,
+        2xl:gap-y-6`,
         className
       )}
     >
