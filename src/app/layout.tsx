@@ -4,7 +4,10 @@ import { geistMono, geistSans } from "@/config/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Teslo shop",
+  title: {
+    template: "%s Teslo | Shop",
+    default: "Home - Teslo | Shop",
+  },
   description: "Teslo shop E-Commerce",
 };
 

@@ -1,10 +1,15 @@
 interface PageProps {
-  params: {
-    id: string;
-  };
-  searchParams: {
-    page?: string;
-  };
+  params:
+    | {
+        id: string;
+        slug: string;
+      }
+    | Promise<{ id: string; slug: string }>;
+  searchParams:
+    | {
+        page?: string;
+      }
+    | Promise<{ [key: string]: string | string[] | undefined; page?: string }>;
 }
 
 export type { PageProps };
