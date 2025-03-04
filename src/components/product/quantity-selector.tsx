@@ -1,45 +1,50 @@
 "use client";
-import { ComponentPropsWithoutRef, useState } from "react";
+import { ComponentPropsWithoutRef, Dispatch, SetStateAction } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { useResponsive } from "@/hooks/use-responsive";
 
 interface QuantitySelectorProps extends ComponentPropsWithoutRef<"div"> {
-  quantityDefault?: number;
-  title?: string;
   limit?: number;
-  size?: "md" | "lg" | "auto"; 
+  quantity?: number;
+  setQuantity: Dispatch<SetStateAction<number>>;
+  size?: "md" | "lg" | "auto";
+  title?: string;
 }
 
 export const QuantitySelector = ({
-  quantityDefault = 1,
   className,
   limit = 5,
-  title,
+  quantity = 1,
+  setQuantity,
   size = "lg",
+  title,
   ...props
 }: QuantitySelectorProps) => {
-  const [quantity, setQuantity] = useState<number>(quantityDefault);
-
-  const onQuantityChange = (value: number = 1) => {
-    setQuantity((preVal) => preVal + value);
+  //Funtion to change the value
+  const onValueChange = (value: number = 1) => {
+    setQuantity((preVal: number) => preVal + value);
   };
 
   const isDisableAddButton: boolean = quantity >= limit;
 
   const isDisableSubtractButton: boolean = quantity <= 1;
 
-  const {isDesktop} = useResponsive();
+  const { isDesktop } = useResponsive();
 
   return (
     <div {...props} className={cn("flex flex-col gap-y-4", className)}>
       {title && <h3 className="font-bold">Cantidad:</h3>}
       <div className="flex gap-x-4">
         <Button
-          onClick={() => onQuantityChange(-1)}
+          onClick={() => onValueChange(-1)}
           disabled={isDisableSubtractButton}
-          size={isDesktop && size === "lg" || isDesktop && size === "auto" ? "lg": "md"}
+          size={
+            (isDesktop && size === "lg") || (isDesktop && size === "auto")
+              ? "lg"
+              : "md"
+          }
           variant="outline"
           className="w-10"
         >
@@ -47,16 +52,22 @@ export const QuantitySelector = ({
         </Button>
         <span
           className={cn(
-            "bg-accent rounded-md grid place-content-center select-none" ,
-            isDesktop && size === "lg" || isDesktop && size === "auto" ? "h-11 w-20": "h-10 w-16"
+            "bg-accent rounded-md grid place-content-center select-none",
+            (isDesktop && size === "lg") || (isDesktop && size === "auto")
+              ? "h-11 w-20"
+              : "h-10 w-16"
           )}
         >
           {quantity}
         </span>
         <Button
-          onClick={() => onQuantityChange(1)}
+          onClick={() => onValueChange(1)}
           disabled={isDisableAddButton}
-          size={isDesktop && size === "lg" || isDesktop && size === "auto" ? "lg": "md"}
+          size={
+            (isDesktop && size === "lg") || (isDesktop && size === "auto")
+              ? "lg"
+              : "md"
+          }
           variant="outline"
           className="w-10"
         >

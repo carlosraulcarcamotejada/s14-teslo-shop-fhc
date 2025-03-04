@@ -12,11 +12,11 @@ import { ProductSlideshow } from "@/components/product/product-slideshow";
 import { PageProps } from "@/interfaces/page/page-props";
 import { getProductBySlug } from "@/actions/product/get-product-by-slug";
 import { StockLabel } from "@/components/product/stock-label";
+import { AddToCart } from "@/components/product/add-to-cart";
 
-export async function generateMetadata(
-  { params, searchParams }: PageProps,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   // read route params
   const slug = (await params).slug;
 
@@ -67,23 +67,7 @@ export default async function ProductPage({ params }: PageProps) {
         <StockLabel id={id} />
         <div className="text-lg mt-4">{`$${price.toFixed(2)}`}</div>
 
-        {/* Size Selector */}
-        {sizes && sizes.length > 0 && (
-          <SizeSelector
-            className="mt-4"
-            availableSizes={sizes}
-            selectedSize={sizes[0]}
-          />
-        )}
-
-        {/* Quantity */}
-        <QuantitySelector title="Cantidad" className="mt-4" />
-
-        {/* Add To Cart Button */}
-        <Button variant="default" size="lg" className="select-none mt-8">
-          Agregar al carrrito
-          <ShoppingCartIcon />
-        </Button>
+        <AddToCart product={product} />
 
         {/* Desccription */}
         <h3 className="font-bold text-sm mt-12">Descripción:</h3>
