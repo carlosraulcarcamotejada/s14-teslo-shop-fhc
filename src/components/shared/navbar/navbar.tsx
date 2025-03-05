@@ -7,19 +7,18 @@ import {
   NavbarContent as NavbarContentHUI,
   NavbarItem as NavbarItemHUI,
 } from "@heroui/navbar";
-import { Badge } from "@heroui/badge";
 import {
   Calendar,
   Home,
   Inbox,
   Search,
   Settings,
-  ShoppingCart,
 } from "lucide-react";
 import { NavbarBrandLogo } from "@/components/shared/navbar/navbar-brand-logo";
 import { NavbarLinks } from "@/components/shared/navbar/navbar-links";
 import { NavbarMenu } from "@/components/shared/navbar/navbar-menu";
 import { NavbarMenuItemProps } from "@/components/shared/navbar/navbar-menu-item";
+import { NavbarShoppingCart } from "./navbar-shopping-cart";
 
 interface Path {
   id: number;
@@ -82,13 +81,7 @@ export const Navbar = () => {
             <Search />
           </Link>
         </NavbarItemHUI>
-        <NavbarItemHUI className="hidden lg:flex">
-          <Badge color="primary" content="5" size="lg">
-            <Link href="/cart" className={buttonVariants({ variant: "ghost" })}>
-              <ShoppingCart />
-            </Link>
-          </Badge>
-        </NavbarItemHUI>
+        <NavbarShoppingCart />
         <NavbarItemHUI>
           <NavbarMenu navbarMenuItems={MenuItems} />
         </NavbarItemHUI>

@@ -24,17 +24,22 @@ export const AddToCart = ({ product }: AddToCartProps) => {
 
   const onAddToCart = () => {
     setPosted(true);
-    console.log({ setSelectedSize, quantity, product });
+
+    if (!selectedSize) {
+      return;
+    }
+
+    const { description, images, slug, tags, type, category, ...restProduct } =
+      product;
 
     const productInCart: ProductInCart = {
-      ...product,
+      ...restProduct,
       quantity,
       selectedSize: selectedSize ?? "S",
       image: product.images[0],
     };
 
     addProductToCart(productInCart);
-
     setPosted(false);
     setQuantity(1);
     setSelectedSize(undefined);

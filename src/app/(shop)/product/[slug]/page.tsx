@@ -1,13 +1,9 @@
 export const revalidate = 604800; // 7 días
 
-import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Product } from "@/seed/seed";
 import { titleFont } from "@/config/fonts";
-import { Button } from "@/components/ui/button";
-import { SizeSelector } from "@/components/product/size-selector";
-import { QuantitySelector } from "@/components/product/quantity-selector";
-import { ShoppingCartIcon } from "lucide-react";
 import { ProductSlideshow } from "@/components/product/product-slideshow";
 import { PageProps } from "@/interfaces/page/page-props";
 import { getProductBySlug } from "@/actions/product/get-product-by-slug";
