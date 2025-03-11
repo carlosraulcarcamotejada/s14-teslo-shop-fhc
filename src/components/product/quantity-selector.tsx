@@ -24,9 +24,11 @@ export const QuantitySelector = ({
 }: QuantitySelectorProps) => {
   //Funtion to change the value
   const onValueChange = (value: number = 1) => {
-    setQuantity((preVal: number) => preVal + value);
+    setQuantity((prevVal) => {
+      const newQuantity = prevVal + value;
+      return newQuantity > 0 ? newQuantity : 0; // Evitar negativos
+    });
   };
-
   const isDisableAddButton: boolean = quantity >= limit;
 
   const isDisableSubtractButton: boolean = quantity <= 1;

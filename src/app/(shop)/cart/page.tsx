@@ -1,14 +1,7 @@
-import { CartSummary } from "@/components/cart/cart-summary";
-import { ItemProductCart } from "@/components/cart/item-product-cart";
-import { TitlePage } from "@/components/shared/title-page";
-import { initialData } from "@/seed/seed";
 import Link from "next/link";
-
-const productsInCart = [
-  initialData.products[0],
-  initialData.products[1],
-  initialData.products[2],
-];
+import { CartSummary } from "@/components/cart/cart-summary";
+import { ProductsInCart } from "@/components/cart/products-in-cart";
+import { TitlePage } from "@/components/shared/title-page";
 
 export default function CartPage() {
   return (
@@ -19,11 +12,7 @@ export default function CartPage() {
         <Link href="/" className="underline underline-offset-4 mt-2">
           Continúa comprando
         </Link>
-        <div className="flex flex-col gap-y-4 mt-6">
-          {productsInCart.map((product, index) => (
-            <ItemProductCart key={product.slug + index} product={product}  />
-          ))}
-        </div>
+        <ProductsInCart className="flex flex-col gap-y-4 mt-6" />
       </div>
 
       {/* Checkout Summary */}

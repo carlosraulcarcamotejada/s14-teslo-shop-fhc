@@ -19,7 +19,7 @@ export const NavbarShoppingCart = () => {
           </Link>
         </Badge>
       ) : (
-        <Link href="/cart" className={buttonVariants({ variant: "ghost" })}>
+        <Link href="/empty" className={buttonVariants({ variant: "ghost" })}>
           <ShoppingCart />
         </Link>
       )}

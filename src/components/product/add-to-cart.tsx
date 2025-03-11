@@ -29,7 +29,7 @@ export const AddToCart = ({ product }: AddToCartProps) => {
       return;
     }
 
-    const { description, images, slug, tags, type, category, ...restProduct } =
+    const { description, images, tags, type, category, ...restProduct } =
       product;
 
     const productInCart: ProductInCart = {

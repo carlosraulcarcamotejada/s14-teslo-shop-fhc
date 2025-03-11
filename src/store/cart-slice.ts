@@ -16,21 +16,49 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addProduct(state, action: PayloadAction<ProductInCart>) {
-      const product = state.cart.find(
+      const productFound = state.cart.find(
         (item) =>
           item.id === action.payload.id &&
           item.selectedSize === action.payload.selectedSize
       );
 
-      if (!product) {
+      if (!productFound) {
         state.cart.push(action.payload);
       } else {
-        product.quantity += action.payload.quantity;
+        productFound.quantity += action.payload.quantity;
       }
+    },
+
+    updateQuantity(
+      state,
+      action: PayloadAction<{
+        id: string;
+        selectedSize: string;
+        quantity: number;
+      }>
+    ) {
+      const { id, selectedSize, quantity } = action.payload;
+
+      const productFound = state.cart.find(
+        (itemCart: ProductInCart) =>
+          itemCart.id === id && itemCart.selectedSize === selectedSize
+      );
+
+      if (productFound) {
+        // Reemplazar la cantidad en lugar de sumarla nuevamente
+        productFound.quantity = quantity > 0 ? quantity : 0;
+      }
+    },
+    removeProduct(state, action: PayloadAction<ProductInCart>) {
+      const { id, selectedSize } = action.payload;
+      state.cart = state.cart.filter(
+        (itemCart: ProductInCart) =>
+          !(itemCart.id === id && itemCart.selectedSize === selectedSize)
+      );
     },
   },
 });
 
-export const { addProduct } = cartSlice.actions;
+export const { addProduct, removeProduct, updateQuantity } = cartSlice.actions;
 
 export default cartSlice.reducer;

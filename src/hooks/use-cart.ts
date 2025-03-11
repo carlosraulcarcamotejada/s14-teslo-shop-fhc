@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { ProductInCart } from "@/interfaces/cart/product-in-cart";
-import { addProduct } from "@/store/cart-slice";
+import { addProduct, removeProduct, updateQuantity } from "@/store/cart-slice";
 
 export const useCart = () => {
   const dispatch = useDispatch();
@@ -11,8 +11,22 @@ export const useCart = () => {
     dispatch(addProduct(product));
   };
 
+  const updateCartProductQuantity = (
+    id: string,
+    selectedSize: string,
+    quantity: number
+  ) => {
+    dispatch(updateQuantity({ id, selectedSize, quantity }));
+  };
+
+  const removeCartProduct = (productInCart: ProductInCart) => {
+    dispatch(removeProduct(productInCart));
+  };
+
   return {
     cart,
     addProductToCart,
+    removeCartProduct,
+    updateCartProductQuantity,
   };
 };

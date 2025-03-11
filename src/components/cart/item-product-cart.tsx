@@ -1,14 +1,16 @@
 import { ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/utils";
-import { Product } from "@/seed/seed";
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { QuantitySelector } from "@/components/product/quantity-selector";
 import { Button } from "@/components/ui/button";
 import { Trash2Icon } from "lucide-react";
+import { ProductInCart } from "@/interfaces/cart/product-in-cart";
+import Link from "next/link";
+import { useCart } from "@/hooks/use-cart";
 
 interface ItemProductCartProps extends ComponentPropsWithoutRef<"div"> {
-  product: Product;
+  product: ProductInCart;
 }
 
 export const ItemProductCart = ({
@@ -16,24 +18,50 @@ export const ItemProductCart = ({
   product,
   ...props
 }: ItemProductCartProps) => {
-  const { images, title, price } = product;
+  const { id, image, price, quantity, selectedSize, slug, title } = product;
+
+  const { removeCartProduct, updateCartProductQuantity } = useCart();
 
   return (
     <Card className={cn("flex gap-x-2 overflow-hidden", className)} {...props}>
+      {/* Image */}
       <Image
         className="h-52 w-24 object-cover"
-        src={`/products/${images[0]}`}
+        src={`/products/${image}`}
         alt={title}
         height={200}
         width={200}
       />
       <div className="flex flex-col gap-y-2 items-start justify-between py-2">
         <div className="flex flex-col gap-y-2">
-          <div className="font-bold">{title}</div>
-          <div>${price}</div>
-          <QuantitySelector size="auto" />
+          {/* Title */}
+          <Link href={`/product/${slug}`} className="font-bold hover:underline">
+            {`${selectedSize} - ${title}`}
+          </Link>
+          {/* Price */}
+          <div className="font-semibold">${price}</div>
+          {/* Quantity Selector  */}
+          <QuantitySelector
+            size="auto"
+            quantity={quantity}
+            setQuantity={(newQuantity) => {
+              updateCartProductQuantity(
+                id,
+                selectedSize,
+                typeof newQuantity === "function"
+                  ? newQuantity(quantity)
+                  : newQuantity
+              );
+            }}
+          />
         </div>
-        <Button variant="outline" className="flex items-center justify-center">
+        <Button
+          onClick={() => {
+            removeCartProduct(product);
+          }}
+          variant="default"
+          className="flex items-center justify-center"
+        >
           Remover <Trash2Icon />
         </Button>
       </div>
