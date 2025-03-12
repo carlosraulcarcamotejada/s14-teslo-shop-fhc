@@ -7,13 +7,7 @@ import {
   NavbarContent as NavbarContentHUI,
   NavbarItem as NavbarItemHUI,
 } from "@heroui/navbar";
-import {
-  Calendar,
-  Home,
-  Inbox,
-  Search,
-  Settings,
-} from "lucide-react";
+import { ListOrderedIcon, LogIn, LogOut, Search, UserIcon } from "lucide-react";
 import { NavbarBrandLogo } from "@/components/shared/navbar/navbar-brand-logo";
 import { NavbarLinks } from "@/components/shared/navbar/navbar-links";
 import { NavbarMenu } from "@/components/shared/navbar/navbar-menu";
@@ -34,34 +28,31 @@ const paths: Path[] = [
 
 const MenuItems: NavbarMenuItemProps[] = [
   {
-    title: "Home",
-    url: "#",
-    icon: Home,
+    title: "Perfil",
+    path: "/profile",
+    icon: UserIcon,
     id: 1,
   },
+
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
+    title: "Ordenes",
+    path: "#",
+    icon: ListOrderedIcon,
     id: 2,
   },
+
   {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
+    title: "Ingresar",
+    path: "/auth/login",
+    icon: LogIn,
     id: 3,
   },
+
   {
-    title: "Search",
-    url: "#",
-    icon: Search,
-    id: 4,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-    id: 5,
+    title: "Salir",
+    icon: LogOut,
+    id: 7,
+    type: "button",
   },
 ];
 

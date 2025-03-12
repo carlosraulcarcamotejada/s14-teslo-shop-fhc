@@ -9,6 +9,7 @@ import { PageProps } from "@/interfaces/page/page-props";
 import { getProductBySlug } from "@/actions/product/get-product-by-slug";
 import { StockLabel } from "@/components/product/stock-label";
 import { AddToCart } from "@/components/product/add-to-cart";
+import { FormatNumber } from "@/utils/format-number";
 
 export async function generateMetadata({
   params,
@@ -61,7 +62,7 @@ export default async function ProductPage({ params }: PageProps) {
         </h1>
         {/* Stock */}
         <StockLabel id={id} />
-        <div className="text-lg mt-4">{`$${price.toFixed(2)}`}</div>
+        <div className="text-lg mt-4">{FormatNumber(price)}</div>
 
         <AddToCart product={product} />
 

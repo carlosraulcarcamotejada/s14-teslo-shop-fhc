@@ -15,7 +15,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { SearchIcon, UserIcon } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   NavbarMenuItem,
@@ -60,15 +60,7 @@ export const NavbarMenu = ({ navbarMenuItems }: NavbarMenuProps) => {
         </SheetHeader>
         <ScrollArea className="w-full h-full px-0 pb-4">
           <div className="grid grid-cols-4 items-center gap-y-4 mt-4">
-            <SheetClose asChild>
-              <Link
-                className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
-                href="#"
-              >
-                <UserIcon className="size-4" />
-                <span className="text-md">Perfil</span>
-              </Link>
-            </SheetClose>
+       
 
             {navbarMenuItems.map((navbarMenuItem) => (
               <NavbarMenuItem key={navbarMenuItem.id} {...navbarMenuItem} />

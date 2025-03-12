@@ -1,10 +1,18 @@
 import Image from "next/image";
+import { redirect } from "next/navigation";
+import { auth } from "@/config/auth.config";
 
-export default function AuthLayout({
+export default async function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+
+  console.log(session);
+
+  session?.user && redirect("/");
+
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
       <div className="flex justify-center items-center w-full">{children}</div>

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { Product } from "@/seed/seed";
 import { cn } from "@/lib/utils";
+import { FormatNumber } from "@/utils/format-number";
 
 interface ProductGridItemProps extends ComponentPropsWithoutRef<"div"> {
   product: Product;
@@ -47,7 +48,7 @@ const ProductGridItem = ({
         >
           {title}
         </Link>
-        <div className="font-bold">{`$${price.toFixed(2)}`}</div>
+        <div className="font-bold">{FormatNumber(price)}</div>
       </div>
     </Card>
   );
