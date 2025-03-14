@@ -1,5 +1,5 @@
 "use client";
-import { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef, useEffect } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -18,21 +18,26 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { authenticate } from "@/actions/auth/login";
+import { useRouter } from "next/navigation";
+import { useActionState } from "react";
 
 interface LoginFormProps extends ComponentPropsWithoutRef<"div"> {}
 
-export const LoginForm = ({ className, ...props }: LoginFormProps) => {
-  // 1. Define your schema.
-  const LoginFormSchema = z.object({
-    email: z.string().email("Debe proporcionar un email válido."),
-    password: z.string().min(1, "La contraseña es obligatoria."),
-  });
+// 1. Define your schema.
+export const LoginFormSchema = z.object({
+  email: z.string().email("Debe proporcionar un email válido."),
+  password: z.string().min(1, "La contraseña es obligatoria."),
+});
 
-  // 2. Define your default values.
-  const defaultValues: z.infer<typeof LoginFormSchema> = {
-    email: "",
-    password: "",
-  };
+// 2. Define your default values.
+const defaultValues: z.infer<typeof LoginFormSchema> = {
+  email: "",
+  password: "",
+};
+
+export const LoginForm = ({ className, ...props }: LoginFormProps) => {
+  const router = useRouter();
 
   // 3. Define your form.
   const form = useForm<z.infer<typeof LoginFormSchema>>({
@@ -41,10 +46,18 @@ export const LoginForm = ({ className, ...props }: LoginFormProps) => {
   });
 
   // 4. Define a submit handler.
-  function onSubmit(values: z.infer<typeof LoginFormSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof LoginFormSchema>) {
+    try {
+      // Crear un FormData y agregar los valores
+      const formData = new FormData();
+      formData.append("email", values.email);
+      formData.append("password", values.password);
+      const results = await authenticate(undefined, formData);
+
+      results === "success" && router.replace("/");
+    } catch (error) {
+      console.log("Something went wrong.");
+    }
   }
 
   return (
@@ -71,7 +84,7 @@ export const LoginForm = ({ className, ...props }: LoginFormProps) => {
                     <FormLabel>Correo electrónico</FormLabel>
                     <FormControl>
                       <Input
-                        type="email"
+                        type="text"
                         placeholder="m@example.com"
                         {...field}
                       />

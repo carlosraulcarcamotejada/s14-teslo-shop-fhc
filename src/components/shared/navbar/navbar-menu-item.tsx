@@ -2,7 +2,9 @@ import { ForwardRefExoticComponent, RefAttributes } from "react";
 import Link from "next/link";
 import { SheetClose } from "@/components/ui/sheet";
 import { LucideProps } from "lucide-react";
-import { logout } from "@/actions/auth/logout";
+
+import clsx from "clsx";
+import { Button } from "@/components/ui/button";
 
 interface NavbarMenuItemProps {
   path?: string;
@@ -12,34 +14,35 @@ interface NavbarMenuItemProps {
   title: string;
   id: number;
   type?: "link" | "button";
+  onClick?: () => void;
 }
 
 export const NavbarMenuItem = ({
   icon: Icon,
   path,
   title,
+  onClick,
   type = "link",
 }: NavbarMenuItemProps) => {
+  const navbarItemClass =
+    "col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75";
+
   return (
     <SheetClose asChild>
       {type === "link" && path ? (
-        <Link
-          className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
-          href={path}
-        >
-          {/* <UserIcon className="size-4" /> */}
+        <Link className={navbarItemClass} href={path}>
           <Icon className="size-4" />
           <span className="text-md">{title}</span>
         </Link>
       ) : (
-        <button
-          onClick={logout}
-          className="col-span-4 w-full px-2 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75"
+        <Button
+        className={navbarItemClass}
+        onClick={() => typeof onClick === "function" && onClick()}
+        variant={"ghost"}
         >
-          {/* <UserIcon className="size-4" /> */}
           <Icon className="size-4" />
           <span className="text-md">{title}</span>
-        </button>
+        </Button>
       )}
     </SheetClose>
   );

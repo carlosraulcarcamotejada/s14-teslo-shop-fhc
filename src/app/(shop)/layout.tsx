@@ -7,12 +7,12 @@ export default function ShopLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main>
+    <>
       <Navbar />
-      <div className="min-h-screen pb-40 pt-6 grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12">
+      <main className="min-h-screen pb-40 pt-6 grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12">
         {children}
-      </div>
+      </main>
       <Footer className="h-10" />
-    </main>
+    </>
   );
 }

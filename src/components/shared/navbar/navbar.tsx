@@ -1,4 +1,3 @@
-"use client";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import {
@@ -7,56 +6,16 @@ import {
   NavbarContent as NavbarContentHUI,
   NavbarItem as NavbarItemHUI,
 } from "@heroui/navbar";
-import { ListOrderedIcon, LogIn, LogOut, Search, UserIcon } from "lucide-react";
+import { Search } from "lucide-react";
 import { NavbarBrandLogo } from "@/components/shared/navbar/navbar-brand-logo";
 import { NavbarLinks } from "@/components/shared/navbar/navbar-links";
 import { NavbarMenu } from "@/components/shared/navbar/navbar-menu";
-import { NavbarMenuItemProps } from "@/components/shared/navbar/navbar-menu-item";
 import { NavbarShoppingCart } from "./navbar-shopping-cart";
+import { auth } from "@/config/auth.config";
 
-interface Path {
-  id: number;
-  label: string;
-  path: string;
-}
+export const Navbar = async () => {
+  const session = await auth();
 
-const paths: Path[] = [
-  { id: 1, label: "Hombres", path: "/category/men" },
-  { id: 2, label: "Mujeres", path: "/category/women" },
-  { id: 3, label: "Niños", path: "/category/kid" },
-];
-
-const MenuItems: NavbarMenuItemProps[] = [
-  {
-    title: "Perfil",
-    path: "/profile",
-    icon: UserIcon,
-    id: 1,
-  },
-
-  {
-    title: "Ordenes",
-    path: "#",
-    icon: ListOrderedIcon,
-    id: 2,
-  },
-
-  {
-    title: "Ingresar",
-    path: "/auth/login",
-    icon: LogIn,
-    id: 3,
-  },
-
-  {
-    title: "Salir",
-    icon: LogOut,
-    id: 7,
-    type: "button",
-  },
-];
-
-export const Navbar = () => {
   return (
     <NavbarHUI isBordered maxWidth="full" isBlurred={false}>
       {/* Brand Logo */}
@@ -64,7 +23,7 @@ export const Navbar = () => {
         <NavbarBrandLogo />
       </NavbarBrandHUI>
       {/* Center Content */}
-      <NavbarLinks paths={paths} />
+      <NavbarLinks />
       {/* End Content */}
       <NavbarContentHUI justify="end">
         <NavbarItemHUI className="hidden lg:flex">
@@ -74,7 +33,7 @@ export const Navbar = () => {
         </NavbarItemHUI>
         <NavbarShoppingCart />
         <NavbarItemHUI>
-          <NavbarMenu navbarMenuItems={MenuItems} />
+          <NavbarMenu session={session} />
         </NavbarItemHUI>
       </NavbarContentHUI>
     </NavbarHUI>

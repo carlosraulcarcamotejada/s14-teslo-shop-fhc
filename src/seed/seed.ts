@@ -37,6 +37,20 @@ interface SeedData {
 export const initialData: SeedData = {
   categories: ["men", "women", "kid", "unisex"],
   types: ["shirts", "pants", "hoodies", "hats"],
+  users: [
+    {
+      name: "Carlos Cárcamo",
+      email: "carlos.carcamo@google.com",
+      password: bcryptjs.hashSync("123456"),
+      role: "admin",
+    },
+    {
+      name: "Blanca Linares",
+      email: "blanca.linares@google.com",
+      password: bcryptjs.hashSync("123456"),
+      role: "user",
+    },
+  ],
   products: [
     {
       id: "090b0de7-31f9-48bb-a891-861c3f3650b7",
@@ -769,20 +783,7 @@ export const initialData: SeedData = {
       category: "kid",
     },
   ],
-  users: [
-    {
-      name: "Carlos Cárcamo",
-      email: "carlos.carcamo@google.com",
-      password: bcryptjs.hashSync("123456"),
-      role: "admin",
-    },
-    {
-      name: "Blanca Linares",
-      email: "blanca.linares@google.com",
-      password: bcryptjs.hashSync("123456"),
-      role: "user",
-    },
-  ],
+
 };
 
 export type { Size };

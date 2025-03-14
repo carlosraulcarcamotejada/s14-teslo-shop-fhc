@@ -1,13 +1,23 @@
 import prisma from "@/lib/prisma";
-import NextAuth, { type NextAuthConfig } from "next-auth";
+import NextAuth, { Session, type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { z } from "zod";
 import bcryptjs from "bcryptjs";
+import { z } from "zod";
 
 export const authConfig = {
   pages: {
     signIn: "/auth/login",
     newUser: "/auth/sign-in",
+  },
+  callbacks: {
+    jwt({ token, user }) {
+      user && (token.data = user);
+      return token;
+    },
+    session({ session, token }) {
+      session.user = token.data as Session["user"];
+      return session;
+    },
   },
   providers: [
     Credentials({
@@ -41,4 +51,4 @@ export const authConfig = {
   ],
 } satisfies NextAuthConfig;
 
-export const { signIn, signOut, auth } = NextAuth(authConfig);
+export const { signIn, signOut, auth, handlers } = NextAuth(authConfig);

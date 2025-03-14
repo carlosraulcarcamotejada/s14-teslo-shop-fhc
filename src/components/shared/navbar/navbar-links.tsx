@@ -6,19 +6,23 @@ import { cn } from "@/lib/utils";
 import { NavbarContent, NavbarItem } from "@heroui/navbar";
 import { buttonVariants } from "@/components/ui/button";
 
+interface NavbarLinksProps extends ComponentPropsWithoutRef<"ul"> {}
+
 interface Path {
   id: number;
   label: string;
   path: string;
 }
 
-interface NavbarLinksProps extends ComponentPropsWithoutRef<"ul"> {
-  paths: Path[];
-}
+const paths: Path[] = [
+  { id: 1, label: "Hombres", path: "/category/men" },
+  { id: 2, label: "Mujeres", path: "/category/women" },
+  { id: 3, label: "Niños", path: "/category/kid" },
+];
 
 export const NavbarLinks = ({
   className,
-  paths,
+
   ...props
 }: NavbarLinksProps) => {
   const pathname = usePathname();

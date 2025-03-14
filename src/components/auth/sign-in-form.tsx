@@ -16,26 +16,31 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { register } from "@/actions/auth/signin";
+import { useRouter } from "next/navigation";
+import { login } from "@/actions/auth/login";
 
 interface SignInFormProps extends ComponentPropsWithoutRef<"div"> {}
 
-export const SignInForm = ({ className, ...props }: SignInFormProps) => {
-  // 1. Define your schema.
-  const SignInFormSchema = z.object({
-    email: z.string().email("Debe ser un email válido."),
-    name: z
-      .string()
-      .min(3, "El nombre debe contener al menos 3 caracteres.")
-      .max(50, "El nombre debe contener máximo  caracteres."),
-    password: z.string().min(1, "La contraseña es obligatoria."),
-  });
+// 1. Define your schema.
+export const SignInFormSchema = z.object({
+  email: z.string().email("Debe ser un email válido."),
+  name: z
+    .string()
+    .min(3, "El nombre debe contener al menos 3 caracteres.")
+    .max(50, "El nombre debe contener máximo  caracteres."),
+  password: z.string().min(1, "La contraseña es obligatoria."),
+});
 
-  // 2. Define your default values.
-  const defaultValues: z.infer<typeof SignInFormSchema> = {
-    email: "",
-    name: "",
-    password: "",
-  };
+// 2. Define your default values.
+const defaultValues: z.infer<typeof SignInFormSchema> = {
+  email: "",
+  name: "",
+  password: "",
+};
+
+export const SignInForm = ({ className, ...props }: SignInFormProps) => {
+  const router = useRouter();
 
   // 3. Define your form.
   const form = useForm<z.infer<typeof SignInFormSchema>>({
@@ -44,10 +49,22 @@ export const SignInForm = ({ className, ...props }: SignInFormProps) => {
   });
 
   // 4. Define a submit handler.
-  function onSubmit(values: z.infer<typeof SignInFormSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof SignInFormSchema>) {
+    try {
+      // Do something with the form values.
+      // ✅ This will be type-safe and validated.
+      const results = await register(values);
+      const resultsLogin = await login({
+        ...values,
+        email: values.email.toLowerCase(),
+      });
+
+      results === "success" &&
+        resultsLogin === "success" &&
+        router.replace("/");
+    } catch (error) {
+      console.log("Something went wrong.");
+    }
   }
 
   return (
@@ -93,7 +110,7 @@ export const SignInForm = ({ className, ...props }: SignInFormProps) => {
                     <FormLabel>Correo electrónico</FormLabel>
                     <FormControl>
                       <Input
-                        type="email"
+                        type="text"
                         placeholder="m@example.com"
                         {...field}
                       />
@@ -130,10 +147,7 @@ export const SignInForm = ({ className, ...props }: SignInFormProps) => {
             <div className="text-center text-sm">
               <Link
                 href="login"
-                className={cn(
-                  buttonVariants({ variant: "outline" }),
-                  "w-full"
-                )}
+                className={cn(buttonVariants({ variant: "outline" }), "w-full")}
               >
                 Ingresar
               </Link>
