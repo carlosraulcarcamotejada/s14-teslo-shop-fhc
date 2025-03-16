@@ -1,12 +1,10 @@
 "use server";
-
-import { SignInFormSchema } from "@/components/auth/sign-in-form";
+import { SignIn } from "@/components/auth/sign-in-form";
 import prisma from "@/lib/prisma";
-import { z } from "zod";
 import bcryptjs from "bcryptjs";
 import { AuthError } from "next-auth";
 
-export const register = async (formData: z.infer<typeof SignInFormSchema>) => {
+export const register = async (formData: SignIn) => {
   try {
     const user = await prisma.user.create({
       data: {

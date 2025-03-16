@@ -1,11 +1,7 @@
 "use server";
-
-import { LoginFormSchema } from "@/components/auth/login-form";
+import { Login } from "@/components/auth/login-form";
 import { signIn } from "@/config/auth.config";
 import { AuthError } from "next-auth";
-import { z } from "zod";
-
-// ...
 
 export async function authenticate(
   prevState: string | undefined,
@@ -30,7 +26,7 @@ export async function authenticate(
   }
 }
 
-export const login = async (formData: z.infer<typeof LoginFormSchema>) => {
+export const login = async (formData: Login) => {
   try {
     await signIn("credentials", {
       ...formData,

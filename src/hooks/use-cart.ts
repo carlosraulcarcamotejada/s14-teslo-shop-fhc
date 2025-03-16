@@ -5,7 +5,7 @@ import { addProduct, removeProduct, updateQuantity } from "@/store/cart-slice";
 
 export const useCart = () => {
   const dispatch = useDispatch();
-  const cart = useSelector((state: RootState) => state.cart.cart);
+  const cart = useSelector((state: RootState) => state.cartStore.cart);
 
   const addProductToCart = (product: ProductInCart) => {
     dispatch(addProduct(product));

@@ -23,7 +23,7 @@ import { login } from "@/actions/auth/login";
 interface SignInFormProps extends ComponentPropsWithoutRef<"div"> {}
 
 // 1. Define your schema.
-export const SignInFormSchema = z.object({
+const SignInFormSchema = z.object({
   email: z.string().email("Debe ser un email válido."),
   name: z
     .string()
@@ -32,24 +32,27 @@ export const SignInFormSchema = z.object({
   password: z.string().min(1, "La contraseña es obligatoria."),
 });
 
-// 2. Define your default values.
-const defaultValues: z.infer<typeof SignInFormSchema> = {
-  email: "",
-  name: "",
-  password: "",
-};
+interface SignIn extends z.infer<typeof SignInFormSchema> {}
+export type { SignIn };
 
 export const SignInForm = ({ className, ...props }: SignInFormProps) => {
   const router = useRouter();
 
+  // 2. Define your default values.
+  const defaultValues: SignIn = {
+    email: "",
+    name: "",
+    password: "",
+  };
+
   // 3. Define your form.
-  const form = useForm<z.infer<typeof SignInFormSchema>>({
+  const form = useForm<SignIn>({
     resolver: zodResolver(SignInFormSchema),
     defaultValues,
   });
 
   // 4. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof SignInFormSchema>) {
+  async function onSubmit(values: SignIn) {
     try {
       // Do something with the form values.
       // ✅ This will be type-safe and validated.

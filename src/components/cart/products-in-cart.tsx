@@ -11,7 +11,7 @@ export const ProductsInCart = ({
   className,
   ...props
 }: ProductsInCartProps) => {
-  const products = useSelector((state: RootState) => state.cart.cart);
+  const products = useSelector((state: RootState) => state.cartStore.cart);
 
   return (
     <div className={cn("", className)} {...props}>

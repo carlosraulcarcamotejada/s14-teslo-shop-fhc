@@ -1,5 +1,5 @@
 "use client";
-import { ComponentPropsWithoutRef, useEffect } from "react";
+import { ComponentPropsWithoutRef } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -20,33 +20,36 @@ import {
 } from "@/components/ui/form";
 import { authenticate } from "@/actions/auth/login";
 import { useRouter } from "next/navigation";
-import { useActionState } from "react";
 
 interface LoginFormProps extends ComponentPropsWithoutRef<"div"> {}
 
 // 1. Define your schema.
-export const LoginFormSchema = z.object({
+const LoginFormSchema = z.object({
   email: z.string().email("Debe proporcionar un email válido."),
   password: z.string().min(1, "La contraseña es obligatoria."),
 });
 
-// 2. Define your default values.
-const defaultValues: z.infer<typeof LoginFormSchema> = {
-  email: "",
-  password: "",
-};
+interface Login extends z.infer<typeof LoginFormSchema> {}
+
+export type { Login };
 
 export const LoginForm = ({ className, ...props }: LoginFormProps) => {
   const router = useRouter();
 
+  // 2. Define your default values.
+  const defaultValues: Login = {
+    email: "",
+    password: "",
+  };
+
   // 3. Define your form.
-  const form = useForm<z.infer<typeof LoginFormSchema>>({
+  const form = useForm<Login>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues,
   });
 
   // 4. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof LoginFormSchema>) {
+  async function onSubmit(values: Login) {
     try {
       // Crear un FormData y agregar los valores
       const formData = new FormData();

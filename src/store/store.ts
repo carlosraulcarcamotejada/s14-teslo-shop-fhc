@@ -1,22 +1,30 @@
-import { combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
-import cartSlice from "@/store/cart-slice";
-import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
-// Configuración de persistencia
+import cartSlice from "@/store/cart-slice";
+import addressSlice from "@/store/address-slice";
+
+// Configuración de persistencia con claves únicas
 const persistConfig = {
-  key: "root",
-  storage, // Usa localStorage
+  storage,
 };
 
-const rootReducer = combineReducers({
-  cart: persistReducer(persistConfig, cartSlice), // Hace persistente el cart
-});
+const persistedCartReducer = persistReducer(
+  { key: "cartStore", ...persistConfig },
+  cartSlice
+);
+const persistedAddressReducer = persistReducer(
+  { key: "addressStore", ...persistConfig },
+  addressSlice
+);
 
 // Configurar el store con persistencia
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    cartStore: persistedCartReducer,
+    addressStore: persistedAddressReducer,
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
