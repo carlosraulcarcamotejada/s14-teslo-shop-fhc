@@ -1,12 +1,7 @@
-import { ComponentPropsWithoutRef } from "react";
 import Image from "next/image";
-import { Product } from "@/seed/seed";
-import { Card } from "../ui/card";
+import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-
-interface ItemProductCheckoutProps extends ComponentPropsWithoutRef<"div"> {
-  product: Product;
-}
+import { ItemProductCheckoutProps } from "@/interfaces/item-product-checkout-props";
 
 export const ItemProductCheckout = ({
   product,

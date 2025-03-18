@@ -1,11 +1,8 @@
-import React, { ComponentPropsWithoutRef } from "react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
-import { ClassValue } from "clsx";
-import { StatusOrders } from "./status-orders";
-
-interface OrdersSummaryProps extends ComponentPropsWithoutRef<"div"> {}
+import { StatusOrders } from "@/components/orders/status-orders";
+import { OrdersSummaryProps } from "@/interfaces/orders-summary-props";
 
 export const OrdersSummary = ({ className, ...props }: OrdersSummaryProps) => {
   return (

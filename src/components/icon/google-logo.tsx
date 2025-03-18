@@ -1,4 +1,4 @@
-import { IconProps } from "@/interfaces/icon/icon-props";
+import { IconProps } from "@/interfaces/icon-props";
 import React from "react";
 
 export const GoogleLogo = (props: IconProps) => {

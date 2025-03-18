@@ -1,11 +1,6 @@
-import { ComponentPropsWithoutRef } from "react";
 import { titleFont } from "@/config/fonts";
 import { cn } from "@/lib/utils";
-
-interface TitleProps extends ComponentPropsWithoutRef<"div"> {
-  title: string;
-  subTitle?: string;
-}
+import { TitleProps } from "@/interfaces/title-props";
 
 export const TitlePage = ({
   title,

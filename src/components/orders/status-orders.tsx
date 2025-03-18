@@ -1,13 +1,6 @@
-import clsx, { ClassValue } from "clsx";
 import { CreditCardIcon } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { cn } from "@/lib/utils";
-import { ComponentPropsWithoutRef } from "react";
-
-interface StatusOrdersProps extends ComponentPropsWithoutRef<"div"> {
-  description?: string;
-  title: "Pendiente de pago" | "Pagado";
-}
+import { StatusOrdersProps } from "@/interfaces/status-orders-props";
 
 export const StatusOrders = ({
   className,

@@ -1,11 +1,9 @@
-import { ComponentPropsWithoutRef } from "react";
 import Link from "next/link";
 import { AcmeLogo } from "@/components/icon/acme-logo";
 import { Separator } from "@/components/ui/separator";
 import { titleFont } from "@/config/fonts";
 import { cn } from "@/lib/utils";
-
-interface NavbarLogoProps extends ComponentPropsWithoutRef<"a"> {}
+import { NavbarLogoProps } from "@/interfaces/navbar-logo-props";
 
 export const NavbarBrandLogo = ({ className, ...props }: NavbarLogoProps) => {
   return (

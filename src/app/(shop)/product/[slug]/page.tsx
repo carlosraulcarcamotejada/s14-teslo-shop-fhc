@@ -5,11 +5,12 @@ import { notFound } from "next/navigation";
 import { Product } from "@/seed/seed";
 import { titleFont } from "@/config/fonts";
 import { ProductSlideshow } from "@/components/product/product-slideshow";
-import { PageProps } from "@/interfaces/page/page-props";
+import { PageProps } from "@/interfaces/page-props";
 import { getProductBySlug } from "@/actions/product/get-product-by-slug";
 import { StockLabel } from "@/components/product/stock-label";
 import { AddToCart } from "@/components/product/add-to-cart";
 import { FormatNumber } from "@/utils/format-number";
+import { getStockById } from "@/actions/product/get-stock-by-id";
 
 export async function generateMetadata({
   params,
@@ -41,7 +42,9 @@ export default async function ProductPage({ params }: PageProps) {
 
   if (!product) notFound();
 
-  const { description, title, price, sizes, images, id } = product;
+  const { description, title, price, images, id } = product;
+
+  const inStock: number | undefined = await getStockById(id);
 
   return (
     <>
@@ -61,7 +64,7 @@ export default async function ProductPage({ params }: PageProps) {
           {title}
         </h1>
         {/* Stock */}
-        <StockLabel id={id} />
+        <StockLabel inStock={inStock} />
         <div className="text-lg mt-4">{FormatNumber(price)}</div>
 
         <AddToCart product={product} />

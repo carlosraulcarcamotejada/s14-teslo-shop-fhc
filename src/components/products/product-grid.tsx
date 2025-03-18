@@ -1,11 +1,6 @@
-import { ComponentPropsWithoutRef } from "react";
-import { Product } from "@/seed/seed";
+import { ProductGridProps } from "@/interfaces/product-grid-props";
 import { ProductGridItem } from "@/components/products/product-grid-item";
 import { cn } from "@/lib/utils";
-
-interface ProductGridProps extends ComponentPropsWithoutRef<"div"> {
-  products: Product[];
-}
 
 const ProductGrid = ({ className, products, ...props }: ProductGridProps) => {
   return (

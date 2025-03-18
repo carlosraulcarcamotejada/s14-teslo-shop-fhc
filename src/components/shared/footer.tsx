@@ -1,8 +1,6 @@
-import { ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/utils";
 import { NavbarBrandLogo } from "@/components/shared/navbar/navbar-brand-logo";
-
-interface FooterProps extends ComponentPropsWithoutRef<"div"> {}
+import { FooterProps } from "@/interfaces/footer-props";
 
 export const Footer = ({ className, ...props }: FooterProps) => {
   return (

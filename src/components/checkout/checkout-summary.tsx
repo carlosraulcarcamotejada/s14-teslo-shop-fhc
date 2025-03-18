@@ -1,11 +1,9 @@
-import { ComponentPropsWithoutRef } from "react";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { buttonVariants } from "@/components/ui/button";
-
-interface CheckoutSummaryProps extends ComponentPropsWithoutRef<"div"> {}
+import { CheckoutSummaryProps } from "@/interfaces/checkout-summary-props";
 
 export const CheckoutSummary = ({
   className,

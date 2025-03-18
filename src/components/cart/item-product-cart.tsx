@@ -1,12 +1,12 @@
 import { ComponentPropsWithoutRef } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { QuantitySelector } from "@/components/product/quantity-selector";
 import { Button } from "@/components/ui/button";
 import { Trash2Icon } from "lucide-react";
-import { ProductInCart } from "@/interfaces/cart/product-in-cart";
-import Link from "next/link";
+import { ProductInCart } from "@/interfaces/product-in-cart";
 import { useCart } from "@/hooks/use-cart";
 
 interface ItemProductCartProps extends ComponentPropsWithoutRef<"div"> {
@@ -18,7 +18,8 @@ export const ItemProductCart = ({
   product,
   ...props
 }: ItemProductCartProps) => {
-  const { id, image, price, quantity, selectedSize, slug, title } = product;
+  const { id, image, price, quantity, selectedSize, slug, title, inStock } =
+    product;
 
   const { removeCartProduct, updateCartProductQuantity } = useCart();
 
@@ -44,6 +45,7 @@ export const ItemProductCart = ({
           <QuantitySelector
             size="auto"
             quantity={quantity}
+            quantityLimit={inStock}
             setQuantity={(newQuantity) => {
               updateCartProductQuantity(
                 id,
@@ -60,7 +62,7 @@ export const ItemProductCart = ({
             removeCartProduct(product);
           }}
           variant="default"
-          className="flex items-center justify-center"
+          className="flex items-center justify-center select-none"
         >
           Remover <Trash2Icon />
         </Button>

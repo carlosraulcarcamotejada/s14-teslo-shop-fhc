@@ -1,10 +1,8 @@
-import { ComponentPropsWithoutRef } from "react";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { ArrowRightIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-interface ElementNotFoundProps extends ComponentPropsWithoutRef<"div"> {}
+import { ElementNotFoundProps } from "@/interfaces/element-not-found-props";
 
 export const ElementNotFound = ({
   className,

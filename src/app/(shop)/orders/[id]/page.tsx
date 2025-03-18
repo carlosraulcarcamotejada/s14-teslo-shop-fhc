@@ -1,7 +1,7 @@
 import { TitlePage } from "@/components/shared/title-page";
 import { initialData } from "@/seed/seed";
 import { ItemProductCheckout } from "@/components/checkout/item-product-checkout";
-import { PageProps } from "@/interfaces/page/page-props";
+import { PageProps } from "@/interfaces/page-props";
 import { OrdersSummary } from "@/components/orders/orders-sumary";
 import { StatusOrders } from "@/components/orders/status-orders";
 

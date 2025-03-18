@@ -1,5 +1,5 @@
 "use client";
-import { ComponentPropsWithoutRef, useState } from "react";
+import { useState } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -35,13 +35,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-
-export type Payment = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
-};
+import { Payment } from "@/interfaces/payment";
+import { TableOrdersProps } from "@/interfaces/table-orders-props";
 
 const data: Payment[] = [
   {
@@ -166,8 +161,6 @@ const columns: ColumnDef<Payment>[] = [
     },
   },
 ];
-
-interface TableOrdersProps extends ComponentPropsWithoutRef<"div"> {}
 
 export const OrdersTable = ({ className, ...props }: TableOrdersProps) => {
   const [sorting, setSorting] = useState<SortingState>([]);

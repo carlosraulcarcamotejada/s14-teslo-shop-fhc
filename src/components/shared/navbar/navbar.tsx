@@ -7,11 +7,11 @@ import {
   NavbarItem as NavbarItemHUI,
 } from "@heroui/navbar";
 import { Search } from "lucide-react";
-import { NavbarBrandLogo } from "@/components/shared/navbar/navbar-brand-logo";
 import { NavbarLinks } from "@/components/shared/navbar/navbar-links";
 import { NavbarMenu } from "@/components/shared/navbar/navbar-menu";
 import { NavbarShoppingCart } from "./navbar-shopping-cart";
 import { auth } from "@/config/auth.config";
+import { NavbarBrandLogo } from "@/components/shared/navbar/navbar-brand-logo";
 
 export const Navbar = async () => {
   const session = await auth();

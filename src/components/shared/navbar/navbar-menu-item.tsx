@@ -1,21 +1,7 @@
-import { ForwardRefExoticComponent, RefAttributes } from "react";
 import Link from "next/link";
 import { SheetClose } from "@/components/ui/sheet";
-import { LucideProps } from "lucide-react";
-
-import clsx from "clsx";
 import { Button } from "@/components/ui/button";
-
-interface NavbarMenuItemProps {
-  path?: string;
-  icon: ForwardRefExoticComponent<
-    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
-  >;
-  title: string;
-  id: number;
-  type?: "link" | "button";
-  onClick?: () => void;
-}
+import { NavbarMenuItemProps } from "@/interfaces/navbar-menu-item-props";
 
 export const NavbarMenuItem = ({
   icon: Icon,
@@ -36,9 +22,9 @@ export const NavbarMenuItem = ({
         </Link>
       ) : (
         <Button
-        className={navbarItemClass}
-        onClick={() => typeof onClick === "function" && onClick()}
-        variant={"ghost"}
+          className={navbarItemClass}
+          onClick={() => typeof onClick === "function" && onClick()}
+          variant={"ghost"}
         >
           <Icon className="size-4" />
           <span className="text-md">{title}</span>

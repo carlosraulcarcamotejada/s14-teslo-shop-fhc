@@ -1,13 +1,7 @@
-import { ComponentPropsWithoutRef, Dispatch, SetStateAction } from "react";
 import { Size } from "@/seed/seed";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
-
-interface SizeSelectorProps extends ComponentPropsWithoutRef<"div"> {
-  selectedSize: Size | undefined;
-  setSize: Dispatch<SetStateAction<Size | undefined>>;
-  availableSizes: Size[];
-}
+import { SizeSelectorProps } from "@/interfaces/size-selector-props";
 
 export const SizeSelector = ({
   availableSizes,

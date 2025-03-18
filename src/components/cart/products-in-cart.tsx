@@ -1,11 +1,9 @@
 "use client";
 import { useSelector } from "react-redux";
-import { ComponentPropsWithoutRef } from "react";
-import { cn } from "@/lib/utils";
-import { ItemProductCart } from "./item-product-cart";
+import { ItemProductCart } from "@/components/cart/item-product-cart";
 import { RootState } from "@/store/store";
-
-interface ProductsInCartProps extends ComponentPropsWithoutRef<"div"> {}
+import { ProductsInCartProps } from "@/interfaces/products-in-cart-props";
+import { cn } from "@/lib/utils";
 
 export const ProductsInCart = ({
   className,

@@ -1,4 +1,4 @@
-import { IconProps } from "@/interfaces/icon/icon-props";
+import { IconProps } from "@/interfaces/icon-props";
 
 export const GithubLogo = (props: IconProps) => {
   return (

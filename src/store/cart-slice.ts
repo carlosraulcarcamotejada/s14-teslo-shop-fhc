@@ -1,4 +1,4 @@
-import { ProductInCart } from "@/interfaces/cart/product-in-cart";
+import { ProductInCart } from "@/interfaces/product-in-cart";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 

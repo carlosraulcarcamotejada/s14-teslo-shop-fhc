@@ -1,7 +1,5 @@
-import { ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/utils";
-
-interface ColorSelectorProps extends ComponentPropsWithoutRef<"div"> {}
+import { ColorSelectorProps } from "@/interfaces/color-selector-props";
 
 export const ColorSelector = ({ className, ...props }: ColorSelectorProps) => {
   return (

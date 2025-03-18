@@ -1,5 +1,5 @@
 "use client";
-import { ComponentPropsWithoutRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   Carousel,
@@ -10,17 +10,9 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 import { cn } from "@/lib/utils";
-
-interface ProductSlideshowProps extends ComponentPropsWithoutRef<"div"> {
-  autoPlay?: { delay: number };
-  images?: string[];
-  opts?: Partial<EmblaOptionsType>;
-  showArrows?: boolean;
-  title?: string;
-}
+import { ProductSlideshowProps } from "@/interfaces/product-slideshow-props";
 
 export const ProductSlideshow = ({
   autoPlay = undefined,

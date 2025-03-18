@@ -2,11 +2,11 @@
 
 import prisma from "@/lib/prisma";
 
-export const getStockById = async (id: string): Promise<number | null> => {
+export const getStockById = async (id: string): Promise<number | undefined> => {
   try {
     const product = await prisma.product.findFirst({ where: { id } });
 
-    if (!product) return null;
+    if (!product) return undefined;
 
     const { inStock } = product;
 

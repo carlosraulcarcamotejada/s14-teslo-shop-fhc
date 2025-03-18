@@ -1,15 +1,11 @@
 "use client";
-import { ComponentPropsWithoutRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
-import { Product } from "@/seed/seed";
 import { cn } from "@/lib/utils";
 import { FormatNumber } from "@/utils/format-number";
-
-interface ProductGridItemProps extends ComponentPropsWithoutRef<"div"> {
-  product: Product;
-}
+import { ProductGridItemProps } from "@/interfaces/product-grid-item-props";
 
 const ProductGridItem = ({
   product,

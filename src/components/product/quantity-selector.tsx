@@ -1,21 +1,13 @@
 "use client";
-import { ComponentPropsWithoutRef, Dispatch, SetStateAction } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { useResponsive } from "@/hooks/use-responsive";
-
-interface QuantitySelectorProps extends ComponentPropsWithoutRef<"div"> {
-  limit?: number;
-  quantity?: number;
-  setQuantity: Dispatch<SetStateAction<number>>;
-  size?: "md" | "lg" | "auto";
-  title?: string;
-}
+import { QuantitySelectorProps } from "@/interfaces/quantity-aelector-props";
 
 export const QuantitySelector = ({
   className,
-  limit = 5,
+  quantityLimit = 5,
   quantity = 1,
   setQuantity,
   size = "lg",
@@ -29,7 +21,7 @@ export const QuantitySelector = ({
       return newQuantity > 0 ? newQuantity : 0; // Evitar negativos
     });
   };
-  const isDisableAddButton: boolean = quantity >= limit;
+  const isDisableAddButton: boolean = quantity >= quantityLimit;
 
   const isDisableSubtractButton: boolean = quantity <= 1;
 

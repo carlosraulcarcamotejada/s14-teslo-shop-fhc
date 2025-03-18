@@ -1,18 +1,11 @@
 "use client";
-import { ComponentPropsWithoutRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { NavbarContent, NavbarItem } from "@heroui/navbar";
 import { buttonVariants } from "@/components/ui/button";
-
-interface NavbarLinksProps extends ComponentPropsWithoutRef<"ul"> {}
-
-interface Path {
-  id: number;
-  label: string;
-  path: string;
-}
+import { Path } from "@/interfaces/path";
+import { NavbarLinksProps } from "@/interfaces/navbar-links-props";
 
 const paths: Path[] = [
   { id: 1, label: "Hombres", path: "/category/men" },

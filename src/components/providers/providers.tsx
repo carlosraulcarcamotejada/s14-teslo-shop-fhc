@@ -8,9 +8,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <PersistGate loading={null} persistor={persistor}>
       <Provider store={store}>
-        <SessionProvider>
-          {children}
-          </SessionProvider>
+        <SessionProvider>{children}</SessionProvider>
       </Provider>
     </PersistGate>
   );

@@ -1,13 +1,10 @@
 "use client";
-import { ComponentPropsWithoutRef } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { GithubLogo } from "@/components/icon/github-logo";
 import { GoogleLogo } from "@/components/icon/google-logo";
-
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -20,35 +17,26 @@ import {
 } from "@/components/ui/form";
 import { authenticate } from "@/actions/auth/login";
 import { useRouter } from "next/navigation";
-
-interface LoginFormProps extends ComponentPropsWithoutRef<"div"> {}
-
-// 1. Define your schema.
-const LoginFormSchema = z.object({
-  email: z.string().email("Debe proporcionar un email válido."),
-  password: z.string().min(1, "La contraseña es obligatoria."),
-});
-
-interface Login extends z.infer<typeof LoginFormSchema> {}
-
-export type { Login };
+import { LoginFormProps } from "@/interfaces/login-form-props";
+import { Login } from "@/interfaces/login";
+import { LoginFormSchema } from "@/schema/login-form-schema";
 
 export const LoginForm = ({ className, ...props }: LoginFormProps) => {
   const router = useRouter();
 
-  // 2. Define your default values.
+  // 1. Define your default values.
   const defaultValues: Login = {
     email: "",
     password: "",
   };
 
-  // 3. Define your form.
+  // 2. Define your form.
   const form = useForm<Login>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues,
   });
 
-  // 4. Define a submit handler.
+  // 3. Define a submit handler.
   async function onSubmit(values: Login) {
     try {
       // Crear un FormData y agregar los valores

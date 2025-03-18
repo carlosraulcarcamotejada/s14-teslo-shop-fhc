@@ -1,5 +1,4 @@
 "use client";
-import { ComponentPropsWithoutRef } from "react";
 import {
   Pagination as PaginationSCN,
   PaginationContent,
@@ -11,10 +10,7 @@ import {
 } from "@/components/ui/pagination";
 import { redirect, usePathname, useSearchParams } from "next/navigation";
 import { generatePaginationNumbers } from "@/utils/generatePaginationNumbers";
-
-interface PaginationPageProps extends ComponentPropsWithoutRef<"nav"> {
-  totalPages: number;
-}
+import { PaginationPageProps } from "@/interfaces/pagination-page-props";
 
 export const PaginationPage = ({
   totalPages,

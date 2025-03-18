@@ -1,10 +1,9 @@
 "use server";
-import { Address } from "@/components/checkout/checkout-address-form";
+import { Address } from "@/interfaces/address";
 import prisma from "@/lib/prisma";
 
 export const setUserAddress = async (address: Address, userId: string) => {
   try {
-    console.log("setUserAddress")
     const resultAddress = await createOrUpdateAddress(address, userId);
     return {
       resultAddres: resultAddress ?? "The address could not be recorded.",

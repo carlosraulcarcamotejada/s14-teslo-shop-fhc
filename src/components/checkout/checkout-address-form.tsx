@@ -1,5 +1,4 @@
 "use client";
-import { ComponentPropsWithoutRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,57 +18,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { cn } from "@/lib/utils";
+import { Address } from "@/interfaces/address";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { SaveIcon } from "lucide-react";
-import { Country } from "@/seed/seed";
 import { useAddress } from "@/hooks/use-address";
 import { setUserAddress } from "@/actions/address/set-user-address";
 import { deleteUserAddress } from "@/actions/address/delete-user-address";
-
-// 1. Define your schema.
-export const AddressFormSchema = z.object({
-  names: z
-    .string()
-    .min(3, "Nombres, debe contener al menos 3 caracteres.")
-    .max(50, "Nombres, debe contener máximo 50 caracteres."),
-  lastNames: z
-    .string()
-    .min(3, "Apellidos, debe contener al menos 3 caracteres.")
-    .max(50, "Apellidos, debe contener máximo 50 caracteres."),
-  address: z
-    .string()
-    .min(3, "Dirección debe contener al menos 3 caracteres.")
-    .max(100, "Dirección debe contener máximo 100 caracteres."),
-  address2: z.string().optional(),
-  zipCode: z
-    .string()
-    .min(3, "Código postal debe contener al menos 3 caracteres.")
-    .max(10, "Código postal debe contener máximo 10 caracteres."),
-  city: z
-    .string()
-    .min(3, "Ciudad debe contener al menos 3 caracteres.")
-    .max(100, "Ciudad debe contener máximo 100 caracteres."),
-  mobilePhone: z
-    .string()
-    .min(8, "Teléfono debe contener al menos 8 caracteres.")
-    .max(20, "Teléfono debe contener máximo 100 caracteres."),
-  country: z.string(),
-
-  saveForm: z.boolean().optional(),
-});
-
-interface Address extends z.infer<typeof AddressFormSchema> {}
-
-export type { Address };
-
-interface CheckoutAddressProps extends ComponentPropsWithoutRef<"div"> {
-  countries: Country[];
-  userId: string;
-  userStoredAddress?: Address;
-}
+import { addressFormSchema } from "@/schema/address-form-schema";
+import { CheckoutAddressProps } from "@/interfaces/checkout-address-form";
+import { cn } from "@/lib/utils";
 
 export const CheckoutAddressForm = ({
   countries,
@@ -81,9 +39,11 @@ export const CheckoutAddressForm = ({
   const router = useRouter();
   const { address, setCheckoutAddress } = useAddress();
 
-  // 2. Define your default values.
-  const defaultValues: Address = userStoredAddress
+  // 1. Define your default values.
+  const defaultCheckoutAddressValues: Address = userStoredAddress
     ? userStoredAddress
+    : !userStoredAddress && address
+    ? address
     : {
         address: "",
         address2: "",
@@ -96,36 +56,25 @@ export const CheckoutAddressForm = ({
         zipCode: "",
       };
 
-  // 3. Define your form.
+  // 2. Define your form.
   const form = useForm<Address>({
-    resolver: zodResolver(AddressFormSchema),
-    defaultValues,
+    resolver: zodResolver(addressFormSchema),
+    defaultValues: defaultCheckoutAddressValues,
   });
 
-  // 4. Define a submit handler.
+  // 3. Define a submit handler.
   async function onSubmit(values: Address) {
     setCheckoutAddress(values);
 
     if (values.saveForm) {
-      console.log(values.saveForm);
       await setUserAddress(values, userId);
     }
     if (!values.saveForm) {
       await deleteUserAddress(userId);
     }
 
-    // router.push("/checkout");
+    router.push("/checkout");
   }
-
-  useEffect(() => {
-    if (address && !userStoredAddress) {
-      console.log(address);
-      form.reset(address);
-    } else {
-      console.log(address);
-      console.log(userStoredAddress);
-    }
-  }, []);
 
   return (
     <div className={cn("", className)} {...props}>

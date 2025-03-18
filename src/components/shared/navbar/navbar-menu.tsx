@@ -25,8 +25,8 @@ import {
   NavbarMenuItem,
   NavbarMenuItemProps,
 } from "@/components/shared/navbar/navbar-menu-item";
-import { Session } from "next-auth";
 import { logout } from "@/actions/auth/logout";
+import { NavbarMenuProps } from "@/interfaces/navbar-menu-props";
 
 const menuItems: NavbarMenuItemProps[] = [
   {
@@ -81,10 +81,6 @@ const menuItemsAdmin: NavbarMenuItemProps[] = [
     id: 3,
   },
 ];
-
-interface NavbarMenuProps {
-  session: Session | null;
-}
 
 export const NavbarMenu = ({ session }: NavbarMenuProps) => {
   const user = session?.user;

@@ -1,16 +1,14 @@
 "use client";
 import { useSelector } from "react-redux";
 import Link from "next/link";
-import { ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
-import { Separator } from "../ui/separator";
-import { buttonVariants } from "../ui/button";
+import { Separator } from "@/components/ui/separator";
+import { buttonVariants } from "@/components/ui/button";
 import { CheckSquareIcon } from "lucide-react";
 import { selectSumaryInfomation, selectTotalItems } from "@/store/selectors";
 import { FormatNumber } from "@/utils/format-number";
-
-interface CartSummaryProps extends ComponentPropsWithoutRef<"div"> {}
+import { CartSummaryProps } from "@/interfaces/cart-summary-props";
 
 export const CartSummary = ({ className, ...props }: CartSummaryProps) => {
   const { subTotal, tax, total } = useSelector(selectSumaryInfomation);
