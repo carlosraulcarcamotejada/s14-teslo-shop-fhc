@@ -1,8 +1,8 @@
 import { ComponentPropsWithoutRef } from "react";
-import { Product } from "@/seed/seed";
+import { ProductInCart } from "./product-in-cart";
 
 interface ItemProductCheckoutProps extends ComponentPropsWithoutRef<"div"> {
-  product: Product;
+  product: ProductInCart;
 }
 
 export type { ItemProductCheckoutProps };

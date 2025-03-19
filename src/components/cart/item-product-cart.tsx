@@ -1,17 +1,12 @@
-import { ComponentPropsWithoutRef } from "react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { QuantitySelector } from "@/components/product/quantity-selector";
 import { Button } from "@/components/ui/button";
 import { Trash2Icon } from "lucide-react";
-import { ProductInCart } from "@/interfaces/product-in-cart";
 import { useCart } from "@/hooks/use-cart";
-
-interface ItemProductCartProps extends ComponentPropsWithoutRef<"div"> {
-  product: ProductInCart;
-}
+import { ItemProductCartProps } from "@/interfaces/item-product-cart-props";
 
 export const ItemProductCart = ({
   className,

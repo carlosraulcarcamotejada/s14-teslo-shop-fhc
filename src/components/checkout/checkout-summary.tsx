@@ -1,14 +1,64 @@
+"use client";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { CheckoutSummaryProps } from "@/interfaces/checkout-summary-props";
+import { useAddress } from "@/hooks/use-address";
+import { useSelector } from "react-redux";
+import { selectSumaryInfomation, selectTotalItems } from "@/store/selectors";
+import { FormatNumber } from "@/utils/format-number";
+import { useState } from "react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
+import { useCart } from "@/hooks/use-cart";
+import { ProductToOrder } from "@/interfaces/product-to-order";
+import { placeOrder } from "@/actions/order/place-order";
+import { sleep } from "@/utils/sleep";
 
 export const CheckoutSummary = ({
   className,
   ...props
 }: CheckoutSummaryProps) => {
+  const { address: addressStore } = useAddress();
+
+  const { cart } = useCart();
+
+  const {
+    address,
+    address2,
+    city,
+    country,
+    lastNames,
+    mobilePhone,
+    names,
+    zipCode,
+  } = addressStore;
+
+  const { subTotal, tax, total } = useSelector(selectSumaryInfomation);
+
+  const totalItems = useSelector(selectTotalItems);
+
+  const [isPlacingOrder, setIsPlacingOrder] = useState<boolean>(false);
+
+  const onPlaceOrder = async () => {
+    setIsPlacingOrder(true);
+    await sleep(0.05);
+    const productToOrder: ProductToOrder[] =
+      cart.map(({ id, quantity, selectedSize }) => ({
+        id,
+        quantity,
+        selectedSize,
+      })) ?? [];
+
+    const resp = await placeOrder(productToOrder, addressStore);
+
+    console.log(resp);
+
+    setIsPlacingOrder(false);
+  };
+
   return (
     <Card className={cn("h-fit p-4", className)} {...props}>
       <h2 className="text-2xl mb-6 text-center font-bold">
@@ -16,31 +66,36 @@ export const CheckoutSummary = ({
       </h2>
 
       <div>
-        <p>Fernando Herrera</p>
-        <p>Av. Siempre viva</p>
-        <p>Col. El centro</p>
-        <p>Alcaldía municipal</p>
-        <p>Tegucigala</p>
-        <p>CP. 32232</p>
-        <p>3230.3232.23323</p>
+        <p>
+          {names} {lastNames}
+        </p>
+        <p>{address}</p>
+        <p>{address2}</p>
+        <p>{zipCode}</p>
+        <p>
+          {city} {country}
+        </p>
+        <p>{mobilePhone}</p>
       </div>
       <Separator orientation="horizontal" className="my-10" />
 
       <h2 className="text-2xl mb-6 text-center font-bold">Resumen de orden</h2>
       <div className="grid grid-cols-2 ">
         <span>No. Artículos</span>
-        <span className="text-right">3 artículos</span>
+        <span className="text-right">{`${totalItems} ${
+          totalItems > 1 ? "artículos" : "artículo"
+        }`}</span>
 
         <span>Subtotal</span>
-        <span className="text-right">$ 100.00</span>
+        <span className="text-right">{FormatNumber(subTotal)}</span>
 
         <span>Impuestos (15%)</span>
-        <span className="text-right">$ 100.00</span>
+        <span className="text-right">{FormatNumber(tax)}</span>
 
         <Separator orientation="horizontal" className="col-span-2 my-10" />
 
         <span className="text-2xl"> Total (15%)</span>
-        <span className="text-right text-2xl">$ 100.00</span>
+        <span className="text-right text-2xl">{FormatNumber(total)}</span>
       </div>
 
       <p className="mt-6 text-start">
@@ -56,12 +111,20 @@ export const CheckoutSummary = ({
         </span>
       </p>
 
-      <Link
-        href="/orders/123"
+      <Alert variant="destructive" className="mt-4 hidden">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription>Error al crear orden.</AlertDescription>
+      </Alert>
+
+      <Button
+        // href="/orders/123"
+        onClick={onPlaceOrder}
+        disabled={isPlacingOrder}
         className={cn(buttonVariants({ variant: "default" }), "mt-6 w-full")}
       >
         Colocar orden
-      </Link>
+      </Button>
     </Card>
   );
 };
