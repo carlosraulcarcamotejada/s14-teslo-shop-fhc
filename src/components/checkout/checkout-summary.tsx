@@ -16,6 +16,7 @@ import { useCart } from "@/hooks/use-cart";
 import { ProductToOrder } from "@/interfaces/product-to-order";
 import { placeOrder } from "@/actions/order/place-order";
 import { sleep } from "@/utils/sleep";
+import { useRouter } from "next/navigation";
 
 export const CheckoutSummary = ({
   className,
@@ -23,7 +24,9 @@ export const CheckoutSummary = ({
 }: CheckoutSummaryProps) => {
   const { address: addressStore } = useAddress();
 
-  const { cart } = useCart();
+  const { cart, clearCart } = useCart();
+
+  const router = useRouter();
 
   const {
     address,
@@ -42,6 +45,10 @@ export const CheckoutSummary = ({
 
   const [isPlacingOrder, setIsPlacingOrder] = useState<boolean>(false);
 
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(
+    undefined
+  );
+
   const onPlaceOrder = async () => {
     setIsPlacingOrder(true);
     await sleep(0.05);
@@ -54,9 +61,15 @@ export const CheckoutSummary = ({
 
     const resp = await placeOrder(productToOrder, addressStore);
 
-    console.log(resp);
+    if (!resp?.ok) {
+      setErrorMessage(resp?.message);
+      setIsPlacingOrder(false);
+      return;
+    }
 
-    setIsPlacingOrder(false);
+    // todo salió bien
+    clearCart();
+    router.replace("/orders/" + resp?.order?.id);
   };
 
   return (
@@ -111,11 +124,13 @@ export const CheckoutSummary = ({
         </span>
       </p>
 
-      <Alert variant="destructive" className="mt-4 hidden">
-        <AlertCircle className="h-4 w-4" />
-        <AlertTitle>Error</AlertTitle>
-        <AlertDescription>Error al crear orden.</AlertDescription>
-      </Alert>
+      {errorMessage && (
+        <Alert variant="destructive" className="mt-4">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error:</AlertTitle>
+          <AlertDescription>{errorMessage}</AlertDescription>
+        </Alert>
+      )}
 
       <Button
         // href="/orders/123"

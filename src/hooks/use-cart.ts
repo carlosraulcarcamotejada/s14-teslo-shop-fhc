@@ -1,7 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { ProductInCart } from "@/interfaces/product-in-cart";
-import { addProduct, removeProduct, updateQuantity } from "@/store/cart-slice";
+import {
+  addProduct,
+  clear,
+  removeProduct,
+  updateQuantity,
+} from "@/store/cart-slice";
 
 export const useCart = () => {
   const dispatch = useDispatch();
@@ -23,9 +28,14 @@ export const useCart = () => {
     dispatch(removeProduct(productInCart));
   };
 
+  const clearCart = () => {
+    dispatch(clear());
+  };
+
   return {
     cart,
     addProductToCart,
+    clearCart,
     removeCartProduct,
     updateCartProductQuantity,
   };

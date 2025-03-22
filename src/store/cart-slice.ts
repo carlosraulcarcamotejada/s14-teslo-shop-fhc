@@ -56,9 +56,13 @@ export const cartSlice = createSlice({
           !(itemCart.id === id && itemCart.selectedSize === selectedSize)
       );
     },
+    clear(state) {
+      state.cart = [];
+    },
   },
 });
 
-export const { addProduct, removeProduct, updateQuantity } = cartSlice.actions;
+export const { addProduct, clear, removeProduct, updateQuantity } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;
