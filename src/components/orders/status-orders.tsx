@@ -1,23 +1,28 @@
 import { CreditCardIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { StatusOrdersProps } from "@/interfaces/status-orders-props";
+import clsx from "clsx";
 
 export const StatusOrders = ({
   className,
   description,
+  isPaid = false,
   title,
   ...props
 }: StatusOrdersProps) => {
+  const paymentStatus = isPaid ? "Pagado" : "Pendiente de pago";
+
   return (
     <div
       {...props}
-      className={cn(
-        "flex items-center justify-start w-full bg-red-500 rounded-md p-4 text-white gap-x-4 mt-6",
+      className={clsx(
+        "flex items-center justify-start w-full  rounded-md p-4 text-white gap-x-4 mt-6",
+        isPaid && "bg-green-500",
+        !isPaid && "bg-red-500",
         className
       )}
     >
       <CreditCardIcon className="size-6" />
-      <span className="font-bold">Pendiente de pago</span>
+      <span className="font-bold">{paymentStatus}</span>
     </div>
   );
 };

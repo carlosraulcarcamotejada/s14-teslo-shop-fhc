@@ -1,5 +1,5 @@
 "use server";
-import { SignIn } from "@/components/auth/sign-in-form";
+import { SignIn } from "@/interfaces/sign-in";
 import prisma from "@/lib/prisma";
 import bcryptjs from "bcryptjs";
 import { AuthError } from "next-auth";

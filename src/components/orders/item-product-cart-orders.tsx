@@ -1,15 +1,17 @@
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
-import { ItemProductCartCheckoutProps } from "@/interfaces/item-product-cart-checkout-props";
 import { cn } from "@/lib/utils";
 import { FormatNumber } from "@/utils/format-number";
+import { ItemProductCartOrdersProps } from "@/interfaces/item-product-cart-orders-props";
+import Link from "next/link";
 
-export const ItemProductCartCheckout = ({
+export const ItemProductCartOrders = ({
   className,
-  productInCart,
+  productInCartOrders,
   ...props
-}: ItemProductCartCheckoutProps) => {
-  const { image, price, quantity, selectedSize, title } = productInCart;
+}: ItemProductCartOrdersProps) => {
+  const { image, price, quantity, selectedSize, title, slug } =
+    productInCartOrders;
 
   return (
     <Card className={cn("flex gap-x-2 overflow-hidden", className)} {...props}>
@@ -24,9 +26,9 @@ export const ItemProductCartCheckout = ({
       <div className="flex flex-col gap-y-2 items-start justify-between py-2">
         <div className="flex flex-col gap-y-2">
           {/* Title */}
-          <span className="font-bold">
+          <Link href={`/product/${slug}`} className="font-bold">
             {`${selectedSize} - ${title}`} ({quantity})
-          </span>
+          </Link>
           {/* Price */}
           <div className="font-semibold">{FormatNumber(price * quantity)}</div>
         </div>

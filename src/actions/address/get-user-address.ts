@@ -1,5 +1,5 @@
 "use server";
-import { Address } from "@/components/checkout/checkout-address-form";
+import { Address } from "@/interfaces/address";
 import prisma from "@/lib/prisma";
 
 export const getUserAddress = async (userId: string) => {

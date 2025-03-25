@@ -38,7 +38,7 @@ const menuItems: NavbarMenuItemProps[] = [
 
   {
     title: "Ordenes",
-    path: "#",
+    path: "/orders",
     icon: ListOrderedIcon,
     id: 2,
   },
@@ -69,7 +69,7 @@ const menuItemsAdmin: NavbarMenuItemProps[] = [
 
   {
     title: "Ordenes",
-    path: "#",
+    path: "/orders",
     icon: ListOrderedIcon,
     id: 2,
   },

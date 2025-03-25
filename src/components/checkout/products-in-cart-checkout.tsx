@@ -9,14 +9,16 @@ export const ProductsInCartCheckout = ({
   className,
   ...props
 }: ProductsInCartProps) => {
-  const products = useSelector((state: RootState) => state.cartStore.cart);
+  const productsInCart = useSelector(
+    (state: RootState) => state.cartStore.cart
+  );
 
   return (
     <div className={cn("flex flex-col gap-y-4", className)} {...props}>
-      {products.map((product) => (
+      {productsInCart.map((productInCart) => (
         <ItemProductCartCheckout
-          key={product.id + product.selectedSize}
-          product={product}
+          key={productInCart.id + productInCart.selectedSize}
+          productInCart={productInCart}
         />
       ))}
     </div>

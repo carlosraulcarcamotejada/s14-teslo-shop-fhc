@@ -1,6 +1,6 @@
 "use server";
-import { Login } from "@/components/auth/login-form";
 import { signIn } from "@/config/auth.config";
+import { Login } from "@/interfaces/login";
 import { AuthError } from "next-auth";
 
 export async function authenticate(

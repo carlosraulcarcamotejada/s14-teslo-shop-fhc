@@ -1,21 +1,39 @@
 import { titleFont } from "@/config/fonts";
 import { cn } from "@/lib/utils";
 import { TitleProps } from "@/interfaces/title-props";
+import { clsx } from "clsx";
 
 export const TitlePage = ({
-  title,
-  subTitle,
   className,
+  size = "l",
+  subTitle,
+  title,
   ...props
 }: TitleProps) => {
   return (
     <div {...props} className={cn("", className)}>
       <h1
-        className={`${titleFont.className} antialiased text-4xl font-semibold`}
+        className={clsx(
+          titleFont.className,
+          "antialiased font-semibold",
+          size === "s" && "text-xl",
+          size === "m" && "text-2xl",
+          size === "l" && "text-4xl"
+        )}
       >
         {title}
       </h1>
-      {subTitle && <h3 className="text-xl">{subTitle}</h3>}
+      {subTitle && (
+        <h3
+          className={clsx(
+            size === "s" && "text-medium" ,
+            size === "m" && "text-lg",
+            size === "l" && "text-xl"
+          )}
+        >
+          {subTitle}
+        </h3>
+      )}
     </div>
   );
 };
