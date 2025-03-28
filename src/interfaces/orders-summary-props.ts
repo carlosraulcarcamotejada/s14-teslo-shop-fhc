@@ -7,6 +7,8 @@ interface OrdersSummaryProps extends ComponentPropsWithoutRef<"div"> {
   totalSumary: TotalSummary;
   totalItems: number;
   isPaid?: boolean;
+  orderId: string;
+  amount: number;
 }
 
 export type { OrdersSummaryProps };

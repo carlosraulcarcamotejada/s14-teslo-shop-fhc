@@ -26,7 +26,7 @@ export const ItemProductCartOrders = ({
       <div className="flex flex-col gap-y-2 items-start justify-between py-2">
         <div className="flex flex-col gap-y-2">
           {/* Title */}
-          <Link href={`/product/${slug}`} className="font-bold">
+          <Link href={`/product/${slug}`} className="font-bold hover:underline">
             {`${selectedSize} - ${title}`} ({quantity})
           </Link>
           {/* Price */}

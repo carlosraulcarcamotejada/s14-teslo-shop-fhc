@@ -4,11 +4,14 @@ import { Separator } from "@/components/ui/separator";
 import { StatusOrders } from "@/components/orders/status-orders";
 import { OrdersSummaryProps } from "@/interfaces/orders-summary-props";
 import { FormatNumber } from "@/utils/format-number";
+import { PayPalButtons } from "@/components/orders/paypal-buttons";
 
 export const OrdersSummary = ({
   address: addressData,
+  amount,
   className,
   isPaid = false,
+  orderId,
   totalItems,
   totalSumary,
   ...props
@@ -65,7 +68,13 @@ export const OrdersSummary = ({
         <span className="text-right text-2xl">{FormatNumber(total)}</span>
       </div>
 
-      <StatusOrders title="Pendiente de pago" isPaid={isPaid} />
+      <StatusOrders
+        className="hidden"
+        title="Pendiente de pago"
+        isPaid={isPaid}
+      />
+
+      <PayPalButtons className="mt-8" orderId={orderId} amount={amount} />
     </Card>
   );
 };

@@ -1,5 +1,4 @@
 import { TitlePage } from "@/components/shared/title-page";
-import { initialData } from "@/seed/seed";
 import { PageProps } from "@/interfaces/page-props";
 import { OrdersSummary } from "@/components/orders/orders-sumary";
 import { StatusOrders } from "@/components/orders/status-orders";
@@ -8,12 +7,6 @@ import { getOrderById } from "@/actions/order/get-order-by-id";
 import { redirect } from "next/navigation";
 import { ProductsInCartOrders } from "@/components/orders/products-in-cart-orders";
 import { TotalSummary } from "@/interfaces/total-summary";
-
-const productsInCart = [
-  initialData.products[0],
-  initialData.products[1],
-  initialData.products[2],
-];
 
 export default async function OrderPage({ params }: PageProps) {
   const { id } = await params;
@@ -59,10 +52,12 @@ export default async function OrderPage({ params }: PageProps) {
       {address && (
         <OrdersSummary
           address={{ country: address.countryId, ...address }}
+          className="mt-10 mx-4 col-start-1 col-span-4 md:mt-0 md:right-4 md:col-span-4 md:col-start-6 lg:col-start-9 lg:col-span-4 md:sticky md:top-20"
           isPaid={isPaid}
+          orderId={order.id}
           totalItems={totalItems}
           totalSumary={totalSumary}
-          className="mt-10 mx-4 col-start-1 col-span-4 md:mt-0 md:right-4 md:col-span-4 md:col-start-6 lg:col-start-9 lg:col-span-4 md:sticky md:top-20"
+          amount={order.total}
         />
       )}
     </>

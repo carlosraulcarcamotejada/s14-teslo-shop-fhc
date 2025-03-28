@@ -13,6 +13,7 @@ import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { cn } from "@/lib/utils";
 import { ProductSlideshowProps } from "@/interfaces/product-slideshow-props";
+import clsx from "clsx";
 
 export const ProductSlideshow = ({
   autoPlay = undefined,
@@ -122,18 +123,19 @@ export const ProductSlideshow = ({
               <CarouselItem
                 key={`thumbnail-${image + index}`}
                 onClick={() => onSelect(index)}
-                className={cn(
+                className={
                   "flex flex-shrink-0 basis-24 justify-center items-center overflow-hidden px-0 rounded-md"
-                )}
+                }
               >
                 <Image
                   src={`/products/${image}`}
                   alt={title}
                   height={100}
                   width={100}
-                  className={cn(
-                    "h-24 w-24 object-cover transition hover:brightness-50 rounded-md",
-                    selected && "brightness-50"
+                  className={clsx(
+                    "h-24 w-24 object-cover transition rounded-md border-2",
+                    selected && "border-cyan-400",
+                    !selected && "border-transparent"
                   )}
                 />
               </CarouselItem>

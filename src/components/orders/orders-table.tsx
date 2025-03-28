@@ -81,9 +81,7 @@ const columns: ColumnDef<Order>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("completeName")}</div>
-    ),
+    cell: ({ row }) => <div className="">{row.getValue("completeName")}</div>,
   },
   {
     accessorKey: "state",
