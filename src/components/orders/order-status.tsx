@@ -1,14 +1,14 @@
 import { CreditCardIcon } from "lucide-react";
-import { StatusOrdersProps } from "@/interfaces/status-orders-props";
+import { OrderStatusProps } from "@/interfaces/order-status-props";
 import clsx from "clsx";
 
-export const StatusOrders = ({
+export const OrderStatus = ({
   className,
   description,
   isPaid = false,
   title,
   ...props
-}: StatusOrdersProps) => {
+}: OrderStatusProps) => {
   const paymentStatus = isPaid ? "Pagado" : "Pendiente de pago";
 
   return (

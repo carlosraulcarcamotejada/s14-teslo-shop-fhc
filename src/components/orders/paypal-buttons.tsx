@@ -32,7 +32,7 @@ export const PayPalButtons = ({
       intent: "CAPTURE",
       purchase_units: [
         {
-          // invoice_id: "",
+          invoice_id: orderId,
           amount: {
             currency_code: "USD",
             value: `${roundedAmount}`,
@@ -63,10 +63,9 @@ export const PayPalButtons = ({
 
     if (!details || !details.id) return;
 
-    await paypalCheckPayment({ paypalTransationId: details.id });
-
-    
-
+    const results = await paypalCheckPayment({
+      paypalTransactionId: details.id,
+    });
   };
 
   return (

@@ -1,7 +1,7 @@
 import { TitlePage } from "@/components/shared/title-page";
 import { PageProps } from "@/interfaces/page-props";
 import { OrdersSummary } from "@/components/orders/orders-sumary";
-import { StatusOrders } from "@/components/orders/status-orders";
+import { OrderStatus } from "@/components/orders/order-status";
 import { ProductInCart } from "@/interfaces/product-in-cart";
 import { getOrderById } from "@/actions/order/get-order-by-id";
 import { redirect } from "next/navigation";
@@ -40,7 +40,7 @@ export default async function OrderPage({ params }: PageProps) {
     <>
       <div className="col-start-1 px-4 md:px-0 col-span-4 md:ml-4 md:col-span-4 lg:col-span-4">
         <TitlePage title={`Orden: ${id.split("-").at(-1)}`} size="m" />
-        <StatusOrders title="Pendiente de pago" isPaid={isPaid} />
+        <OrderStatus title="Pendiente de pago" isPaid={isPaid} />
 
         <ProductsInCartOrders
           className="mt-8"
