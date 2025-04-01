@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { setAddress } from "@/store/address-slice";
+import { clear, setAddress } from "@/store/address-slice";
 import { Address } from "@/interfaces/address";
 
 export const useAddress = () => {
@@ -9,12 +9,17 @@ export const useAddress = () => {
     (state: RootState) => state.addressStore.address
   );
 
+  const clearAddress = () => {
+    dispatch(clear());
+  };
+
   const setCheckoutAddress = (address: Address) => {
     dispatch(setAddress(address));
   };
 
   return {
     address,
+    clearAddress,
     setCheckoutAddress,
   };
 };

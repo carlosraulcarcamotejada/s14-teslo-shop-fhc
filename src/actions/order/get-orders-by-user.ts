@@ -16,7 +16,12 @@ export const getOrdersByUser = async () => {
     }
 
     const orders = await prisma.order.findMany({
-      where: { userId: session.user.id },
+      ...(session.user.role !== "admin" && {
+        where: { userId: session.user.id },
+      }),
+      orderBy: {
+        createdAt: "desc",
+      },
       include: {
         OrderAddress: {
           select: {

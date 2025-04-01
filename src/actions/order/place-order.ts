@@ -23,6 +23,7 @@ export const placeOrder = async (
     };
   }
 
+  // Verificar que hayan productos en la orden
   if (productsToOrder.length === 0) {
     return {
       ok: false,

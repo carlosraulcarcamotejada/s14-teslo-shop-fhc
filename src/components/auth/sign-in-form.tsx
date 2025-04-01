@@ -19,8 +19,10 @@ import { login } from "@/actions/auth/login";
 import { SignIn } from "@/interfaces/sign-in";
 import { SignInFormSchema } from "@/schema/signIn-form-schema";
 import { SignInFormProps } from "@/interfaces/signIn-form-props";
+import { useCart } from "@/hooks/use-cart";
 
 export const SignInForm = ({ className, ...props }: SignInFormProps) => {
+  const { clearCart } = useCart();
   const router = useRouter();
 
   // 1. Define your default values.
@@ -39,17 +41,17 @@ export const SignInForm = ({ className, ...props }: SignInFormProps) => {
   // 3. Define a submit handler.
   async function onSubmit(values: SignIn) {
     try {
-      // Do something with the form values.
-      // ✅ This will be type-safe and validated.
       const results = await register(values);
       const resultsLogin = await login({
         ...values,
         email: values.email.toLowerCase(),
       });
 
-      results === "success" &&
-        resultsLogin === "success" &&
+      console.log(resultsLogin);
+      if (results === "success" && resultsLogin === "success") {
+        clearCart();
         router.replace("/");
+      }
     } catch (error) {
       console.log("Something went wrong.");
     }

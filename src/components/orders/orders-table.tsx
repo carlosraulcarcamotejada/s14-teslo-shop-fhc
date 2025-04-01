@@ -39,6 +39,7 @@ import { OrdersTableProps } from "@/interfaces/table-orders-props";
 import { Order } from "@/interfaces/order";
 import { Chip } from "@/components/ui/chip";
 import { useRouter } from "next/navigation";
+import { deleteOrder } from "@/actions/order/delete-order";
 
 export const OrdersTable = ({
   className,
@@ -97,17 +98,7 @@ export const OrdersTable = ({
     },
     {
       accessorKey: "state",
-      header: ({ column }) => (
-        //   <Button
-        //     variant="ghost"
-        //     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        //   >
-        //     Estado
-        //     <ArrowUpDown />
-        //   </Button>
-
-        <div className="text-right">Estado</div>
-      ),
+      header: () => <div className="text-right">Estado</div>,
 
       cell: ({ row }) => {
         const paymentStatus: JSX.Element = row.original.isPaid ? (
@@ -143,7 +134,6 @@ export const OrdersTable = ({
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
-                  console.log("ver usuario");
                   router.push("/profile");
                 }}
               >
@@ -156,6 +146,20 @@ export const OrdersTable = ({
               >
                 Ver orden
               </DropdownMenuItem>
+
+              {!row.original.isPaid ? (
+                <DropdownMenuItem
+                  onClick={async () => {
+                    const results = await deleteOrder({
+                      orderId: row.getValue("id"),
+                    });
+                  }}
+                >
+                  Eliminar orden
+                </DropdownMenuItem>
+              ) : (
+                <></>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         );

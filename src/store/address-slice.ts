@@ -1,6 +1,6 @@
+import { Address } from "@/interfaces/address";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { Address } from "@/components/checkout/checkout-address-form";
 
 interface InitialStateAddressSliceProps {
   address: Address;
@@ -31,9 +31,13 @@ export const addressSlice = createSlice({
     ) {
       state.address = action.payload;
     },
+    clear(state) {
+      state.address = initialState.address;
+      console.log("clear address");
+    },
   },
 });
 
-export const { setAddress } = addressSlice.actions;
+export const { clear, setAddress } = addressSlice.actions;
 
 export default addressSlice.reducer;

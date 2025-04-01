@@ -75,7 +75,7 @@ export const CheckoutSummary = ({
   return (
     <Card className={cn("h-fit p-4", className)} {...props}>
       <h2 className="text-2xl mb-6 text-center font-bold">
-        Dirección de entrega
+        Dirección de entrega:
       </h2>
 
       <div>

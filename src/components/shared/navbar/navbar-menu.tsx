@@ -27,62 +27,68 @@ import {
 } from "@/components/shared/navbar/navbar-menu-item";
 import { logout } from "@/actions/auth/logout";
 import { NavbarMenuProps } from "@/interfaces/navbar-menu-props";
-
-const menuItems: NavbarMenuItemProps[] = [
-  {
-    title: "Perfil",
-    path: "/profile",
-    icon: UserIcon,
-    id: 1,
-  },
-
-  {
-    title: "Ordenes",
-    path: "/orders",
-    icon: ListOrderedIcon,
-    id: 2,
-  },
-
-  {
-    title: "Ingresar",
-    path: "/auth/login",
-    icon: LogIn,
-    id: 3,
-  },
-
-  {
-    title: "Salir",
-    icon: LogOut,
-    id: 7,
-    type: "button",
-    onClick: logout,
-  },
-];
-
-const menuItemsAdmin: NavbarMenuItemProps[] = [
-  {
-    title: "Productos",
-    path: "/profile",
-    icon: UserIcon,
-    id: 1,
-  },
-
-  {
-    title: "Ordenes",
-    path: "/orders",
-    icon: ListOrderedIcon,
-    id: 2,
-  },
-
-  {
-    title: "Usuarios",
-    path: "/auth/login",
-    icon: LogIn,
-    id: 3,
-  },
-];
+import { useCart } from "@/hooks/use-cart";
 
 export const NavbarMenu = ({ session }: NavbarMenuProps) => {
+  const { clearCart } = useCart();
+
+  const menuItems: NavbarMenuItemProps[] = [
+    {
+      title: "Perfil",
+      path: "/profile",
+      icon: UserIcon,
+      id: 1,
+    },
+
+    {
+      title: "Ordenes",
+      path: "/orders",
+      icon: ListOrderedIcon,
+      id: 2,
+    },
+
+    {
+      title: "Ingresar",
+      path: "/auth/login",
+      icon: LogIn,
+      id: 3,
+    },
+
+    {
+      title: "Salir",
+      icon: LogOut,
+      id: 7,
+      type: "button",
+      onClick: () => {
+        clearCart();
+        logout();
+      },
+    },
+  ];
+
+  const menuItemsAdmin: NavbarMenuItemProps[] = [
+    {
+      title: "Productos",
+      path: "/profile",
+      icon: UserIcon,
+      id: 1,
+    },
+
+    {
+      title: "Ordenes",
+      path: "/admin/orders",
+      icon: ListOrderedIcon,
+      id: 2,
+    },
+
+    {
+      title: "Usuarios",
+      path: "/admin/users",
+      icon: LogIn,
+      id: 3,
+    },
+  ];
+
   const user = session?.user;
   const isAuthenticated: boolean = typeof user === "object";
 

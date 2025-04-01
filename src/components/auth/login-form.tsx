@@ -20,8 +20,11 @@ import { useRouter } from "next/navigation";
 import { LoginFormProps } from "@/interfaces/login-form-props";
 import { Login } from "@/interfaces/login";
 import { LoginFormSchema } from "@/schema/login-form-schema";
+import { useCart } from "@/hooks/use-cart";
 
 export const LoginForm = ({ className, ...props }: LoginFormProps) => {
+  const { clearCart } = useCart();
+
   const router = useRouter();
 
   // 1. Define your default values.
@@ -45,7 +48,10 @@ export const LoginForm = ({ className, ...props }: LoginFormProps) => {
       formData.append("password", values.password);
       const results = await authenticate(undefined, formData);
 
-      results === "success" && router.replace("/");
+      if (results === "success") {
+        clearCart();
+        router.replace("/");
+      }
     } catch (error) {
       console.log("Something went wrong.");
     }

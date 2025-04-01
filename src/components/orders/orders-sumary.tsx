@@ -31,7 +31,7 @@ export const OrdersSummary = ({
   return (
     <Card className={cn("h-fit p-4", className)} {...props}>
       <h2 className="text-2xl mb-6 text-center font-bold">
-        Dirección de entrega
+        Dirección de entrega:
       </h2>
 
       <div>
@@ -48,7 +48,7 @@ export const OrdersSummary = ({
       </div>
       <Separator orientation="horizontal" className="my-10" />
 
-      <h2 className="text-2xl mb-6 text-center font-bold">Resumen de orden</h2>
+      <h2 className="text-2xl mb-6 text-center font-bold">Resumen de orden:</h2>
       <div className="grid grid-cols-2 ">
         <span>No. Artículos</span>
         <span className="text-right">{`${totalItems} ${

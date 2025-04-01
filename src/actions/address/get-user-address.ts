@@ -1,8 +1,9 @@
 "use server";
 import { Address } from "@/interfaces/address";
+import { GetUserAddress } from "@/interfaces/get-user-address";
 import prisma from "@/lib/prisma";
 
-export const getUserAddress = async (userId: string) => {
+export const getUserAddress = async ({ userId }: GetUserAddress) => {
   try {
     const resultAddress = await prisma.userAddress.findUnique({
       where: { userId },
