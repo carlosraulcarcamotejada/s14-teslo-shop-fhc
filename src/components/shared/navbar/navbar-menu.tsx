@@ -28,6 +28,7 @@ import {
 import { logout } from "@/actions/auth/logout";
 import { NavbarMenuProps } from "@/interfaces/navbar-menu-props";
 import { useCart } from "@/hooks/use-cart";
+import { JSX } from "react";
 
 export const NavbarMenu = ({ session }: NavbarMenuProps) => {
   const { clearCart } = useCart();
@@ -117,18 +118,25 @@ export const NavbarMenu = ({ session }: NavbarMenuProps) => {
         </SheetHeader>
         <ScrollArea className="w-full h-full px-0 pb-4">
           <div className="grid grid-cols-4 items-center gap-y-4 mt-4">
-            {menuItems.map((menuItem) => {
-              return isAuthenticated && menuItem.title !== "Ingresar" ? (
-                <NavbarMenuItem key={menuItem.id} {...menuItem} />
-              ) : !isAuthenticated && menuItem.title === "Ingresar" ? (
-                <NavbarMenuItem key={menuItem.id} {...menuItem} />
-              ) : null;
+            {menuItems.map((menuItem: NavbarMenuItemProps) => {
+              if (isAuthenticated && menuItem.title !== "Ingresar") {
+                if (menuItem.title === "Ordenes" && isAdmin) {
+                  return null; // No mostrar "Ordenes" si el usuario es admin
+                }
+                return <NavbarMenuItem key={menuItem.id} {...menuItem} />;
+              }
+
+              if (!isAuthenticated && menuItem.title === "Ingresar") {
+                return <NavbarMenuItem key={menuItem.id} {...menuItem} />;
+              }
+
+              return null;
             })}
 
             <Separator orientation="horizontal" className="col-span-4" />
 
             {isAdmin &&
-              menuItemsAdmin.map((menuItemAdmin) => (
+              menuItemsAdmin.map((menuItemAdmin: NavbarMenuItemProps) => (
                 <NavbarMenuItem key={menuItemAdmin.id} {...menuItemAdmin} />
               ))}
           </div>
