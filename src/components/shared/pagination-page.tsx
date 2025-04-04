@@ -37,11 +37,11 @@ export const PaginationPage = ({
     }
 
     if (+pageNumber <= 0) {
-      return `${pathname}`; //   href="/kid";
+      return `${pathname}`;
     }
 
     if (+pageNumber > totalPages) {
-      return `${pathname}?${params.toString()}`; // Next >
+      return `${pathname}?${params.toString()}`;
     }
 
     params.set("page", pageNumber.toString());
@@ -51,7 +51,7 @@ export const PaginationPage = ({
   return (
     <PaginationSCN className={className} {...props}>
       <PaginationContent>
-        <PaginationItem>
+        <PaginationItem disabled={currentPage === 1}>
           <PaginationPrevious
             href={createPageUrl(currentPage - 1)}
             label="Anterior"
@@ -73,7 +73,7 @@ export const PaginationPage = ({
           </PaginationItem>
         ))}
 
-        <PaginationItem>
+        <PaginationItem disabled={currentPage === totalPages || totalPages === 0}>
           <PaginationNext
             href={createPageUrl(currentPage + 1)}
             label="Siguiente"

@@ -1,4 +1,4 @@
-import { ElementNotFound } from "@/components/shared/element-not-found";
+import { ElementNotFound } from "@/components/shared/page-not-found";
 
 
 export default function NotFoundCategoryPage() {

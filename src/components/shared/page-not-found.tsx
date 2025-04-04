@@ -4,7 +4,7 @@ import { ArrowRightIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ElementNotFoundProps } from "@/interfaces/element-not-found-props";
 
-export const ElementNotFound = ({
+export const PageNotFound = ({
   className,
   ...props
 }: ElementNotFoundProps) => {

@@ -12,17 +12,13 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, ChevronDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -38,17 +34,18 @@ import { cn } from "@/lib/utils";
 import { Chip } from "@/components/ui/chip";
 import { useRouter } from "next/navigation";
 import { UsersTableProps } from "@/interfaces/users-table-props";
-import { User } from "@/interfaces/user";
+import { User, UserRole } from "@/interfaces/user";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { changeUserRole } from "@/actions/users/change-user-role";
+import { userRoles } from "@/seed/seed";
 
 export const UsersTable = ({
   className,
@@ -64,30 +61,8 @@ export const UsersTable = ({
 
   const columns: ColumnDef<User>[] = [
     {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
       accessorKey: "id",
-      header: "#Id",
+      header: "id",
       cell: ({ row }) => <div className="capitalize">{row.getValue("id")}</div>,
     },
     {
@@ -169,14 +144,29 @@ export const UsersTable = ({
       cell: ({ row }) => {
         return (
           <div className="text-right grid place-content-start max-w-fit">
-            <Select value={row.getValue("role")}>
-              <SelectTrigger className="w-24">
-                <SelectValue placeholder={"Rol"} />
+            <Select
+              onValueChange={async (e: UserRole) => {
+                await changeUserRole({
+                  role: e,
+                  userId: row.getValue("id"),
+                });
+              }}
+              value={row.getValue("role")}
+            >
+              <SelectTrigger className="capitalize w-24">
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="admin">Admin</SelectItem>
-                  <SelectItem value="user">User</SelectItem>
+                  {userRoles.map((rol, index) => (
+                    <SelectItem
+                      className="capitalize"
+                      key={rol + index}
+                      value={rol}
+                    >
+                      {rol}
+                    </SelectItem>
+                  ))}
                 </SelectGroup>
               </SelectContent>
             </Select>

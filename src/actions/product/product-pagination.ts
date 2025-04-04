@@ -1,24 +1,29 @@
 "use server";
 
+import { PaginationOptions } from "@/interfaces/pagination-options";
 import prisma from "@/lib/prisma";
 import { Category, Product, Type } from "@/seed/seed";
-
-interface PaginationOptions {
-  page?: number;
-  take?: number;
-  category?: Category;
-}
+import { Prisma } from "@prisma/client";
 
 export const getPaginatedProductsWithImages = async ({
   category,
   page = 1,
   take = 12,
-}: PaginationOptions): Promise<{
-  currentPage: number;
-  totalPages: number;
-  products: Product[];
-  categoriesMap: Map<Category, string>;
-}> => {
+}: PaginationOptions = {}): Promise<
+  | {
+      currentPage: number;
+      totalPages: number;
+      products: Product[];
+      categoriesMap: Map<Category, string>;
+    }
+  | {
+      products: Product[];
+      totalPages: number;
+      ok: boolean;
+      message: string;
+      code?: string;
+    }
+> => {
   if (isNaN(Number(page))) page = 1;
   if (page < 1) page = 1;
 
@@ -71,6 +76,30 @@ export const getPaginatedProductsWithImages = async ({
       }),
     };
   } catch (error) {
-    throw new Error("Servicio no disponible");
+    // throw new Error(error.);
+
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      return {
+        ok: false,
+        products: [],
+        totalPages: 0,
+        message: `Prisma error: ${error.message}`,
+        code: error.code,
+      };
+    } else if (error instanceof Error) {
+      return {
+        ok: false,
+        products: [],
+        totalPages: 0,
+        message: error.message,
+      };
+    } else {
+      return {
+        ok: false,
+        products: [],
+        totalPages: 0,
+        message: "An unknown error occurred.",
+      };
+    }
   }
 };

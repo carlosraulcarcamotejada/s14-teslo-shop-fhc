@@ -27,12 +27,24 @@ const PaginationContent = React.forwardRef<
 ));
 PaginationContent.displayName = "PaginationContent";
 
-const PaginationItem = React.forwardRef<
-  HTMLLIElement,
-  React.ComponentProps<"li">
->(({ className, ...props }, ref) => (
-  <li ref={ref} className={cn("", className)} {...props} />
-));
+type PaginationItemProps = React.ComponentProps<"li"> & {
+  disabled?: boolean;
+};
+
+const PaginationItem = React.forwardRef<HTMLLIElement, PaginationItemProps>(
+  ({ className, disabled, ...props }, ref) => (
+    <li
+      ref={ref}
+      className={cn(
+        disabled ? "opacity-50 pointer-events-none" : "",
+        className
+      )}
+      aria-disabled={disabled}
+      {...props}
+    />
+  )
+);
+
 PaginationItem.displayName = "PaginationItem";
 
 type PaginationLinkProps = {
@@ -83,8 +95,9 @@ const PaginationPrevious = ({
 
 PaginationPrevious.displayName = "PaginationPrevious";
 
-interface PaginationNextProps extends React.ComponentProps<typeof PaginationLink> {
-  label?:string;
+interface PaginationNextProps
+  extends React.ComponentProps<typeof PaginationLink> {
+  label?: string;
 }
 
 const PaginationNext = ({

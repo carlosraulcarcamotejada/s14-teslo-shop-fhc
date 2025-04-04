@@ -1,4 +1,5 @@
 import bcryptjs from "bcryptjs";
+import { UserRole } from "../interfaces/user";
 
 interface Product {
   id: string;
@@ -14,14 +15,14 @@ interface Product {
   category: Category;
 }
 
-type UserRole = "user" | "admin";
-
 interface User {
   name: string;
   email: string;
   password: string;
   role: UserRole;
 }
+
+export const userRoles: UserRole[] = ["admin", "user"];
 
 type Category = "men" | "women" | "kid" | "unisex" | "non-category";
 type Size = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
@@ -756,7 +757,7 @@ export const initialData: SeedData = {
     {
       id: "87527d62-10b1-4d98-98e4-a21de4dbcb3f",
       description:
-        "ntroducing the Tesla Turbine Collection. Designed for style, comfort and everyday lifestyle, the Women's Turbine Cropped Short Sleeve Tee features a subtle, water-based Tesla wordmark across the chest and our T logo below the back collar. The lightweight material is double-dyed, creating a soft, casual style with a cropped silhouette. Made from 50% cotton and 50% polyester.",
+        "introducing the Tesla Turbine Collection. Designed for style, comfort and everyday lifestyle, the Women's Turbine Cropped Short Sleeve Tee features a subtle, water-based Tesla wordmark across the chest and our T logo below the back collar. The lightweight material is double-dyed, creating a soft, casual style with a cropped silhouette. Made from 50% cotton and 50% polyester.",
       images: ["1741441-00-A_0_2000.jpg", "1741441-00-A_1.jpg"],
       inStock: 0,
       price: 40,
