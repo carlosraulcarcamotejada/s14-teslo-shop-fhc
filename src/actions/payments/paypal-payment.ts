@@ -6,15 +6,18 @@ import {
 import { PaypalOrderStatusResp } from "@/interfaces/paypal-order-status-response";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { Prisma } from "@prisma/client";
 
 export const paypalCheckPayment = async ({
   paypalTransactionId,
-}: PaypalCheckPayment) => {
+}: PaypalCheckPayment): Promise<{
+  ok: boolean;
+  message?: string;
+  code?: string;
+}> => {
   const bearerToken = await getPaypalBearerToken();
 
-  console.log(bearerToken);
-
-  if (!bearerToken) {
+  if (!bearerToken || typeof bearerToken === "object") {
     return {
       ok: false,
       message: "No se pudo obtener el token de verificación.",
@@ -26,10 +29,10 @@ export const paypalCheckPayment = async ({
     paypalTransactionId,
   });
 
-  if (!resp) {
+  if (!("status" in resp) || !("purchase_units" in resp)) {
     return {
       ok: false,
-      message: "Error al verificar el pago",
+      message: "Error al verificar el pago.",
     };
   }
 
@@ -59,14 +62,29 @@ export const paypalCheckPayment = async ({
       ok: true,
     };
   } catch (error) {
-    return {
-      ok: false,
-      message: "El pago no se pudo realizar.",
-    };
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      return {
+        ok: false,
+        message: `Prisma error: ${error.message}`,
+        code: error.code, // PrismaClientKnownRequestError tiene un código de error
+      };
+    } else if (error instanceof Error) {
+      return {
+        ok: false,
+        message: error.message,
+      };
+    } else {
+      return {
+        ok: false,
+        message: "An unknown error occurred.",
+      };
+    }
   }
 };
 
-const getPaypalBearerToken = async (): Promise<string | null> => {
+const getPaypalBearerToken = async (): Promise<
+  string | { ok: false; message?: string; code?: string }
+> => {
   const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
   const PAYPAL_SECRET = process.env.PAYPAL_SECRET;
   const PAYPAL_OAUTH_URL = process.env.PAYPAL_OAUTH_URL ?? "";
@@ -92,14 +110,32 @@ const getPaypalBearerToken = async (): Promise<string | null> => {
     }).then((resp) => resp.json());
     return results.access_token;
   } catch (error) {
-    return null;
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      return {
+        code: error.code,
+        message: `Prisma error: ${error.message}`,
+        ok: false,
+      };
+    } else if (error instanceof Error) {
+      return {
+        message: error.message,
+        ok: false,
+      };
+    } else {
+      return {
+        message: "An unknown error occurred.",
+        ok: false,
+      };
+    }
   }
 };
 
 const paypalVerifyPayment = async ({
   bearerToken,
   paypalTransactionId,
-}: PaypalVerifyPayment): Promise<PaypalOrderStatusResp | null> => {
+}: PaypalVerifyPayment): Promise<
+  PaypalOrderStatusResp | { ok: boolean; message: string; code?: string }
+> => {
   try {
     const PAYPAL_ORDERS_URL = process.env.PAYPAL_ORDERS_URL ?? "";
 
@@ -112,8 +148,28 @@ const paypalVerifyPayment = async ({
       cache: "no-store",
     }).then((resp) => resp.json());
 
+    if (!("id" in resp)) {
+      throw new Error("invalid resp");
+    }
+
     return resp;
   } catch (error) {
-    return null;
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      return {
+        code: error.code,
+        message: `Prisma error: ${error.message}`,
+        ok: false,
+      };
+    } else if (error instanceof Error) {
+      return {
+        message: error.message,
+        ok: false,
+      };
+    } else {
+      return {
+        message: "An unknown error occurred.",
+        ok: false,
+      };
+    }
   }
 };

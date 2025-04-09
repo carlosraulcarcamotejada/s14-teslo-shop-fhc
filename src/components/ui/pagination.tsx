@@ -39,7 +39,6 @@ const PaginationItem = React.forwardRef<HTMLLIElement, PaginationItemProps>(
         disabled ? "opacity-50 pointer-events-none" : "",
         className
       )}
-      aria-disabled={disabled}
       {...props}
     />
   )

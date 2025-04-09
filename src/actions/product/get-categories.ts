@@ -2,12 +2,24 @@
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
-export const getCountries = async () => {
+export const getCategories = async (): Promise<{
+  ok: boolean;
+  categories: {
+    id: string;
+    name: string;
+  }[];
+  code?: string;
+  message?: string;
+}> => {
   try {
-    const countries = await prisma.country.findMany({
+    const categories = await prisma.category.findMany({
       orderBy: { name: "asc" },
     });
-    return countries;
+
+    return {
+      ok: true,
+      categories,
+    };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {

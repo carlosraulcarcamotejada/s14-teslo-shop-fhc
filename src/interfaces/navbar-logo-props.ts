@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef } from "react";
 
-interface NavbarLogoProps extends ComponentPropsWithoutRef<"a"> {}
+type NavbarLogoProps = ComponentPropsWithoutRef<"a">;
 
 export type { NavbarLogoProps };

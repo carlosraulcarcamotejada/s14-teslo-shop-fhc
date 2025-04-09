@@ -2,12 +2,9 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { ArrowRightIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { ElementNotFoundProps } from "@/interfaces/element-not-found-props";
+import { NotFoundProps } from "@/interfaces/not-found-props";
 
-export const PageNotFound = ({
-  className,
-  ...props
-}: ElementNotFoundProps) => {
+export const PageNotFound = ({ className, ...props }: NotFoundProps) => {
   return (
     <div
       {...props}

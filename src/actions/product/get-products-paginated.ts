@@ -21,6 +21,7 @@ export const getProductsPaginated = async ({
       ok: boolean;
       products: Product[];
       totalPages: number;
+      categoriesMap: Map<Category, string>;
     }
 > => {
   if (isNaN(Number(page))) page = 1;
@@ -75,8 +76,6 @@ export const getProductsPaginated = async ({
       }),
     };
   } catch (error) {
-    // throw new Error(error.);
-
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
         code: error.code,
@@ -84,6 +83,7 @@ export const getProductsPaginated = async ({
         ok: false,
         products: [],
         totalPages: 0,
+        categoriesMap: new Map(),
       };
     } else if (error instanceof Error) {
       return {
@@ -91,6 +91,7 @@ export const getProductsPaginated = async ({
         ok: false,
         products: [],
         totalPages: 0,
+        categoriesMap: new Map(),
       };
     } else {
       return {
@@ -98,6 +99,7 @@ export const getProductsPaginated = async ({
         ok: false,
         products: [],
         totalPages: 0,
+        categoriesMap: new Map(),
       };
     }
   }

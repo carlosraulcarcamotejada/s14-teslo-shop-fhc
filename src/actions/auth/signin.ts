@@ -1,10 +1,19 @@
 "use server";
-import { SignIn } from "@/interfaces/sign-in";
 import prisma from "@/lib/prisma";
+import { SignIn } from "@/interfaces/sign-in";
 import bcryptjs from "bcryptjs";
 import { AuthError } from "next-auth";
 
-export const register = async (formData: SignIn) => {
+export const register = async (
+  formData: SignIn
+): Promise<{
+  status: string;
+  user?: {
+    email: string;
+    name: string;
+    id: string;
+  };
+}> => {
   try {
     const user = await prisma.user.create({
       data: {
@@ -19,14 +28,14 @@ export const register = async (formData: SignIn) => {
       },
     });
 
-    return "success";
+    return { status: "success", user };
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return "Invalid credentials.";
+          return { status: "Invalid credentials." };
         default:
-          return "Something went wrong.";
+          return { status: "Something went wrong." };
       }
     }
     throw error;

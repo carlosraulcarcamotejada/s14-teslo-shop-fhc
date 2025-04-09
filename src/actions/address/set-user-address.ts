@@ -1,6 +1,7 @@
 "use server";
 import { Address } from "@/interfaces/address";
 import prisma from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 
 export const setUserAddress = async (address: Address, userId: string) => {
   try {
@@ -10,11 +11,26 @@ export const setUserAddress = async (address: Address, userId: string) => {
       ok: true,
     };
   } catch (error) {
-    console.log("the address could not be recorded");
-    return {
-      ok: false,
-      message: "The address could not be recorded.",
-    };
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      return {
+        code: error.code,
+        message: `Prisma error: ${error.message}`,
+        ok: false,
+        categories: [],
+      };
+    } else if (error instanceof Error) {
+      return {
+        message: error.message,
+        ok: false,
+        categories: [],
+      };
+    } else {
+      return {
+        message: "An unknown error occurred.",
+        ok: false,
+        categories: [],
+      };
+    }
   }
 };
 
@@ -53,6 +69,25 @@ const createOrUpdateAddress = async (address: Address, userId: string) => {
       return createdAddress;
     }
   } catch (error) {
-    throw new Error("the address could not be recorded");
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      return {
+        code: error.code,
+        message: `Prisma error: ${error.message}`,
+        ok: false,
+        categories: [],
+      };
+    } else if (error instanceof Error) {
+      return {
+        message: error.message,
+        ok: false,
+        categories: [],
+      };
+    } else {
+      return {
+        message: "An unknown error occurred.",
+        ok: false,
+        categories: [],
+      };
+    }
   }
 };

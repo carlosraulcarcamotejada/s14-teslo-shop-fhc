@@ -113,7 +113,7 @@ export const CheckoutSummary = ({
 
       <p className="mt-6 text-start">
         <span className="text-xs">
-          Al hacer click en "colocar orden", aceptas nuestros&nbsp;
+          Al hacer click en &quot;colocar orden&quot;, aceptas nuestros&nbsp;
           <Link href="#" className="underline">
             términos y condiciones de uso
           </Link>

@@ -3,8 +3,8 @@ interface PaypalCheckPayment {
 }
 
 interface PaypalVerifyPayment {
-  paypalTransactionId: string;
   bearerToken: string;
+  paypalTransactionId: string;
 }
 
 export type { PaypalCheckPayment };

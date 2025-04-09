@@ -11,7 +11,7 @@ export const authConfig = {
   },
   callbacks: {
     jwt({ token, user }) {
-      user && (token.data = user);
+      if (user) token.data = user;
       return token;
     },
     session({ session, token }) {
@@ -43,8 +43,8 @@ export const authConfig = {
         // Comparar las contraseñas
         if (!bcryptjs.compareSync(password, user.password)) return null;
 
-        const { password: _, ...userWithoutPassword } = user;
-
+        const userWithoutPassword = { ...user } as Partial<typeof user>;
+        delete userWithoutPassword.password;
         return userWithoutPassword;
       },
     }),

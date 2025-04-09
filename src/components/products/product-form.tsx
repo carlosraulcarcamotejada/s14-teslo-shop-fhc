@@ -9,7 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -21,13 +20,22 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { SaveIcon } from "lucide-react";
-import { addressFormSchema } from "@/schema/address-form-schema";
 import { cn } from "@/lib/utils";
 import { ProductFormProps } from "@/interfaces/product-form-props";
 import { Product } from "@/seed/seed";
+import { Textarea } from "@/components/ui/textarea";
+import { productFormSchema } from "@/schema/product-form-schema";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
-export const ProductForm = ({ className, ...props }: ProductFormProps) => {
-  const router = useRouter();
+export const ProductForm = ({
+  categories,
+  className,
+  product,
+  ...props
+}: ProductFormProps) => {
+  const { sizes } = product;
+
+  // const router = useRouter();
 
   // 1. Define your default values.
   const defaultProductValues: Product = {
@@ -46,12 +54,14 @@ export const ProductForm = ({ className, ...props }: ProductFormProps) => {
 
   // 2. Define your form.
   const form = useForm<Product>({
-    resolver: zodResolver(addressFormSchema),
+    resolver: zodResolver(productFormSchema),
     defaultValues: defaultProductValues,
   });
 
   // 3. Define a submit handler.
-  async function onSubmit(values: Product) {}
+  async function onSubmit(values: Product) {
+    console.log(values);
+  }
 
   return (
     <div className={cn("", className)} {...props}>
@@ -74,12 +84,26 @@ export const ProductForm = ({ className, ...props }: ProductFormProps) => {
 
             <FormField
               control={form.control}
-              name="description"
-              render={({ field }) => (
+              name="sizes"
+              render={({}) => (
                 <FormItem>
-                  <FormLabel>Descripción</FormLabel>
+                  <FormLabel>Tallas</FormLabel>
                   <FormControl>
-                    <Input placeholder="Descripción" {...field} />
+                    <ToggleGroup
+                      className="flex flex-wrap justify-start items-center"
+                      type="multiple"
+                    >
+                      {sizes.map((size, index) => (
+                        <ToggleGroupItem
+                          variant="outline"
+                          size="md"
+                          key={size + index}
+                          value={size}
+                        >
+                          {size}
+                        </ToggleGroupItem>
+                      ))}
+                    </ToggleGroup>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -102,6 +126,34 @@ export const ProductForm = ({ className, ...props }: ProductFormProps) => {
 
             <FormField
               control={form.control}
+              name="images"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Fotos</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Fotos" type="file" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Descripción</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="Descripción" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name="price"
               render={({ field }) => (
                 <FormItem>
@@ -113,7 +165,6 @@ export const ProductForm = ({ className, ...props }: ProductFormProps) => {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="tags"
@@ -127,7 +178,6 @@ export const ProductForm = ({ className, ...props }: ProductFormProps) => {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="inStock"
@@ -141,23 +191,22 @@ export const ProductForm = ({ className, ...props }: ProductFormProps) => {
                 </FormItem>
               )}
             />
-
-            {/* <FormField
+            <FormField
               control={form.control}
-              name="type"
+              name="category"
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <FormLabel>País</FormLabel>
+                    <FormLabel>Categoría</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Seleccine un país" />
+                          <SelectValue placeholder="Seleccine una categoría" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {countries.map(({ id, name }) => (
-                          <SelectItem key={id} value={id}>
+                        {categories.map(({ id, name }) => (
+                          <SelectItem key={id} value={name}>
                             {name}
                           </SelectItem>
                         ))}
@@ -167,38 +216,7 @@ export const ProductForm = ({ className, ...props }: ProductFormProps) => {
                   </FormItem>
                 );
               }}
-            /> */}
-
-            {/* <FormField
-              control={form.control}
-              name=""
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Teléfono</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Teléfono" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-
-            {/* <FormField
-              control={form.control}
-              name="saveForm"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-start space-x-3 space-y-0 p-2 border# rounded-md my-2">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormLabel>¿Recordar dirección?</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
+            />
           </div>
           <Button
             className={cn(

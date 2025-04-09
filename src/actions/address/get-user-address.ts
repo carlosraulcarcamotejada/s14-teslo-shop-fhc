@@ -14,8 +14,8 @@ export const getUserAddress = async ({ userId }: GetUserAddress) => {
       const { address2, countryId, ...restResultAddress } = resultAddress;
 
       const address: Address = {
-        address2: resultAddress.address2 ?? "",
-        country: resultAddress.countryId,
+        address2: address2 ?? "",
+        country: countryId,
         ...restResultAddress,
       };
       return address;

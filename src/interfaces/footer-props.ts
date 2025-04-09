@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef } from "react";
 
-interface FooterProps extends ComponentPropsWithoutRef<"div"> {}
+type FooterProps = ComponentPropsWithoutRef<"div">;
 
 export type { FooterProps };

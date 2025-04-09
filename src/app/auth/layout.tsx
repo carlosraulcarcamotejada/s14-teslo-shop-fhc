@@ -9,7 +9,7 @@ export default async function AuthLayout({
 }) {
   const session = await auth();
 
-  session?.user && redirect("/");
+  if (session?.user) redirect("/");
 
   return (
     <div className="grid min-h-screen lg:grid-cols-2">

@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef } from "react";
 
-interface ColorSelectorProps extends ComponentPropsWithoutRef<"div"> {}
+type ColorSelectorProps = ComponentPropsWithoutRef<"div">;
 
 export type { ColorSelectorProps };

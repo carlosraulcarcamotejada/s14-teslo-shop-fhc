@@ -17,8 +17,8 @@ export default async function ProductsPage() {
         href={"/admin/product/new"}
         className={cn(buttonVariants({ variant: "default" }), "my-4")}
       >
-        <BoxIcon />
         Nuevo Producto
+        <BoxIcon />
       </Link>
       <ProductsTable data={products} totalPages={totalPages} />
     </div>

@@ -30,6 +30,7 @@ export const setTransactionId = async ({
 
     return {
       ok: true,
+      updatedOrder,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {

@@ -3,6 +3,7 @@ import { UserRole } from "../interfaces/user";
 
 interface Product {
   id: string;
+  category: Category;
   description: string;
   images: string[];
   inStock: number;
@@ -12,7 +13,6 @@ interface Product {
   tags: string[];
   title: string;
   type: Type;
-  category: Category;
 }
 
 interface User {
@@ -22,11 +22,13 @@ interface User {
   role: UserRole;
 }
 
-export const userRoles: UserRole[] = ["admin", "user"];
-
 type Category = "men" | "women" | "kid" | "unisex" | "non-category";
 type Size = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
 type Type = "shirts" | "pants" | "hoodies" | "hats" | "non-type";
+
+export const productSizes: Size[] = ["L", "M", "S", "XL", "XS", "XXL", "XXXL"];
+
+export const userRoles: UserRole[] = ["admin", "user"];
 
 interface Country {
   name: string;

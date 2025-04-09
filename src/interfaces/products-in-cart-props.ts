@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef } from "react";
 
-interface ProductsInCartProps extends ComponentPropsWithoutRef<"div"> {}
+type ProductsInCartProps = ComponentPropsWithoutRef<"div">;
 
 export type { ProductsInCartProps };

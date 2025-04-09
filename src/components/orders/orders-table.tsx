@@ -117,8 +117,6 @@ export const OrdersTable = ({
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
-        const payment = row.original;
-
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -129,11 +127,6 @@ export const OrdersTable = ({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-              {/* <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(payment.id)}
-              >
-                Copiar ID
-              </DropdownMenuItem> */}
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
@@ -153,7 +146,7 @@ export const OrdersTable = ({
               {!row.original.isPaid ? (
                 <DropdownMenuItem
                   onClick={async () => {
-                    const results = await deleteOrder({
+                    await deleteOrder({
                       orderId: row.getValue("id"),
                     });
                   }}

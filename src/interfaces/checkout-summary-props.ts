@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef } from "react";
 
-interface CheckoutSummaryProps extends ComponentPropsWithoutRef<"div"> {}
+type CheckoutSummaryProps = ComponentPropsWithoutRef<"div">;
 
 export type { CheckoutSummaryProps };

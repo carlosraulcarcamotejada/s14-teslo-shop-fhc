@@ -3,10 +3,10 @@ import { OrderStatusProps } from "@/interfaces/order-status-props";
 import clsx from "clsx";
 
 export const OrderStatus = ({
+  // description,
+  // title,
   className,
-  description,
   isPaid = false,
-  title,
   ...props
 }: OrderStatusProps) => {
   const paymentStatus = isPaid ? "Pagado" : "Pendiente de pago";

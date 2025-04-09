@@ -8,7 +8,7 @@ export default async function CheckoutLayout({
 }) {
   const session = await auth();
 
-  !session?.user && redirect("/auth/login");
+  if (!session?.user) redirect("/auth/login");
 
   return <>{children}</>;
 }

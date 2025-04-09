@@ -53,7 +53,7 @@ export const LoginForm = ({ className, ...props }: LoginFormProps) => {
         router.replace("/");
       }
     } catch (error) {
-      console.log("Something went wrong.");
+      console.log("Something went wrong.", error);
     }
   }
 

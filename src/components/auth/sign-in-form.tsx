@@ -48,12 +48,12 @@ export const SignInForm = ({ className, ...props }: SignInFormProps) => {
       });
 
       console.log(resultsLogin);
-      if (results === "success" && resultsLogin === "success") {
+      if (results.status === "success" && resultsLogin === "success") {
         clearCart();
         router.replace("/");
       }
     } catch (error) {
-      console.log("Something went wrong.");
+      console.log("Something went wrong.", error);
     }
   }
 

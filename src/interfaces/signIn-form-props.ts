@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef } from "react";
 
-interface SignInFormProps extends ComponentPropsWithoutRef<"div"> {}
+type SignInFormProps = ComponentPropsWithoutRef<"div">;
 
 export type { SignInFormProps };

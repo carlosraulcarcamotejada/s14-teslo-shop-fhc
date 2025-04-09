@@ -1,4 +1,6 @@
+import { getCategories } from "@/actions/product/get-categories";
 import { getProductBySlug } from "@/actions/product/get-product-by-slug";
+import { PageContainer } from "@/components/page/page-container";
 import { ProductForm } from "@/components/products/product-form";
 import { TitlePage } from "@/components/shared/title-page";
 import { PageProps } from "@/interfaces/page-props";
@@ -14,10 +16,12 @@ export default async function ProductPage({ params }: PageProps) {
   const title: string =
     product?.title === "new" ? "Nuevo producto" : "Editar producto";
 
+  const { categories } = await getCategories();
+
   return (
-    <div className="col-start-1 col-span-4 md:col-span-8 lg:col-span-12 px-4">
+    <PageContainer>
       <TitlePage title={title} />
-      <ProductForm product={product} />
-    </div>
+      <ProductForm product={product} categories={categories} />
+    </PageContainer>
   );
 }

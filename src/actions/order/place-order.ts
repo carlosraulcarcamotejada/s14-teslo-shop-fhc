@@ -1,10 +1,10 @@
 "use server";
 
+import prisma from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 import { auth } from "@/config/auth.config";
 import { Address } from "@/interfaces/address";
 import { ProductToOrder } from "@/interfaces/product-to-order";
-import prisma from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
 
 export const placeOrder = async (
   productsToOrder: ProductToOrder[],
@@ -124,14 +124,14 @@ export const placeOrder = async (
         },
       });
 
-      const { country, address2, saveForm, ...restAddress } = address;
+      const { address2, country, saveForm, ...restAddress } = address;
       const orderAddress = await tx.orderAddress.create({
         data: {
-          ...restAddress,
-          saveForm: address.saveForm ?? false,
-          address2: address.address2 ?? "",
-          countryId: address.country,
+          address2: address2 ?? "",
+          countryId: country,
           orderId: order.id,
+          saveForm: saveForm ?? false,
+          ...restAddress,
         },
       });
 
