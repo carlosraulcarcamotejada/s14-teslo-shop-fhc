@@ -9,7 +9,7 @@ export default async function ProductPage({ params }: PageProps) {
 
   const product = await getProductBySlug(slug);
 
-  !product && redirect("/admin/products");
+  if (!product) redirect("/admin/products");
 
   const title: string =
     product?.title === "new" ? "Nuevo producto" : "Editar producto";
@@ -17,7 +17,7 @@ export default async function ProductPage({ params }: PageProps) {
   return (
     <div className="col-start-1 col-span-4 md:col-span-8 lg:col-span-12 px-4">
       <TitlePage title={title} />
-      <ProductForm />
+      <ProductForm product={product} />
     </div>
   );
 }
