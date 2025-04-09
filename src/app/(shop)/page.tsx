@@ -1,6 +1,6 @@
 export const revalidate = 60;
 
-import { getPaginatedProductsWithImages } from "@/actions/product/product-pagination";
+import { getProductsPaginated } from "@/actions/product/get-products-paginated";
 import { ProductGrid } from "@/components/products/product-grid";
 import { PaginationPage } from "@/components/shared/pagination-page";
 import { TitlePage } from "@/components/shared/title-page";
@@ -14,7 +14,7 @@ export default async function ShopPage({ searchParams }: PageProps) {
     ? parseInt(searchParamsData?.page ?? "1")
     : 1;
 
-  const { products, totalPages } = await getPaginatedProductsWithImages({
+  const { products, totalPages } = await getProductsPaginated({
     page,
   });
 

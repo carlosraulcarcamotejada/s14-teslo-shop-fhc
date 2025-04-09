@@ -1,27 +1,26 @@
 "use server";
 
-import { PaginationOptions } from "@/interfaces/pagination-options";
-import prisma from "@/lib/prisma";
-import { Category, Product, Type } from "@/seed/seed";
 import { Prisma } from "@prisma/client";
+import prisma from "@/lib/prisma";
+import { PaginationOptions } from "@/interfaces/pagination-options";
+import { Category, Product, Type } from "@/seed/seed";
 
-export const getPaginatedProductsWithImages = async ({
+export const getProductsPaginated = async ({
   category,
   page = 1,
   take = 12,
 }: PaginationOptions = {}): Promise<
   | {
-      currentPage: number;
-      totalPages: number;
-      products: Product[];
       categoriesMap: Map<Category, string>;
+      products: Product[];
+      totalPages: number;
     }
   | {
+      code?: string;
+      message: string;
+      ok: boolean;
       products: Product[];
       totalPages: number;
-      ok: boolean;
-      message: string;
-      code?: string;
     }
 > => {
   if (isNaN(Number(page))) page = 1;
@@ -51,17 +50,17 @@ export const getPaginatedProductsWithImages = async ({
       }),
     });
 
-    // 3. Obtener el total de páginas
+    // 3. Obtener el total de elementos
     const totalItems = await prisma.product.count({
       ...(category && {
         where: { categoryId: categoriesMap.get(category) },
       }),
     });
 
+    // 4. Calcular el total de páginas
     const totalPages = Math.ceil(totalItems / take);
 
     return {
-      currentPage: page,
       totalPages,
       categoriesMap,
       products: products.map((product) => {
@@ -80,25 +79,25 @@ export const getPaginatedProductsWithImages = async ({
 
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
+        code: error.code,
+        message: `Prisma error: ${error.message}`,
         ok: false,
         products: [],
         totalPages: 0,
-        message: `Prisma error: ${error.message}`,
-        code: error.code,
       };
     } else if (error instanceof Error) {
       return {
+        message: error.message,
         ok: false,
         products: [],
         totalPages: 0,
-        message: error.message,
       };
     } else {
       return {
+        message: "An unknown error occurred.",
         ok: false,
         products: [],
         totalPages: 0,
-        message: "An unknown error occurred.",
       };
     }
   }

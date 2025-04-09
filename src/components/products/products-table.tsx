@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -36,7 +37,6 @@ import { Product } from "@/seed/seed";
 import { PaginationPage } from "@/components/shared/pagination-page";
 import clsx from "clsx";
 import { FormatNumber } from "@/utils/format-number";
-import Link from "next/link";
 
 export const ProductsTable = ({
   className,
@@ -69,31 +69,19 @@ export const ProductsTable = ({
           </Button>
         );
       },
-      cell: ({ row }) => (
-        <Link
-          href={`/product/${row.getValue("title")}`}
-          className={buttonVariants({ variant: "link" })}
-        >
-          {row.getValue("title")}
-        </Link>
-      ),
-    },
+      cell: ({ row }) => {
+        const { slug, title } = row.original;
 
-    // {
-    //   accessorKey: "description",
-    //   header: ({ column }) => {
-    //     return (
-    //       <Button
-    //         variant="ghost"
-    //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-    //       >
-    //         Descripción
-    //         <ArrowUpDown />
-    //       </Button>
-    //     );
-    //   },
-    //   cell: ({ row }) => <div className="">{row.getValue("description")}</div>,
-    // },
+        return (
+          <Link
+            href={`/admin/product/${slug}`}
+            className={buttonVariants({ variant: "link" })}
+          >
+            {title}
+          </Link>
+        );
+      },
+    },
 
     {
       accessorKey: "inStock",

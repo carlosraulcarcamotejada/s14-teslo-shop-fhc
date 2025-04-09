@@ -1,6 +1,6 @@
 export const revalidate = 60;
 
-import { getPaginatedProductsWithImages } from "@/actions/product/product-pagination";
+import { getPaginatedProductsWithImages } from "@/actions/product/get-products-paginated";
 import { ProductGrid } from "@/components/products/product-grid";
 import { PaginationPage } from "@/components/shared/pagination-page";
 import { TitlePage } from "@/components/shared/title-page";

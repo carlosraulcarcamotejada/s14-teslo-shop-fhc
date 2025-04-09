@@ -32,7 +32,6 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { Chip } from "@/components/ui/chip";
-import { useRouter } from "next/navigation";
 import { UsersTableProps } from "@/interfaces/users-table-props";
 import { User, UserRole } from "@/interfaces/user";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -43,21 +42,22 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "@/components/ui/select";
 import { changeUserRole } from "@/actions/users/change-user-role";
 import { userRoles } from "@/seed/seed";
+import { PaginationPage } from "@/components/shared/pagination-page";
+import clsx from "clsx";
 
 export const UsersTable = ({
   className,
   data = [],
+  totalPages = 0,
   ...props
 }: UsersTableProps) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
-
-  const router = useRouter();
 
   const columns: ColumnDef<User>[] = [
     {
@@ -203,48 +203,6 @@ export const UsersTable = ({
         );
       },
     },
-
-    // {
-    //   id: "actions",
-    //   enableHiding: false,
-    //   cell: ({ row }) => {
-    //     const payment = row.original;
-
-    //     return (
-    //       <DropdownMenu>
-    //         <DropdownMenuTrigger asChild>
-    //           <Button variant="ghost" className="h-8 w-8 p-0">
-    //             <span className="sr-only">Open menu</span>
-    //             <MoreHorizontal />
-    //           </Button>
-    //         </DropdownMenuTrigger>
-    //         <DropdownMenuContent align="end">
-    //           <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-    //           {/* <DropdownMenuItem
-    //             onClick={() => navigator.clipboard.writeText(payment.id)}
-    //           >
-    //             Copiar ID
-    //           </DropdownMenuItem> */}
-    //           <DropdownMenuSeparator />
-    //           <DropdownMenuItem
-    //             onClick={() => {
-    //               router.push("/profile");
-    //             }}
-    //           >
-    //             Ver usuario
-    //           </DropdownMenuItem>
-    //           <DropdownMenuItem
-    //             onClick={() => {
-    //               router.push(`/orders/${row.getValue("id")}`);
-    //             }}
-    //           >
-    //             Ver orden
-    //           </DropdownMenuItem>
-    //         </DropdownMenuContent>
-    //       </DropdownMenu>
-    //     );
-    //   },
-    // },
   ];
 
   const table = useReactTable({
@@ -354,30 +312,11 @@ export const UsersTable = ({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} fila(s) seleccionadas.
-        </div>
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Anterior
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Siguiente
-          </Button>
-        </div>
-      </div>
+
+      <PaginationPage
+        className={clsx("mt-4", totalPages === 0 && "hidden")}
+        totalPages={totalPages}
+      />
     </div>
   );
 };

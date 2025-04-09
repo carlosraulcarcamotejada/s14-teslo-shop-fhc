@@ -1,12 +1,12 @@
 export const revalidate = 0;
-import { getOrdersByUser } from "@/actions/order/get-orders-by-user";
+import { getOrdersByUserPaginated } from "@/actions/order/get-orders-by-user";
 import { OrdersTable } from "@/components/orders/orders-table";
 import { auth } from "@/config/auth.config";
 import { Order } from "@/interfaces/order";
 import { redirect } from "next/navigation";
 
 export default async function OrdersPage() {
-  const { ok, orders = [] } = await getOrdersByUser();
+  const { ok, orders = [] } = await getOrdersByUserPaginated();
 
   if (!ok) {
     redirect("/auth/login");
@@ -19,7 +19,7 @@ export default async function OrdersPage() {
   }
 
   const data: Order[] = orders?.map((order) => ({
-    completeName: `${order.OrderAddress?.names} ${order.OrderAddress?.lastNames}`,
+    completeName: order.completeName,
     id: order.id,
     isPaid: order.isPaid,
   }));

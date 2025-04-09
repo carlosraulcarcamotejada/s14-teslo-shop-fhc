@@ -1,23 +1,14 @@
 export const revalidate = 0;
-import { getPaginatedProductsWithImages } from "@/actions/product/product-pagination";
-import { OrdersTable } from "@/components/orders/orders-table";
+import Link from "next/link";
+import { getProductsPaginated } from "@/actions/product/get-products-paginated";
 import { ProductsTable } from "@/components/products/products-table";
-import { PaginationPage } from "@/components/shared/pagination-page";
 import { TitlePage } from "@/components/shared/title-page";
 import { buttonVariants } from "@/components/ui/button";
-import { PageProps } from "@/interfaces/page-props";
 import { cn } from "@/lib/utils";
 import { BoxIcon } from "lucide-react";
-import Link from "next/link";
 
-export default async function ProductsPage({ searchParams }: PageProps) {
-  const searchParamsData = await searchParams;
-
-  const page = searchParamsData?.page
-    ? parseInt(searchParamsData?.page ?? "1")
-    : 1;
-
-  const { products, totalPages } = await getPaginatedProductsWithImages();
+export default async function ProductsPage() {
+  const { products, totalPages } = await getProductsPaginated();
 
   return (
     <div className="col-start-1 col-span-full px-4">
