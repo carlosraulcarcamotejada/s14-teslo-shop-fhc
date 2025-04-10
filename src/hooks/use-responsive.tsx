@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const useResponsive = (
   desktopBreakpoint = 1280,
@@ -9,7 +9,7 @@ export const useResponsive = (
   const [isTablet, setIsTablet] = useState<boolean>(false);
   const [isDesktop, setIsDesktop] = useState<boolean>(false);
 
-  const handleResize = () => {
+  const handleResize = useCallback(() => {
     //When Is Desktop Size (Desktop)
     if (window.innerWidth >= desktopBreakpoint) {
       setIsMobile(false);
@@ -28,7 +28,7 @@ export const useResponsive = (
       setIsTablet(false);
       setIsDesktop(false);
     }
-  };
+  }, [desktopBreakpoint, tabletBreakpoint]);
 
   useEffect(() => {
     // Call handleResize when window resizes
@@ -41,7 +41,7 @@ export const useResponsive = (
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [handleResize]);
 
   return {
     //Properties

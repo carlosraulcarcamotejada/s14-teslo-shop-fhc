@@ -3,11 +3,15 @@ import { getProductBySlug } from "@/actions/product/get-product-by-slug";
 import { PageContainer } from "@/components/page/page-container";
 import { ProductForm } from "@/components/products/product-form";
 import { TitlePage } from "@/components/shared/title-page";
-import { PageProps } from "@/interfaces/page-props";
 import { redirect } from "next/navigation";
 
-export default async function ProductPage({ params }: PageProps) {
-  const { slug } = await params;
+export default async function ProductPage({
+  params,
+}: {
+  params: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const { slug } = params;
 
   const product = await getProductBySlug(slug);
 
