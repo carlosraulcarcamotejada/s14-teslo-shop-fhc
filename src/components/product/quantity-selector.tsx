@@ -4,13 +4,14 @@ import { cn } from "@/lib/utils";
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { useResponsive } from "@/hooks/use-responsive";
 import { QuantitySelectorProps } from "@/interfaces/quantity-aelector-props";
+import clsx from "clsx";
 
 export const QuantitySelector = ({
   className,
   quantityLimit = 5,
   quantity = 1,
   setQuantity,
-  size = "lg",
+  size = "md",
   title,
   ...props
 }: QuantitySelectorProps) => {
@@ -30,40 +31,34 @@ export const QuantitySelector = ({
   return (
     <div {...props} className={cn("flex flex-col gap-y-4", className)}>
       {title && <h3 className="font-bold">Cantidad:</h3>}
-      <div className="flex gap-x-4">
+      <div className="flex gap-x-4#">
         <Button
+          className="w-10 rounded-r-none"
           onClick={() => onValueChange(-1)}
           disabled={isDisableSubtractButton}
           size={
-            (isDesktop && size === "lg") || (isDesktop && size === "auto")
-              ? "lg"
-              : "md"
+            ["lg", "md", "sm", "default", "icon"].includes(size) ? size : "sm"
           }
-          variant="outline"
-          className="w-10"
+          variant="default"
         >
           <MinusIcon />
         </Button>
         <span
-          className={cn(
-            "bg-accent rounded-md grid place-content-center select-none",
-            (isDesktop && size === "lg") || (isDesktop && size === "auto")
-              ? "h-11 w-20"
-              : "h-10 w-16"
+          className={clsx(
+            "bg-accent grid place-content-center select-none",
+            isDesktop && size === "lg" ? "h-11 w-20" : "h-10 w-16"
           )}
         >
           {quantity}
         </span>
         <Button
+          className="w-10 rounded-l-none"
           onClick={() => onValueChange(1)}
           disabled={isDisableAddButton}
           size={
-            (isDesktop && size === "lg") || (isDesktop && size === "auto")
-              ? "lg"
-              : "md"
+            ["lg", "md", "sm", "default", "icon"].includes(size) ? size : "sm"
           }
-          variant="outline"
-          className="w-10"
+          variant="default"
         >
           <PlusIcon />
         </Button>

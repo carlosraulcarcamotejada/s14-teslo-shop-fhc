@@ -16,7 +16,7 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   // read route params
-  const slug = (await params).slug;
+  const { slug } = await params;
 
   // fetch data
   const product = await getProductBySlug(slug);

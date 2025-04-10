@@ -1,11 +1,8 @@
-import { ForwardRefExoticComponent, RefAttributes } from "react";
-import { LucideProps } from "lucide-react";
+import { IconTypeLucideProps } from "@/interfaces/icon-type-lucide-props";
 
 interface NavbarMenuItemProps {
   path?: string;
-  icon: ForwardRefExoticComponent<
-    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
-  >;
+  icon: IconTypeLucideProps;
   title: string;
   id: number;
   type?: "link" | "button";

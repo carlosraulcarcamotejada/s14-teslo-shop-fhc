@@ -38,7 +38,7 @@ export const ItemProductCart = ({
           <div className="font-semibold">${price}</div>
           {/* Quantity Selector  */}
           <QuantitySelector
-            size="auto"
+            size="md"
             quantity={quantity}
             quantityLimit={inStock}
             setQuantity={(newQuantity) => {

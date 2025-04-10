@@ -1,6 +1,6 @@
-import { IconProps } from "@/interfaces/icon-props";
+import { IconSVGProps } from "@/interfaces/icon-svg-props";
 
-export const AcmeLogo = (props: IconProps) => {
+export const AcmeLogo = (props: IconSVGProps) => {
   return (
     <svg {...props} fill="none" viewBox="0 0 32 32">
       <path

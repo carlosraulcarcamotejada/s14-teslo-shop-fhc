@@ -1,6 +1,6 @@
-import { IconProps } from "@/interfaces/icon-props";
+import { IconSVGProps } from "@/interfaces/icon-svg-props";
 
-export const GithubLogo = (props: IconProps) => {
+export const GithubLogo = (props: IconSVGProps) => {
   return (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
       <path

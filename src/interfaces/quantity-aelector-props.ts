@@ -4,7 +4,7 @@ interface QuantitySelectorProps extends ComponentPropsWithoutRef<"div"> {
   quantityLimit?: number;
   quantity?: number;
   setQuantity: Dispatch<SetStateAction<number>>;
-  size?: "md" | "lg" | "auto";
+  size?: "sm" | "md" | "lg";
   title?: string;
 }
 

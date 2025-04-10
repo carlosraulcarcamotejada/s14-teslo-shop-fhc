@@ -1,13 +1,12 @@
 export const revalidate = 60;
 
 import { getProductsPaginated } from "@/actions/product/get-products-paginated";
-import { PageContainer } from "@/components/page/page-container";
 import { ProductGrid } from "@/components/products/product-grid";
-import { NotFoundElement } from "@/components/shared/not-found-element";
 import { PaginationPage } from "@/components/shared/pagination-page";
 import { TitlePage } from "@/components/shared/title-page";
 import { PageProps } from "@/interfaces/page-props";
 import { Category, Product } from "@/seed/seed";
+import { notFound } from "next/navigation";
 
 export default async function CategoryPage({
   params,
@@ -31,14 +30,7 @@ export default async function CategoryPage({
   );
 
   if (!categoriesMap.has(category as Category)) {
-    return (
-      <PageContainer>
-        <NotFoundElement
-          title="La categoría no existe"
-          subTitle="Lo sentimos, no pudimos encontrar la categoría que estás buscando."
-        />
-      </PageContainer>
-    );
+    return notFound();
   }
 
   return (

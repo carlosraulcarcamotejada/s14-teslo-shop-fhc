@@ -1,7 +1,7 @@
-import { IconProps } from "@/interfaces/icon-props";
+import { IconSVGProps } from "@/interfaces/icon-svg-props";
 import React from "react";
 
-export const GoogleLogo = (props: IconProps) => {
+export const GoogleLogo = (props: IconSVGProps) => {
   return (
     <svg
       {...props}

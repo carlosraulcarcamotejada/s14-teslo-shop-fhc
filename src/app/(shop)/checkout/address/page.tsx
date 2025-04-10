@@ -5,7 +5,7 @@ import { TitlePage } from "@/components/shared/title-page";
 import { auth } from "@/config/auth.config";
 
 export default async function AddressPage() {
-  const countries = await getCountries();
+  const { countries } = await getCountries();
   const {
     user: { id: userId },
   } = (await auth()) ?? { user: { id: "no-id" } };

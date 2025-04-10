@@ -8,10 +8,9 @@ import { redirect } from "next/navigation";
 export default async function ProductPage({
   params,
 }: {
-  params: { slug: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
+  params: Promise<{ slug: string }>;
 }) {
-  const { slug } = params;
+  const { slug } = await params;
 
   const product = await getProductBySlug(slug);
 
