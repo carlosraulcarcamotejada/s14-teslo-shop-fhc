@@ -6,6 +6,8 @@ import { Size } from "../interfaces/size";
 import { Type } from "../interfaces/type";
 import { Category } from "../interfaces/category";
 
+export type { Category };
+
 export const productSizes: Size[] = ["L", "M", "S", "XL", "XS", "XXL", "XXXL"];
 
 export const userRoles: UserRole[] = ["admin", "user"];
@@ -1016,5 +1018,4 @@ export const initialData: SeedData = {
   ],
 };
 
-export type { Category };
-export type { User };
+
