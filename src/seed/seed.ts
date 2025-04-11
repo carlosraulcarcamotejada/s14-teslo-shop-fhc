@@ -1,6 +1,7 @@
 import bcryptjs from "bcryptjs";
 import { UserRole } from "../interfaces/user";
 import { Product } from "../interfaces/product";
+import { Country } from "../interfaces/country";
 
 interface User {
   name: string;
@@ -16,11 +17,6 @@ type Type = "shirts" | "pants" | "hoodies" | "hats" | "non-type";
 export const productSizes: Size[] = ["L", "M", "S", "XL", "XS", "XXL", "XXXL"];
 
 export const userRoles: UserRole[] = ["admin", "user"];
-
-interface Country {
-  name: string;
-  id: string;
-}
 
 interface SeedData {
   types: Type[];
@@ -1027,7 +1023,6 @@ export const initialData: SeedData = {
 };
 
 export type { Category };
-export type { Country };
 
 export type { Size };
 export type { Type };
