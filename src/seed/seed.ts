@@ -2,6 +2,7 @@ import bcryptjs from "bcryptjs";
 import { UserRole } from "../interfaces/user";
 import { Product } from "../interfaces/product";
 import { Country } from "../interfaces/country";
+import { Size } from "../interfaces/size";
 
 interface User {
   name: string;
@@ -11,7 +12,6 @@ interface User {
 }
 
 type Category = "men" | "women" | "kid" | "unisex" | "non-category";
-type Size = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
 type Type = "shirts" | "pants" | "hoodies" | "hats" | "non-type";
 
 export const productSizes: Size[] = ["L", "M", "S", "XL", "XS", "XXL", "XXXL"];
@@ -1023,8 +1023,6 @@ export const initialData: SeedData = {
 };
 
 export type { Category };
-
-export type { Size };
 export type { Type };
 export type { User };
 export type { UserRole };

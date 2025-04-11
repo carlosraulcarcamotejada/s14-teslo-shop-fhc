@@ -3,12 +3,12 @@ import { useState } from "react";
 import { QuantitySelector } from "@/components/product/quantity-selector";
 import { SizeSelector } from "@/components/product/size-selector";
 import { Button } from "@/components/ui/button";
-import { Size } from "@/seed/seed";
 import { AlertCircle, ShoppingCartIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useCart } from "@/hooks/use-cart";
 import { ProductInCart } from "@/interfaces/product-in-cart";
 import { AddToCartProps } from "@/interfaces/add-to-cart-props";
+import { Size } from "@/interfaces/size";
 
 export const AddToCart = ({ product }: AddToCartProps) => {
   const { addProductToCart } = useCart();

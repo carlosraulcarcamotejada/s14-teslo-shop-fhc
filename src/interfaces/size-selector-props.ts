@@ -1,5 +1,5 @@
-import { Size } from "@/seed/seed";
 import { ComponentPropsWithoutRef, Dispatch, SetStateAction } from "react";
+import { Size } from "@/interfaces/size";
 
 interface SizeSelectorProps extends ComponentPropsWithoutRef<"div"> {
   selectedSize: Size | undefined;
