@@ -1024,4 +1024,4 @@ export const initialData: SeedData = {
 
 export type { Category };
 export type { User };
-export type { UserRole };
+
