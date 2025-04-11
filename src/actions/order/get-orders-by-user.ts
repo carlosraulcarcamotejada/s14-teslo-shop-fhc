@@ -72,6 +72,7 @@ export const getOrdersByUserPaginated = async ({
       completeName: `${order.OrderAddress?.names} ${order.OrderAddress?.lastNames}`,
       id: order.id,
       isPaid: order.isPaid,
+      userId: order.userId,
     }));
 
     return {

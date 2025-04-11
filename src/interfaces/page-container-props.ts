@@ -1,5 +1,5 @@
-interface PageContainerProps extends React.ComponentPropsWithoutRef<"main"> {
-  children: React.ReactNode;
+interface PageContainerProps extends React.ComponentPropsWithoutRef<"div"> {
+  children?: React.ReactNode;
 }
 
 export type { PageContainerProps };

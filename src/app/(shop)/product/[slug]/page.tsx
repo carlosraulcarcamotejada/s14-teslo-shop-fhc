@@ -19,10 +19,7 @@ export async function generateMetadata({
   const { slug } = await params;
 
   // fetch data
-  const product = await getProductBySlug(slug);
-
-  // optionally access and extend (rather than replace) parent metadata
-  // const previousImages = (await parent).openGraph?.images || [];
+  const { product } = await getProductBySlug(slug);
 
   return {
     title: product?.title ?? "Producto no encontrado.",
@@ -38,7 +35,7 @@ export async function generateMetadata({
 export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
 
-  const product: Product | null = await getProductBySlug(slug);
+  const { product } = await getProductBySlug(slug);
 
   if (!product) notFound();
 
@@ -49,7 +46,7 @@ export default async function ProductPage({ params }: PageProps) {
   return (
     <>
       {/* Slideshow */}
-      <div className="col-start-1 col-span-4 md:col-span-4 lg:col-span-8">
+      <div className="col-start-1 col-span-4 md:col-span-4 lg:col-span-8 w-full">
         <ProductSlideshow
           aria-label="Galería de imágenes"
           images={images}

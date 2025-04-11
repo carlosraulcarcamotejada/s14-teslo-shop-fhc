@@ -2,10 +2,16 @@
 
 import prisma from "@/lib/prisma";
 import { Category, Product, Type } from "@/seed/seed";
+import { Prisma } from "@prisma/client";
 
 export const getProductBySlug = async (
   slug: string
-): Promise<Product | null> => {
+): Promise<{
+  ok: boolean;
+  product: Product | null;
+  message?: string;
+  code?: string;
+}> => {
   try {
     const product = await prisma.product.findFirst({
       include: { productImage: { select: { url: true } } },
@@ -14,18 +20,41 @@ export const getProductBySlug = async (
       },
     });
 
-    if (!product) return null;
+    if (!product) return { ok: false, product: null };
 
     const { categoryId, typeId, productImage, ...restProduct } = product;
 
-    return {
+    const productData: Product = {
       images: productImage.map((image) => image.url),
       category: categoryId as Category,
       type: typeId as Type,
       ...restProduct,
     };
+
+    return {
+      ok: true,
+      product: productData,
+    };
   } catch (error) {
-    console.log(error);
-    throw new Error("Error al obtener el producto por slug");
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      return {
+        code: error.code,
+        message: `Prisma error: ${error.message}`,
+        ok: false,
+        product: null,
+      };
+    } else if (error instanceof Error) {
+      return {
+        message: error.message,
+        ok: false,
+        product: null,
+      };
+    } else {
+      return {
+        message: "An unknown error occurred.",
+        ok: false,
+        product: null,
+      };
+    }
   }
 };

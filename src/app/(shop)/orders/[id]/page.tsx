@@ -32,7 +32,7 @@ export default async function OrderPage({ params }: PageProps) {
 
   const totalSumary: TotalSummary = { ...order };
 
-  const totalItems: number = order.OrderItem.length;
+  const totalItems: number = order.itemsInOrder;
 
   const isPaid: boolean = order.isPaid;
 

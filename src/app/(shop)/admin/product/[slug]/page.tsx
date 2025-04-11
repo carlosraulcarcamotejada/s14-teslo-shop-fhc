@@ -3,7 +3,7 @@ import { getProductBySlug } from "@/actions/product/get-product-by-slug";
 import { PageContainer } from "@/components/page/page-container";
 import { ProductForm } from "@/components/products/product-form";
 import { TitlePage } from "@/components/shared/title-page";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 export default async function ProductPage({
   params,
@@ -12,9 +12,9 @@ export default async function ProductPage({
 }) {
   const { slug } = await params;
 
-  const product = await getProductBySlug(slug);
+  const { product } = await getProductBySlug(slug);
 
-  if (!product) redirect("/admin/products");
+  if (!product) notFound();
 
   const title: string =
     product?.title === "new" ? "Nuevo producto" : "Editar producto";

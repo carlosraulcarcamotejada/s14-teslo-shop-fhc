@@ -104,21 +104,12 @@ export const NavbarMenu = ({ session }: NavbarMenuProps) => {
           <MenuIcon />
         </Button>
       </SheetTrigger>
-      <SheetContent className="border pt-10@ bg-yellow-400 pb-16 h-full px-2@ lg:px-4@ bg-sidebar text-sidebar-foreground text-sm">
+      <SheetContent className="border bg-yellow-400 h-full px-0 bg-sidebar text-sidebar-foreground text-sm">
         <SheetHeader className="">
           <SheetTitle className="hidden" />
           <SheetDescription className="hidden" />
-          <div className="relative p-1 hidden">
-            <SearchIcon className="size-4 absolute top-1/2 left-4 -translate-y-1/2" />
-            <Input
-              id="name"
-              autoFocus={false}
-              className="col-span-4 pl-10"
-              type="search"
-            />
-          </div>
         </SheetHeader>
-        <ScrollArea className="w-full h-full px-0@ pb-4@ ">
+        <ScrollArea className="w-full h-full">
           <div className="grid grid-cols-4 items-center gap-y-4 mt-4">
             {menuItems.map((menuItem: NavbarMenuItemProps) => {
               if (isAuthenticated && menuItem.title !== "Ingresar") {

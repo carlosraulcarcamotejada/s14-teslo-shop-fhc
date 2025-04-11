@@ -158,7 +158,7 @@ export const ProductForm = ({
                 <FormItem>
                   <FormLabel>Precio</FormLabel>
                   <FormControl>
-                    <Input placeholder="Precio" {...field} />
+                    <Input placeholder="Precio" type="number" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

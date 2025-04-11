@@ -314,7 +314,7 @@ export const UsersTable = ({
       </div>
 
       <PaginationPage
-        className={clsx("mt-4", totalPages === 0 && "hidden")}
+        className={clsx("mt-4", totalPages < 2 && "hidden")}
         totalPages={totalPages}
       />
     </div>

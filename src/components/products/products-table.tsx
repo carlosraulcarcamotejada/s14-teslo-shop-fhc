@@ -97,9 +97,7 @@ export const ProductsTable = ({
         );
       },
 
-      cell: ({ row }) => (
-        <div className="text-center">{row.getValue("inStock")}</div>
-      ),
+      cell: ({ row }) => <div className="">{row.getValue("inStock")}</div>,
     },
 
     {
@@ -145,14 +143,14 @@ export const ProductsTable = ({
 
   return (
     <div className={cn("w-full", className)} {...props}>
-      <div className="flex items-center py-4">
+      <div className="flex items-center flex-wrap py-4 gap-y-8 lg:gap-y-0">
         <Input
           placeholder="Filtrar nombres..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className=" lg:max-w-sm"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -233,7 +231,7 @@ export const ProductsTable = ({
       </div>
 
       <PaginationPage
-        className={clsx("mt-4", totalPages === 0 && "hidden")}
+        className={clsx("mt-4", totalPages < 2 && "hidden")}
         totalPages={totalPages}
       />
     </div>

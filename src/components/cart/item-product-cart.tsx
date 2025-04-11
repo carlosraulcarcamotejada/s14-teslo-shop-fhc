@@ -22,7 +22,7 @@ export const ItemProductCart = ({
     <Card className={cn("flex gap-x-2 overflow-hidden", className)} {...props}>
       {/* Image */}
       <Image
-        className="h-52 w-24 object-cover"
+        className="h-52 w-40 object-cover"
         src={`/products/${image}`}
         alt={title}
         height={200}

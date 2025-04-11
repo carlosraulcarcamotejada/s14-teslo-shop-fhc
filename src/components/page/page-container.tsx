@@ -7,7 +7,7 @@ export const PageContainer = ({
   ...props
 }: PageContainerProps) => {
   return (
-    <main
+    <div
       className={cn(
         "col-start-1 col-span-4 md:col-span-8 lg:col-span-12 px-4",
         className
@@ -15,6 +15,6 @@ export const PageContainer = ({
       {...props}
     >
       {children}
-    </main>
+    </div>
   );
 };

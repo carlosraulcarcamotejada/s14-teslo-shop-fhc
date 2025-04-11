@@ -72,9 +72,12 @@ export const ProductSlideshow = ({
       >
         <CarouselContent className="">
           {images.map((image, index) => (
-            <CarouselItem className="flex justify-center" key={image + index}>
+            <CarouselItem
+              className={"flex justify-center overflow-hidden"}
+              key={image + index}
+            >
               <Image
-                className="object-cover rounded-md"
+                className="object-cover"
                 src={`/products/${image}`}
                 alt={title}
                 width={500}

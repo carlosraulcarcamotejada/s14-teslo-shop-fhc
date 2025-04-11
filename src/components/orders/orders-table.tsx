@@ -58,30 +58,8 @@ export const OrdersTable = ({
 
   const columns: ColumnDef<Order>[] = [
     {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
       accessorKey: "id",
-      header: "#Id",
+      header: "Id",
       cell: ({ row }) => <div className="capitalize">{row.getValue("id")}</div>,
     },
     {
@@ -117,6 +95,7 @@ export const OrdersTable = ({
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
+        const { userId } = row.original;
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -130,7 +109,7 @@ export const OrdersTable = ({
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
-                  router.push("/profile");
+                  router.push(`/profile/${userId}`);
                 }}
               >
                 Ver usuario
@@ -273,7 +252,7 @@ export const OrdersTable = ({
         </Table>
       </div>
       <PaginationPage
-        className={clsx("mt-4", totalPages === 0 && "hidden")}
+        className={clsx("mt-4", totalPages < 2 && "hidden")}
         totalPages={totalPages}
       />
     </div>
