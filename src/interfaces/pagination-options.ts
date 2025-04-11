@@ -1,4 +1,4 @@
-import { Category } from "@/seed/seed";
+import { Category } from "@/interfaces/category";
 
 interface PaginationOptions {
   page?: number;

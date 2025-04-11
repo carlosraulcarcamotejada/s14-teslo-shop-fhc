@@ -67,10 +67,11 @@ export const getProductsPaginated = async ({
       totalPages,
       categoriesMap,
       products: products.map((product) => {
-        const { categoryId, typeId, productImage, ...restProduct } = product;
+        const { categoryId, typeId, ...restProduct } = product;
 
         return {
-          images: productImage.map((image) => image.url),
+          images: [""],
+          // images: productImage.map((image) => image.url),
           category: categoryId as Category,
           type: typeId as Type,
           ...restProduct,

@@ -3,8 +3,8 @@
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { Product } from "@/interfaces/product";
-import { Category } from "@/seed/seed";
 import { Type } from "@/interfaces/type";
+import { Category } from "@/interfaces/category";
 
 export const getProductBySlug = async (
   slug: string

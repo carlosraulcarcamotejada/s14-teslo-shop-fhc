@@ -4,9 +4,9 @@ import { getProductsPaginated } from "@/actions/product/get-products-paginated";
 import { ProductGrid } from "@/components/products/product-grid";
 import { PaginationPage } from "@/components/shared/pagination-page";
 import { TitlePage } from "@/components/shared/title-page";
+import { Category } from "@/interfaces/category";
 import { PageProps } from "@/interfaces/page-props";
 import { Product } from "@/interfaces/product";
-import { Category } from "@/seed/seed";
 import { notFound } from "next/navigation";
 
 export default async function CategoryPage({
