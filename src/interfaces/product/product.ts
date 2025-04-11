@@ -1,5 +1,5 @@
-import { Type } from "@/interfaces/type";
-import { Category } from "@/interfaces/category";
+import { Type } from "@/interfaces/shared/type";
+import { Category } from "@/interfaces/shared/category";
 import { Size } from "@/interfaces/size";
 
 interface Product {

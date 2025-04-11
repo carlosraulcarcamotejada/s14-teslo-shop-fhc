@@ -2,7 +2,7 @@ export const revalidate = 0;
 import { getOrdersByUserPaginated } from "@/actions/order/get-orders-by-user";
 import { OrdersTable } from "@/components/orders/orders-table";
 import { auth } from "@/config/auth.config";
-import { Order } from "@/interfaces/order";
+import { Order } from "@/interfaces/order/order";
 import { redirect } from "next/navigation";
 
 export default async function OrdersPage() {

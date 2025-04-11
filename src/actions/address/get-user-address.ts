@@ -1,5 +1,5 @@
 "use server";
-import { Address } from "@/interfaces/address";
+import { Address } from "@/interfaces/shared/address";
 import { GetUserAddress } from "@/interfaces/get-user-address";
 import prisma from "@/lib/prisma";
 

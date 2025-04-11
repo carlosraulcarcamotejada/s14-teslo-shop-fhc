@@ -17,8 +17,8 @@ import {
 } from "@/components/ui/form";
 import { authenticate } from "@/actions/auth/login";
 import { useRouter } from "next/navigation";
-import { LoginFormProps } from "@/interfaces/login-form-props";
-import { Login } from "@/interfaces/login";
+import { LoginFormProps } from "@/interfaces/auth/login-form-props";
+import { Login } from "@/interfaces/auth/login";
 import { LoginFormSchema } from "@/schema/login-form-schema";
 import { useCart } from "@/hooks/use-cart";
 

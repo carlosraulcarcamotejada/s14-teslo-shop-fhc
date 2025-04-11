@@ -3,9 +3,9 @@
 import { Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { PaginationOptions } from "@/interfaces/pagination-options";
-import { Product } from "@/interfaces/product";
-import { Category } from "@/interfaces/category";
-import { Type } from "@/interfaces/type";
+import { Product } from "@/interfaces/product/product";
+import { Category } from "@/interfaces/shared/category";
+import { Type } from "@/interfaces/shared/type";
 
 export const getProductsPaginated = async ({
   category,
@@ -67,11 +67,10 @@ export const getProductsPaginated = async ({
       totalPages,
       categoriesMap,
       products: products.map((product) => {
-        const { categoryId, typeId, ...restProduct } = product;
+        const { categoryId, typeId, productImage, ...restProduct } = product;
 
         return {
-          images: [""],
-          // images: productImage.map((image) => image.url),
+          images: productImage.map((image) => image.url),
           category: categoryId as Category,
           type: typeId as Type,
           ...restProduct,

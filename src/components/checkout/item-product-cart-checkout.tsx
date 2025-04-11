@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
-import { ItemProductCartCheckoutProps } from "@/interfaces/item-product-cart-checkout-props";
+import { ItemProductCartCheckoutProps } from "@/interfaces/cart/item-product-cart-checkout-props";
 import { cn } from "@/lib/utils";
 import { FormatNumber } from "@/utils/format-number";
 import Link from "next/link";

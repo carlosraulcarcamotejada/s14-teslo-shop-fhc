@@ -1,4 +1,4 @@
-import { IconTypeLucideProps } from "@/interfaces/icon-type-lucide-props";
+import { IconTypeLucideProps } from "@/interfaces/icon/icon-type-lucide-props";
 
 interface NavbarMenuItemProps {
   path?: string;

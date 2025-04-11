@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { FormatNumber } from "@/utils/format-number";
-import { ProductGridItemProps } from "@/interfaces/product-grid-item-props";
+import { ProductGridItemProps } from "@/interfaces/product/product-grid-item-props";
 
 const ProductGridItem = ({
   product,

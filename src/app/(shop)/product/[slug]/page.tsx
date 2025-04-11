@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { titleFont } from "@/config/fonts";
 import { ProductSlideshow } from "@/components/product/product-slideshow";
-import { PageProps } from "@/interfaces/page-props";
+import { PageProps } from "@/interfaces/page/page-props";
 import { getProductBySlug } from "@/actions/product/get-product-by-slug";
 import { StockLabel } from "@/components/product/stock-label";
 import { AddToCart } from "@/components/product/add-to-cart";

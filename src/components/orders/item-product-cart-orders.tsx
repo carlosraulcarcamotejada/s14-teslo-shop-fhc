@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { FormatNumber } from "@/utils/format-number";
-import { ItemProductCartOrdersProps } from "@/interfaces/item-product-cart-orders-props";
+import { ItemProductCartOrdersProps } from "@/interfaces/cart/item-product-cart-orders-props";
 import Link from "next/link";
 
 export const ItemProductCartOrders = ({

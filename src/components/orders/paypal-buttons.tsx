@@ -11,7 +11,7 @@ import {
   OnApproveActions,
   OnApproveData,
 } from "@paypal/paypal-js";
-import { PayPalButtonsProps } from "@/interfaces/paypal-buttons-props";
+import { PayPalButtonsProps } from "@/interfaces/paypal/paypal-buttons-props";
 import { setTransactionId } from "@/actions/payments/set-transaction-id";
 import { paypalCheckPayment } from "@/actions/payments/paypal-payment";
 import { useAddress } from "@/hooks/use-address";

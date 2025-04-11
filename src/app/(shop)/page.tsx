@@ -4,7 +4,7 @@ import { getProductsPaginated } from "@/actions/product/get-products-paginated";
 import { ProductGrid } from "@/components/products/product-grid";
 import { PaginationPage } from "@/components/shared/pagination-page";
 import { TitlePage } from "@/components/shared/title-page";
-import { PageProps } from "@/interfaces/page-props";
+import { PageProps } from "@/interfaces/page/page-props";
 import { redirect } from "next/navigation";
 
 export default async function ShopPage({ searchParams }: PageProps) {

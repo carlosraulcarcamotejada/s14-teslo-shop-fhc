@@ -12,7 +12,7 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { cn } from "@/lib/utils";
-import { ProductSlideshowProps } from "@/interfaces/product-slideshow-props";
+import { ProductSlideshowProps } from "@/interfaces/product/product-slideshow-props";
 import clsx from "clsx";
 
 export const ProductSlideshow = ({

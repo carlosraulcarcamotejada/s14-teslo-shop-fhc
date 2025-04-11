@@ -1,4 +1,4 @@
-import { Address } from "@/interfaces/address";
+import { Address } from "@/interfaces/shared/address";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 

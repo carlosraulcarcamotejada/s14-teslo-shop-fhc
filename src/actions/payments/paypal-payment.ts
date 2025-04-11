@@ -2,8 +2,8 @@
 import {
   PaypalCheckPayment,
   PaypalVerifyPayment,
-} from "@/interfaces/paypal-payment";
-import { PaypalOrderStatusResp } from "@/interfaces/paypal-order-status-response";
+} from "@/interfaces/paypal/paypal-payment";
+import { PaypalOrderStatusResp } from "@/interfaces/paypal/paypal-order-status-response";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";

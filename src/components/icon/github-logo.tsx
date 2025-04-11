@@ -1,4 +1,4 @@
-import { IconSVGProps } from "@/interfaces/icon-svg-props";
+import { IconSVGProps } from "@/interfaces/icon/icon-svg-props";
 
 export const GithubLogo = (props: IconSVGProps) => {
   return (

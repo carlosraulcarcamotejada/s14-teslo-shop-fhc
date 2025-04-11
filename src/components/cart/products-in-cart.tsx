@@ -2,7 +2,7 @@
 import { useSelector } from "react-redux";
 import { ItemProductCart } from "@/components/cart/item-product-cart";
 import { RootState } from "@/store/store";
-import { ProductsInCartProps } from "@/interfaces/products-in-cart-props";
+import { ProductsInCartProps } from "@/interfaces/products/products-in-cart-props";
 import { cn } from "@/lib/utils";
 
 export const ProductsInCart = ({

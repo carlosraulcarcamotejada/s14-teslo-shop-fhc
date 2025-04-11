@@ -1,6 +1,6 @@
 import { getUserById } from "@/actions/users/get-user-by-id";
 import { TitlePage } from "@/components/shared/title-page";
-import { PageProps } from "@/interfaces/page-props";
+import { PageProps } from "@/interfaces/page/page-props";
 
 export default async function ProfileWithIdPage({ params }: PageProps) {
   const { id } = await params;

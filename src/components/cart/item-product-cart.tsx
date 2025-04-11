@@ -6,7 +6,7 @@ import { QuantitySelector } from "@/components/product/quantity-selector";
 import { Button } from "@/components/ui/button";
 import { Trash2Icon } from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
-import { ItemProductCartProps } from "@/interfaces/item-product-cart-props";
+import { ItemProductCartProps } from "@/interfaces/cart/item-product-cart-props";
 
 export const ItemProductCart = ({
   className,

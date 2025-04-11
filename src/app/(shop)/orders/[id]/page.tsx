@@ -1,8 +1,8 @@
 import { TitlePage } from "@/components/shared/title-page";
-import { PageProps } from "@/interfaces/page-props";
+import { PageProps } from "@/interfaces/page/page-props";
 import { OrdersSummary } from "@/components/orders/orders-sumary";
 import { OrderStatus } from "@/components/orders/order-status";
-import { ProductInCart } from "@/interfaces/product-in-cart";
+import { ProductInCart } from "@/interfaces/product/product-in-cart";
 import { getOrderById } from "@/actions/order/get-order-by-id";
 import { redirect } from "next/navigation";
 import { ProductsInCartOrders } from "@/components/orders/products-in-cart-orders";

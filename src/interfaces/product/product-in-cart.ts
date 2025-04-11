@@ -1,4 +1,4 @@
-import { Product } from "@/interfaces/product";
+import { Product } from "@/interfaces/product/product";
 import { Size } from "@/interfaces/size";
 
 interface ProductInCart

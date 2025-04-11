@@ -16,9 +16,9 @@ import {
 import { register } from "@/actions/auth/signin";
 import { useRouter } from "next/navigation";
 import { login } from "@/actions/auth/login";
-import { SignIn } from "@/interfaces/sign-in";
+import { SignIn } from "@/interfaces/auth/sign-in";
 import { SignInFormSchema } from "@/schema/signIn-form-schema";
-import { SignInFormProps } from "@/interfaces/signIn-form-props";
+import { SignInFormProps } from "@/interfaces/auth/signIn-form-props";
 import { useCart } from "@/hooks/use-cart";
 
 export const SignInForm = ({ className, ...props }: SignInFormProps) => {

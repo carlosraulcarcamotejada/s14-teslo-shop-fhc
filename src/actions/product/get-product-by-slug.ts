@@ -2,9 +2,9 @@
 
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
-import { Product } from "@/interfaces/product";
-import { Type } from "@/interfaces/type";
-import { Category } from "@/interfaces/category";
+import { Product } from "@/interfaces/product/product";
+import { Type } from "@/interfaces/shared/type";
+import { Category } from "@/interfaces/shared/category";
 
 export const getProductBySlug = async (
   slug: string

@@ -1,4 +1,4 @@
-import { UserRole } from "@/interfaces/user";
+import { UserRole } from "@/interfaces/user/user";
 
 interface ChangeUserRole {
   userId: string;

@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef } from "react";
-import { Address } from "@/interfaces/address";
-import { Country } from "@/interfaces/country";
+import { Address } from "@/interfaces/shared/address";
+import { Country } from "@/interfaces/shared/country";
 
 interface CheckoutAddressProps extends ComponentPropsWithoutRef<"div"> {
   countries: Country[];

@@ -1,5 +1,5 @@
 import { CreditCardIcon } from "lucide-react";
-import { OrderStatusProps } from "@/interfaces/order-status-props";
+import { OrderStatusProps } from "@/interfaces/order/order-status-props";
 import clsx from "clsx";
 
 export const OrderStatus = ({

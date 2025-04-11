@@ -1,4 +1,4 @@
-import { Category } from "@/interfaces/category";
+import { Category } from "@/interfaces/shared/category";
 
 interface PaginationOptions {
   page?: number;

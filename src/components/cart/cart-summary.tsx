@@ -8,7 +8,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { CheckSquareIcon } from "lucide-react";
 import { selectSumaryInfomation, selectTotalItems } from "@/store/selectors";
 import { FormatNumber } from "@/utils/format-number";
-import { CartSummaryProps } from "@/interfaces/cart-summary-props";
+import { CartSummaryProps } from "@/interfaces/cart/cart-summary-props";
 
 export const CartSummary = ({ className, ...props }: CartSummaryProps) => {
   const { subTotal, tax, total } = useSelector(selectSumaryInfomation);

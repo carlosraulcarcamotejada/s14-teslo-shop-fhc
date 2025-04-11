@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef } from "react";
-import { ProductInCart } from "@/interfaces/product-in-cart";
+import { ProductInCart } from "@/interfaces/product/product-in-cart";
 
 interface ItemProductCartOrdersProps extends ComponentPropsWithoutRef<"div"> {
   productInCartOrders: ProductInCart;

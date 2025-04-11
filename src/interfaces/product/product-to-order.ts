@@ -1,4 +1,4 @@
-import { ProductInCart } from "@/interfaces/product-in-cart";
+import { ProductInCart } from "@/interfaces/product/product-in-cart";
 
 type ProductToOrder = Omit<
   ProductInCart,

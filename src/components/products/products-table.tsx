@@ -32,11 +32,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { ProductTableProps } from "@/interfaces/products-table-props";
+import { ProductTableProps } from "@/interfaces/products/products-table-props";
 import { PaginationPage } from "@/components/shared/pagination-page";
 import clsx from "clsx";
 import { FormatNumber } from "@/utils/format-number";
-import { Product } from "@/interfaces/product";
+import { Product } from "@/interfaces/product/product";
 
 export const ProductsTable = ({
   className,

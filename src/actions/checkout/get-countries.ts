@@ -1,7 +1,7 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
-import { Country } from "@/interfaces/country";
+import { Country } from "@/interfaces/shared/country";
 
 export const getCountries = async (): Promise<{
   ok: boolean;

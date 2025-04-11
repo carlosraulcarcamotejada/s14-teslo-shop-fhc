@@ -20,11 +20,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { SaveIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { ProductFormProps } from "@/interfaces/product-form-props";
+import { ProductFormProps } from "@/interfaces/product/product-form-props";
 import { Textarea } from "@/components/ui/textarea";
 import { productFormSchema } from "@/schema/product-form-schema";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Product } from "@/interfaces/product";
+import { Product } from "@/interfaces/product/product";
 
 export const ProductForm = ({
   categories,

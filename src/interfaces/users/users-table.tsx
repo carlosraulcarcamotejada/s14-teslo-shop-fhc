@@ -32,8 +32,8 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { Chip } from "@/components/ui/chip";
-import { UsersTableProps } from "@/interfaces/users-table-props";
-import { User, UserRole } from "@/interfaces/user";
+import { UsersTableProps } from "@/interfaces/user/users-table-props";
+import { User, UserRole } from "@/interfaces/user/user";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Select,

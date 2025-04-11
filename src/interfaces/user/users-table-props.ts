@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef } from "react";
-import { User } from "@/interfaces/user";
+import { User } from "@/interfaces/user/user";
 
 interface UsersTableProps extends ComponentPropsWithoutRef<"div"> {
   data?: User[];

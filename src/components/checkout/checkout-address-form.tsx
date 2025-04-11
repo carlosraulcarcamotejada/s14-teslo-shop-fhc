@@ -18,7 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Address } from "@/interfaces/address";
+import { Address } from "@/interfaces/shared/address";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { SaveIcon } from "lucide-react";
@@ -26,7 +26,7 @@ import { useAddress } from "@/hooks/use-address";
 import { setUserAddress } from "@/actions/address/set-user-address";
 import { deleteUserAddress } from "@/actions/address/delete-user-address";
 import { addressFormSchema } from "@/schema/address-form-schema";
-import { CheckoutAddressProps } from "@/interfaces/checkout-address-form";
+import { CheckoutAddressProps } from "@/interfaces/checkout/checkout-address-form";
 import { cn } from "@/lib/utils";
 
 export const CheckoutAddressForm = ({

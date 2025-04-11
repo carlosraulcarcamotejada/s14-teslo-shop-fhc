@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import { ErrorProps } from "@/interfaces/error-props";
+import { ErrorProps } from "@/interfaces/page/error-props";
 import { RotateCwIcon } from "lucide-react";
 import { PageContainer } from "@/components/page/page-container";
 import { ElementNotFound } from "@/components/shared/element-not-found";

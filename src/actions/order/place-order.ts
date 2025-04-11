@@ -3,8 +3,8 @@
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { auth } from "@/config/auth.config";
-import { Address } from "@/interfaces/address";
-import { ProductToOrder } from "@/interfaces/product-to-order";
+import { Address } from "@/interfaces/shared/address";
+import { ProductToOrder } from "@/interfaces/product/product-to-order";
 
 export const placeOrder = async (
   productsToOrder: ProductToOrder[],

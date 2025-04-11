@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
-import { OrdersSummaryProps } from "@/interfaces/orders-summary-props";
+import { OrdersSummaryProps } from "@/interfaces/orders/orders-summary-props";
 import { FormatNumber } from "@/utils/format-number";
 import { PayPalButtons } from "@/components/orders/paypal-buttons";
 

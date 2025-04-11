@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { AlertCircle, ShoppingCartIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useCart } from "@/hooks/use-cart";
-import { ProductInCart } from "@/interfaces/product-in-cart";
-import { AddToCartProps } from "@/interfaces/add-to-cart-props";
+import { ProductInCart } from "@/interfaces/product/product-in-cart";
+import { AddToCartProps } from "@/interfaces/cart/add-to-cart-props";
 import { Size } from "@/interfaces/size";
 
 export const AddToCart = ({ product }: AddToCartProps) => {

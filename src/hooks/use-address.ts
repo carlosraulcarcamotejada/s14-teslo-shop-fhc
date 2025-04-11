@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { clear, setAddress } from "@/store/address-slice";
-import { Address } from "@/interfaces/address";
+import { Address } from "@/interfaces/shared/address";
 
 export const useAddress = () => {
   const dispatch = useDispatch();

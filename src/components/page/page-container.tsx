@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { PageContainerProps } from "@/interfaces/page-container-props";
+import { PageContainerProps } from "@/interfaces/page/page-container-props";
 
 export const PageContainer = ({
   className,

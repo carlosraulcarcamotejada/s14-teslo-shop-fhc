@@ -2,7 +2,7 @@
 
 import { auth } from "@/config/auth.config";
 import { ChangeUserRole } from "@/interfaces/change-user-role";
-import { UserRole } from "@/interfaces/user";
+import { UserRole } from "@/interfaces/user/user";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";

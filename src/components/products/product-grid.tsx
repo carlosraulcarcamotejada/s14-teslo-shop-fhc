@@ -1,4 +1,4 @@
-import { ProductGridProps } from "@/interfaces/product-grid-props";
+import { ProductGridProps } from "@/interfaces/product/product-grid-props";
 import { ProductGridItem } from "@/components/products/product-grid-item";
 import { cn } from "@/lib/utils";
 

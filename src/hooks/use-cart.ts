@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { ProductInCart } from "@/interfaces/product-in-cart";
+import { ProductInCart } from "@/interfaces/product/product-in-cart";
 import {
   addProduct,
   clear,
