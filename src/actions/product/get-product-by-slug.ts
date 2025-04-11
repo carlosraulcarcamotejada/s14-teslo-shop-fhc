@@ -5,10 +5,11 @@ import { Prisma } from "@prisma/client";
 import { Product } from "@/interfaces/product/product";
 import { Type } from "@/interfaces/shared/type";
 import { Category } from "@/interfaces/shared/category";
+import { GetProductBySlug } from "@/interfaces/actions/get-product-by-slug";
 
-export const getProductBySlug = async (
-  slug: string
-): Promise<{
+export const getProductBySlug = async ({
+  slug,
+}: GetProductBySlug): Promise<{
   ok: boolean;
   product: Product | null;
   message?: string;

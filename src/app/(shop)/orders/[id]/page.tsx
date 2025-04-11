@@ -11,7 +11,7 @@ import { TotalSummary } from "@/interfaces/components/total-summary";
 export default async function OrderPage({ params }: PageProps) {
   const { id } = await params;
 
-  const { ok, order } = await getOrderById(id);
+  const { ok, order } = await getOrderById({ id });
 
   if (!ok || !order) {
     redirect("/");

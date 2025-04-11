@@ -70,7 +70,7 @@ export const CheckoutAddressForm = ({
       await setUserAddress(values, userId);
     }
     if (!values.saveForm) {
-      await deleteUserAddress(userId);
+      await deleteUserAddress({userId});
     }
 
     router.push("/checkout");

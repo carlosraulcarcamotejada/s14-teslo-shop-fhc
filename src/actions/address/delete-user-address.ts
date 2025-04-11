@@ -1,7 +1,8 @@
 "use server";
 import prisma from "@/lib/prisma";
+import { DeleteUserAddress } from "@/interfaces/actions/delete-user-address";
 
-export const deleteUserAddress = async (userId: string) => {
+export const deleteUserAddress = async ({ userId }: DeleteUserAddress) => {
   try {
     const foundAddress = await prisma.userAddress.findUnique({
       where: { userId },

@@ -52,14 +52,14 @@ export const CheckoutSummary = ({
   const onPlaceOrder = async () => {
     setIsPlacingOrder(true);
     await sleep(0.05);
-    const productToOrder: ProductToOrder[] =
+    const productsToOrder: ProductToOrder[] =
       cart.map(({ id, quantity, selectedSize }) => ({
         id,
         quantity,
         selectedSize,
       })) ?? [];
 
-    const resp = await placeOrder(productToOrder, addressStore);
+    const resp = await placeOrder({ address: addressStore, productsToOrder });
 
     if (!resp?.ok) {
       setErrorMessage(resp?.message);

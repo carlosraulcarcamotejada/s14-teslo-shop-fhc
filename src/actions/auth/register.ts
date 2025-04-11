@@ -1,12 +1,12 @@
 "use server";
 import prisma from "@/lib/prisma";
-import { SignIn } from "@/interfaces/auth/sign-in";
 import bcryptjs from "bcryptjs";
 import { AuthError } from "next-auth";
+import { Register } from "@/interfaces/actions/register";
 
-export const register = async (
-  formData: SignIn
-): Promise<{
+export const register = async ({
+  formData,
+}: Register): Promise<{
   status: string;
   user?: {
     email: string;

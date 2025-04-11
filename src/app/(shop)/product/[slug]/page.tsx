@@ -18,7 +18,7 @@ export async function generateMetadata({
   const { slug } = await params;
 
   // fetch data
-  const { product } = await getProductBySlug(slug);
+  const { product } = await getProductBySlug({ slug });
 
   return {
     title: product?.title ?? "Producto no encontrado.",
@@ -34,13 +34,13 @@ export async function generateMetadata({
 export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
 
-  const { product } = await getProductBySlug(slug);
+  const { product } = await getProductBySlug({ slug });
 
   if (!product) notFound();
 
   const { description, title, price, images, id } = product;
 
-  const inStock: number | undefined = await getStockById(id);
+  const inStock: number | undefined = await getStockById({ id });
 
   return (
     <>

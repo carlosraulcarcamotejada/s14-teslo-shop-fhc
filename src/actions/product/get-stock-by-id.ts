@@ -1,8 +1,11 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { GetStockById } from "@/interfaces/actions/get-stock-by-id";
 
-export const getStockById = async (id: string): Promise<number | undefined> => {
+export const getStockById = async ({
+  id,
+}: GetStockById): Promise<number | undefined> => {
   try {
     const product = await prisma.product.findFirst({ where: { id } });
 

@@ -2,8 +2,9 @@
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { auth } from "@/config/auth.config";
+import { GetOrderById } from "@/interfaces/actions/get-order-by-id";
 
-export const getOrderById = async (id: string) => {
+export const getOrderById = async ({ id }: GetOrderById) => {
   try {
     const session = await auth();
 

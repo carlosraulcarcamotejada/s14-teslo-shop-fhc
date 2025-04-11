@@ -3,13 +3,9 @@
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { auth } from "@/config/auth.config";
-import { Address } from "@/interfaces/shared/address";
-import { ProductToOrder } from "@/interfaces/product/product-to-order";
+import { PlaceOrder } from "@/interfaces/actions/place-order";
 
-export const placeOrder = async (
-  productsToOrder: ProductToOrder[],
-  address: Address
-) => {
+export const placeOrder = async ({ address, productsToOrder }: PlaceOrder) => {
   console.log("placeOrder");
   const session = await auth();
 

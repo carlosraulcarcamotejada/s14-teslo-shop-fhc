@@ -13,7 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { register } from "@/actions/auth/signin";
+import { register } from "@/actions/auth/register";
 import { useRouter } from "next/navigation";
 import { login } from "@/actions/auth/login";
 import { SignIn } from "@/interfaces/auth/sign-in";
@@ -41,7 +41,7 @@ export const SignInForm = ({ className, ...props }: SignInFormProps) => {
   // 3. Define a submit handler.
   async function onSubmit(values: SignIn) {
     try {
-      const results = await register(values);
+      const results = await register({ formData: values });
       const resultsLogin = await login({
         ...values,
         email: values.email.toLowerCase(),
