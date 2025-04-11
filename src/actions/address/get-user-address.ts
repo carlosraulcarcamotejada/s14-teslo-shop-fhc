@@ -1,6 +1,6 @@
 "use server";
 import { Address } from "@/interfaces/shared/address";
-import { GetUserAddress } from "@/interfaces/get-user-address";
+import { GetUserAddress } from "@/interfaces/actions/get-user-address";
 import prisma from "@/lib/prisma";
 
 export const getUserAddress = async ({ userId }: GetUserAddress) => {

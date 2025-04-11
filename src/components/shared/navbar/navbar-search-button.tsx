@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { NavbarSearchButtonProps } from "@/interfaces/navbar-search-button-props";
+import { NavbarSearchButtonProps } from "@/interfaces/components/navbar-search-button-props";
 import { cn } from "@/lib/utils";
 import { SearchIcon } from "lucide-react";
 

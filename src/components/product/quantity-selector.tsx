@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { useResponsive } from "@/hooks/use-responsive";
-import { QuantitySelectorProps } from "@/interfaces/quantity-aelector-props";
+import { QuantitySelectorProps } from "@/interfaces/components/quantity-aelector-props";
 import clsx from "clsx";
 
 export const QuantitySelector = ({

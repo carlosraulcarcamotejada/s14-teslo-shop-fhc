@@ -27,7 +27,7 @@ import {
   NavbarMenuItemProps,
 } from "@/components/shared/navbar/navbar-menu-item";
 import { logout } from "@/actions/auth/logout";
-import { NavbarMenuProps } from "@/interfaces/navbar-menu-props";
+import { NavbarMenuProps } from "@/interfaces/components/navbar-menu-props";
 import { useCart } from "@/hooks/use-cart";
 
 export const NavbarMenu = ({ session }: NavbarMenuProps) => {

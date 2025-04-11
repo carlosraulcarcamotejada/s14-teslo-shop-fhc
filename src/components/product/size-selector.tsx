@@ -1,7 +1,7 @@
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
-import { SizeSelectorProps } from "@/interfaces/size-selector-props";
-import { Size } from "@/interfaces/size";
+import { SizeSelectorProps } from "@/interfaces/components/size-selector-props";
+import { Size } from "@/interfaces/shared/size";
 
 export const SizeSelector = ({
   availableSizes,

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { ItemProductCheckoutProps } from "@/interfaces/item-product-checkout-props";
+import { ItemProductCheckoutProps } from "@/interfaces/components/item-product-checkout-props";
 import { FormatNumber } from "@/utils/format-number";
 
 export const ItemProductCheckout = ({

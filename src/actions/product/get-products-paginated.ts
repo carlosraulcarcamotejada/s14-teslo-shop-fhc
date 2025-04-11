@@ -2,7 +2,7 @@
 
 import { Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
-import { PaginationOptions } from "@/interfaces/pagination-options";
+import { PaginationOptions } from "@/interfaces/components/pagination-options";
 import { Product } from "@/interfaces/product/product";
 import { Category } from "@/interfaces/shared/category";
 import { Type } from "@/interfaces/shared/type";

@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@/config/auth.config";
-import { GetUserById } from "@/interfaces/get-user-by-id";
+import { GetUserById } from "@/interfaces/actions/get-user-by-id";
 import { User } from "@/interfaces/user/user";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";

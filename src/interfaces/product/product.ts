@@ -1,6 +1,6 @@
 import { Type } from "@/interfaces/shared/type";
 import { Category } from "@/interfaces/shared/category";
-import { Size } from "@/interfaces/size";
+import { Size } from "@/interfaces/shared/size";
 
 interface Product {
   id: string;

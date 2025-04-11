@@ -34,7 +34,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { OrdersTableProps } from "@/interfaces/table-orders-props";
+import { OrdersTableProps } from "@/interfaces/components/table-orders-props";
 import { Order } from "@/interfaces/order/order";
 import { Chip } from "@/components/ui/chip";
 import { useRouter } from "next/navigation";

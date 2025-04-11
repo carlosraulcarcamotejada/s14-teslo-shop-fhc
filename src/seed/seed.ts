@@ -2,7 +2,7 @@ import bcryptjs from "bcryptjs";
 import { User, UserRole } from "../interfaces/user/user";
 import { Product } from "../interfaces/product/product";
 import { Country } from "../interfaces/shared/country";
-import { Size } from "../interfaces/size";
+import { Size } from "../interfaces/shared/size";
 import { Type } from "../interfaces/shared/type";
 import { Category } from "../interfaces/shared/category";
 

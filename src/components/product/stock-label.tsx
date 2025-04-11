@@ -1,5 +1,5 @@
 import { titleFont } from "@/config/fonts";
-import { StockLabelProps } from "@/interfaces/stock-label-props";
+import { StockLabelProps } from "@/interfaces/components/stock-label-props";
 
 export const StockLabel = ({ inStock = 0 }: StockLabelProps) => {
   return (

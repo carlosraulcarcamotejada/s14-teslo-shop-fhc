@@ -3,7 +3,7 @@
 import { Prisma } from "@prisma/client";
 import { auth } from "@/config/auth.config";
 import prisma from "@/lib/prisma";
-import { PaginationOptions } from "@/interfaces/pagination-options";
+import { PaginationOptions } from "@/interfaces/components/pagination-options";
 import { User } from "@/interfaces/user/user";
 
 export const getUsersPaginated = async ({

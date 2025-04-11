@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { SheetClose } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { NavbarMenuItemProps } from "@/interfaces/navbar-menu-item-props";
+import { NavbarMenuItemProps } from "@/interfaces/components/navbar-menu-item-props";
 
 export const NavbarMenuItem = ({
   icon: Icon,

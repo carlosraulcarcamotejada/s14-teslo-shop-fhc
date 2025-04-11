@@ -3,7 +3,7 @@ import { AcmeLogo } from "@/components/icon/acme-logo";
 import { Separator } from "@/components/ui/separator";
 import { titleFont } from "@/config/fonts";
 import { cn } from "@/lib/utils";
-import { NavbarLogoProps } from "@/interfaces/navbar-logo-props";
+import { NavbarLogoProps } from "@/interfaces/components/navbar-logo-props";
 
 export const NavbarBrandLogo = ({ className, ...props }: NavbarLogoProps) => {
   return (

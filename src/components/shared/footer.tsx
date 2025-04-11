@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { NavbarBrandLogo } from "@/components/shared/navbar/navbar-brand-logo";
-import { FooterProps } from "@/interfaces/footer-props";
+import { FooterProps } from "@/interfaces/components/footer-props";
 
 export const Footer = ({ className, ...props }: FooterProps) => {
   return (

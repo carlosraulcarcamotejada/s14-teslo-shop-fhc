@@ -4,8 +4,8 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { NavbarContent, NavbarItem } from "@heroui/navbar";
 import { buttonVariants } from "@/components/ui/button";
-import { Path } from "@/interfaces/path";
-import { NavbarLinksProps } from "@/interfaces/navbar-links-props";
+import { Path } from "@/interfaces/shared/path";
+import { NavbarLinksProps } from "@/interfaces/components/navbar-links-props";
 
 const paths: Path[] = [
   { id: 1, label: "Hombres", path: "/category/men" },

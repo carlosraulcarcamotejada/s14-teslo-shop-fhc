@@ -1,7 +1,7 @@
 "use client";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { NotFoundProps } from "@/interfaces/not-found-props";
+import { NotFoundProps } from "@/interfaces/components/not-found-props";
 import { RotateCwIcon } from "lucide-react";
 
 export const ElementNotFound = ({

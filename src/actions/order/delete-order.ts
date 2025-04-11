@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@/config/auth.config";
-import { DeleteOrder } from "@/interfaces/delete-order";
+import { DeleteOrder } from "@/interfaces/actions/delete-order";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";

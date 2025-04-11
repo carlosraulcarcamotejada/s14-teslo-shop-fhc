@@ -1,4 +1,4 @@
-import { TotalSummary } from "@/interfaces/total-summary";
+import { TotalSummary } from "@/interfaces/components/total-summary";
 import { RootState } from "@/store/store";
 import { createSelector } from "@reduxjs/toolkit";
 

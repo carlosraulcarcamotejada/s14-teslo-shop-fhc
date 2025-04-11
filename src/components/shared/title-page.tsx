@@ -1,6 +1,6 @@
 import { titleFont } from "@/config/fonts";
 import { cn } from "@/lib/utils";
-import { TitleProps } from "@/interfaces/title-props";
+import { TitleProps } from "@/interfaces/components/title-props";
 import { clsx } from "clsx";
 
 export const TitlePage = ({

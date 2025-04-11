@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@/config/auth.config";
-import { ChangeUserRole } from "@/interfaces/change-user-role";
+import { ChangeUserRole } from "@/interfaces/actions/change-user-role";
 import { UserRole } from "@/interfaces/user/user";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";

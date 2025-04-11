@@ -6,7 +6,7 @@ import { ProductInCart } from "@/interfaces/product/product-in-cart";
 import { getOrderById } from "@/actions/order/get-order-by-id";
 import { redirect } from "next/navigation";
 import { ProductsInCartOrders } from "@/components/orders/products-in-cart-orders";
-import { TotalSummary } from "@/interfaces/total-summary";
+import { TotalSummary } from "@/interfaces/components/total-summary";
 
 export default async function OrderPage({ params }: PageProps) {
   const { id } = await params;

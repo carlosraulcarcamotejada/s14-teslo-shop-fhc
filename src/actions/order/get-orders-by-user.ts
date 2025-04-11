@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { auth } from "@/config/auth.config";
 import { Order } from "@/interfaces/order/order";
-import { PaginationOptions } from "@/interfaces/pagination-options";
+import { PaginationOptions } from "@/interfaces/components/pagination-options";
 
 export const getOrdersByUserPaginated = async ({
   page = 1,
