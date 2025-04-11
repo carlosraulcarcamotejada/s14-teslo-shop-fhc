@@ -3,6 +3,7 @@ import { UserRole } from "../interfaces/user";
 import { Product } from "../interfaces/product";
 import { Country } from "../interfaces/country";
 import { Size } from "../interfaces/size";
+import { Type } from "../interfaces/type";
 
 interface User {
   name: string;
@@ -12,7 +13,6 @@ interface User {
 }
 
 type Category = "men" | "women" | "kid" | "unisex" | "non-category";
-type Type = "shirts" | "pants" | "hoodies" | "hats" | "non-type";
 
 export const productSizes: Size[] = ["L", "M", "S", "XL", "XS", "XXL", "XXXL"];
 
@@ -1023,6 +1023,5 @@ export const initialData: SeedData = {
 };
 
 export type { Category };
-export type { Type };
 export type { User };
 export type { UserRole };
