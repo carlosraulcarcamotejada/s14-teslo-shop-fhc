@@ -4,6 +4,7 @@ import { Product } from "../interfaces/product";
 import { Country } from "../interfaces/country";
 import { Size } from "../interfaces/size";
 import { Type } from "../interfaces/type";
+import { Category } from "../interfaces/category";
 
 interface User {
   name: string;
@@ -11,8 +12,6 @@ interface User {
   password: string;
   role: UserRole;
 }
-
-type Category = "men" | "women" | "kid" | "unisex" | "non-category";
 
 export const productSizes: Size[] = ["L", "M", "S", "XL", "XS", "XXL", "XXXL"];
 
@@ -1024,4 +1023,3 @@ export const initialData: SeedData = {
 
 export type { Category };
 export type { User };
-
