@@ -1,17 +1,10 @@
 import bcryptjs from "bcryptjs";
-import { UserRole } from "../interfaces/user";
+import { User, UserRole } from "../interfaces/user";
 import { Product } from "../interfaces/product";
 import { Country } from "../interfaces/country";
 import { Size } from "../interfaces/size";
 import { Type } from "../interfaces/type";
 import { Category } from "../interfaces/category";
-
-interface User {
-  name: string;
-  email: string;
-  password: string;
-  role: UserRole;
-}
 
 export const productSizes: Size[] = ["L", "M", "S", "XL", "XS", "XXL", "XXXL"];
 
@@ -34,12 +27,14 @@ export const initialData: SeedData = {
       email: "carlos.carcamo@google.com",
       password: bcryptjs.hashSync("123456"),
       role: "admin",
+      id: "b0a2a48c-ada3-4054-94dd-251d436197ee",
     },
     {
       name: "Blanca Linares",
       email: "blanca.linares@google.com",
       password: bcryptjs.hashSync("123456"),
       role: "user",
+      id: "5e529166-8f57-4ba2-83ae-29fbf99bd338",
     },
   ],
   countries: [
