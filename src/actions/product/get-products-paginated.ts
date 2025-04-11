@@ -3,7 +3,8 @@
 import { Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { PaginationOptions } from "@/interfaces/pagination-options";
-import { Category, Product, Type } from "@/seed/seed";
+import { Category, Type } from "@/seed/seed";
+import { Product } from "@/interfaces/product";
 
 export const getProductsPaginated = async ({
   category,

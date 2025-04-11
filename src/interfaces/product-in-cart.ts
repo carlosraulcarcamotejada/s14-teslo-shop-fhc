@@ -1,4 +1,5 @@
-import { Product, Size } from "@/seed/seed";
+import { Size } from "@/seed/seed";
+import { Product } from "@/interfaces/product";
 
 interface ProductInCart
   extends Omit<

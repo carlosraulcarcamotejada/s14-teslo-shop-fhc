@@ -1,4 +1,4 @@
-import { Product } from "@/seed/seed";
+import { Product } from "@/interfaces/product";
 
 interface AddToCartProps {
   product: Product;

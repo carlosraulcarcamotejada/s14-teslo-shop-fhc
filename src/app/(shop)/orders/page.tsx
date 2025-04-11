@@ -22,6 +22,7 @@ export default async function OrdersPage() {
     completeName: order.completeName,
     id: order.id,
     isPaid: order.isPaid,
+    userId: order.userId,
   }));
 
   return <OrdersTable className="col-start-1 col-span-full px-4" data={data} />;

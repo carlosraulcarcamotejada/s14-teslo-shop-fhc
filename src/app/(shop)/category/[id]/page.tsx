@@ -5,7 +5,8 @@ import { ProductGrid } from "@/components/products/product-grid";
 import { PaginationPage } from "@/components/shared/pagination-page";
 import { TitlePage } from "@/components/shared/title-page";
 import { PageProps } from "@/interfaces/page-props";
-import { Category, Product } from "@/seed/seed";
+import { Product } from "@/interfaces/product";
+import { Category } from "@/seed/seed";
 import { notFound } from "next/navigation";
 
 export default async function CategoryPage({

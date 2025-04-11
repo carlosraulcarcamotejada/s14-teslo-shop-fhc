@@ -1,19 +1,6 @@
 import bcryptjs from "bcryptjs";
 import { UserRole } from "../interfaces/user";
-
-interface Product {
-  id: string;
-  category: Category;
-  description: string;
-  images: string[];
-  inStock: number;
-  price: number;
-  sizes: Size[];
-  slug: string;
-  tags: string[];
-  title: string;
-  type: Type;
-}
+import { Product } from "../interfaces/product";
 
 interface User {
   name: string;
@@ -1041,7 +1028,7 @@ export const initialData: SeedData = {
 
 export type { Category };
 export type { Country };
-export type { Product };
+
 export type { Size };
 export type { Type };
 export type { User };

@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef } from "react";
-import { Product } from "../seed/seed";
+import { Product } from "@/interfaces/product";
 
 interface ProductTableProps extends ComponentPropsWithoutRef<"div"> {
   data?: Product[];

@@ -21,10 +21,10 @@ import { useForm } from "react-hook-form";
 import { SaveIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ProductFormProps } from "@/interfaces/product-form-props";
-import { Product } from "@/seed/seed";
 import { Textarea } from "@/components/ui/textarea";
 import { productFormSchema } from "@/schema/product-form-schema";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Product } from "@/interfaces/product";
 
 export const ProductForm = ({
   categories,
@@ -92,7 +92,7 @@ export const ProductForm = ({
                       className="flex flex-wrap justify-start items-center"
                       type="multiple"
                     >
-                      {sizes.map((size, index) => (
+                      {sizes.map((size: string, index: number) => (
                         <ToggleGroupItem
                           variant="outline"
                           size="md"

@@ -1,8 +1,9 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { Category, Product, Type } from "@/seed/seed";
 import { Prisma } from "@prisma/client";
+import { Product } from "@/interfaces/product";
+import { Category, Type } from "@/seed/seed";
 
 export const getProductBySlug = async (
   slug: string
