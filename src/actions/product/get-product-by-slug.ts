@@ -2,22 +2,28 @@
 
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
-import { Product } from "@/interfaces/product/product";
 import { Type } from "@/interfaces/shared/type";
-import { Category } from "@/interfaces/shared/category";
+import { CategoryOption } from "@/interfaces/category/category-option";
 import { GetProductBySlug } from "@/interfaces/actions/get-product-by-slug";
+import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
+import { Product } from "@/interfaces/product/product";
+import { ProductImage } from "@/interfaces/product/product-image";
 
 export const getProductBySlug = async ({
+  showProductImage,
   slug,
-}: GetProductBySlug): Promise<{
-  ok: boolean;
-  product: Product | null;
-  message?: string;
-  code?: string;
-}> => {
+}: GetProductBySlug): Promise<
+  ErrorPrisma & {
+    product: (Product & { productImage?: ProductImage[] }) | null;
+  }
+> => {
   try {
     const product = await prisma.product.findFirst({
-      include: { productImage: { select: { url: true } } },
+      include: {
+        productImage: {
+          select: { ...(showProductImage && { id: true }), url: true },
+        },
+      },
       where: {
         slug,
       },
@@ -27,9 +33,15 @@ export const getProductBySlug = async ({
 
     const { categoryId, typeId, productImage, ...restProduct } = product;
 
-    const productData: Product = {
-      images: productImage.map((image) => image.url),
-      category: categoryId as Category,
+    const productData: Product & { productImage?: ProductImage[] } = {
+      ...(showProductImage && {
+        productImage: productImage.map((image) => ({
+          url: image.url,
+          id: image.id,
+        })),
+      }),
+      images: showProductImage ? [] : productImage.map((image) => image.url),
+      category: categoryId as CategoryOption,
       type: typeId as Type,
       ...restProduct,
     };

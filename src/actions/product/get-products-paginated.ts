@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { PaginationOptions } from "@/interfaces/components/pagination-options";
 import { Product } from "@/interfaces/product/product";
-import { Category } from "@/interfaces/shared/category";
+import { CategoryOption } from "@/interfaces/category/category-option";
 import { Type } from "@/interfaces/shared/type";
 
 export const getProductsPaginated = async ({
@@ -13,7 +13,7 @@ export const getProductsPaginated = async ({
   take = 12,
 }: PaginationOptions = {}): Promise<
   | {
-      categoriesMap: Map<Category, string>;
+      categoriesMap: Map<CategoryOption, string>;
       products: Product[];
       totalPages: number;
     }
@@ -23,7 +23,7 @@ export const getProductsPaginated = async ({
       ok: boolean;
       products: Product[];
       totalPages: number;
-      categoriesMap: Map<Category, string>;
+      categoriesMap: Map<CategoryOption, string>;
     }
 > => {
   if (isNaN(Number(page))) page = 1;
@@ -36,10 +36,10 @@ export const getProductsPaginated = async ({
     // 1. Obtener las categorias
     const categories = await prisma.category.findMany();
 
-    const categoriesMap = new Map<Category, string>();
+    const categoriesMap = new Map<CategoryOption, string>();
 
     categories.forEach((category) => {
-      categoriesMap.set(category.name as Category, category.id);
+      categoriesMap.set(category.name as CategoryOption, category.id);
     });
 
     // 2. Obetener los productos
@@ -71,7 +71,7 @@ export const getProductsPaginated = async ({
 
         return {
           images: productImage.map((image) => image.url),
-          category: categoryId as Category,
+          category: categoryId as CategoryOption,
           type: typeId as Type,
           ...restProduct,
         };

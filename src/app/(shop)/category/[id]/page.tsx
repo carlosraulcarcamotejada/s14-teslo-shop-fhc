@@ -4,7 +4,7 @@ import { getProductsPaginated } from "@/actions/product/get-products-paginated";
 import { ProductGrid } from "@/components/products/product-grid";
 import { PaginationPage } from "@/components/shared/pagination-page";
 import { TitlePage } from "@/components/shared/title-page";
-import { Category } from "@/interfaces/shared/category";
+import { CategoryOption } from "@/interfaces/category/category-option";
 import { PageProps } from "@/interfaces/page/page-props";
 import { Product } from "@/interfaces/product/product";
 import { notFound } from "next/navigation";
@@ -23,14 +23,14 @@ export default async function CategoryPage({
 
   const { products, totalPages, categoriesMap } = await getProductsPaginated({
     page,
-    category: category as Category,
+    category: category as CategoryOption,
   });
 
   const filteredProducts: Product[] = products.filter(
-    (product) => product.category === categoriesMap.get(category as Category)
+    (product) => product.category === categoriesMap.get(category as CategoryOption)
   );
 
-  if (!categoriesMap.has(category as Category)) {
+  if (!categoriesMap.has(category as CategoryOption)) {
     return notFound();
   }
 

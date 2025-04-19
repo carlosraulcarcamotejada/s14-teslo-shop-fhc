@@ -4,7 +4,7 @@ import { Product } from "../interfaces/product/product";
 import { Country } from "../interfaces/shared/country";
 import { Size } from "../interfaces/shared/size";
 import { Type } from "../interfaces/shared/type";
-import { Category } from "../interfaces/shared/category";
+import { CategoryOption } from "../interfaces/category/category-option";
 
 export const productSizes: Size[] = ["L", "M", "S", "XL", "XS", "XXL", "XXXL"];
 
@@ -12,7 +12,7 @@ export const userRoles: UserRole[] = ["admin", "user"];
 
 interface SeedData {
   types: Type[];
-  categories: Category[];
+  categories: CategoryOption[];
   products: Product[];
   users: User[];
   countries: Country[];

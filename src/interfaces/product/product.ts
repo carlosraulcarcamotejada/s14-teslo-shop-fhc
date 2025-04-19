@@ -1,10 +1,10 @@
 import { Type } from "@/interfaces/shared/type";
-import { Category } from "@/interfaces/shared/category";
+import { CategoryOption } from "@/interfaces/category/category-option";
 import { Size } from "@/interfaces/shared/size";
 
 interface Product {
   id: string;
-  category: Category;
+  category: CategoryOption;
   description: string;
   images: string[];
   inStock: number;

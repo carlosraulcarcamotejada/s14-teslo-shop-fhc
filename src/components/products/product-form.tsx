@@ -4,7 +4,9 @@ import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -18,13 +20,20 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { SaveIcon } from "lucide-react";
+import { SaveIcon, Trash2Icon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ProductFormProps } from "@/interfaces/product/product-form-props";
 import { Textarea } from "@/components/ui/textarea";
 import { productFormSchema } from "@/schema/product-form-schema";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Product } from "@/interfaces/product/product";
+import { useEffect } from "react";
+import { productDefaultValues } from "@/data/product-default-values";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import Image from "next/image";
+import { ProductImage } from "@/interfaces/product/product-image";
+import { productSizes } from "@/seed/seed";
+import { Size } from "@/interfaces/shared/size";
 
 export const ProductForm = ({
   categories,
@@ -32,35 +41,30 @@ export const ProductForm = ({
   product,
   ...props
 }: ProductFormProps) => {
-  const { sizes } = product;
-
-  // const router = useRouter();
+  useEffect(() => {
+    console.log(product);
+  }, []);
 
   // 1. Define your default values.
-  const defaultProductValues: Product = {
-    category: "non-category",
-    description: "",
-    id: "",
-    images: [],
-    inStock: 0,
-    price: 0,
-    sizes: [],
-    slug: "",
-    tags: [],
-    title: "",
-    type: "shirts",
-  };
+  const defaultValues: Product & { productImage?: ProductImage[] } = product
+    ? product
+    : productDefaultValues;
 
   // 2. Define your form.
-  const form = useForm<Product>({
+  const form = useForm<Product & { productImage?: ProductImage[] }>({
     resolver: zodResolver(productFormSchema),
-    defaultValues: defaultProductValues,
+    defaultValues,
   });
 
   // 3. Define a submit handler.
   async function onSubmit(values: Product) {
     console.log(values);
   }
+
+  const isValid: boolean = form.formState.isValid;
+
+  const { getValues } = form;
+  const { productImage, sizes } = product;
 
   return (
     <div className={cn("", className)} {...props}>
@@ -91,10 +95,11 @@ export const ProductForm = ({
                     <ToggleGroup
                       className="flex flex-wrap justify-start items-center"
                       type="multiple"
+                      value={getValues("sizes")}
                     >
-                      {sizes.map((size: string, index: number) => (
+                      {productSizes.map((size: string, index: number) => (
                         <ToggleGroupItem
-                          variant="outline"
+                          variant={"outline"}
                           size="md"
                           key={size + index}
                           value={size}
@@ -111,26 +116,65 @@ export const ProductForm = ({
 
             <FormField
               control={form.control}
-              name="slug"
-              render={({ field }) => (
+              name="images"
+              render={({ field: { onChange, ref, name } }) => (
                 <FormItem>
-                  <FormLabel>Slug</FormLabel>
+                  <FormLabel>Fotos</FormLabel>
                   <FormControl>
-                    <Input placeholder="Slug" {...field} />
+                    <Input
+                      placeholder="Fotos"
+                      type="file"
+                      multiple
+                      name={name}
+                      ref={ref}
+                      onChange={(e) => onChange(e.target.files)}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
+            <div className="flex flex-col">
+              <span className="mb-5 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Imágenes
+              </span>
+              <div className="flex gap-4">
+                {productImage?.map(({ id, url }) => (
+                  <Card className={"w-max"} key={id}>
+                    <CardContent className="p-0 overflow-hidden">
+                      <Image
+                        className="size-40 rounded-t-md"
+                        src={`/products/${url}`}
+                        alt={url}
+                        width={500}
+                        height={500}
+                      />
+                    </CardContent>
+                    <CardFooter className="flex justify-center p-0">
+                      <Button
+                        className="w-full rounded-b-md rounded-t-none"
+                        type="button"
+                        variant={"destructive"}
+                        onClick={() => {}}
+                      >
+                        Eliminar
+                        <Trash2Icon />
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
             <FormField
               control={form.control}
-              name="images"
+              name="slug"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Fotos</FormLabel>
+                  <FormLabel>Slug</FormLabel>
                   <FormControl>
-                    <Input placeholder="Fotos" type="file" {...field} />
+                    <Input placeholder="Slug" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -204,11 +248,14 @@ export const ProductForm = ({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {categories.map(({ id, name }) => (
-                          <SelectItem key={id} value={name}>
-                            {name}
-                          </SelectItem>
-                        ))}
+                        <SelectGroup>
+                          <SelectLabel>Categoría</SelectLabel>
+                          {categories.map(({ id, name }) => (
+                            <SelectItem key={id} value={name}>
+                              {name}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -223,7 +270,7 @@ export const ProductForm = ({
               "w-full lg:w-1/3 mt-4"
             )}
             type="submit"
-            disabled={!form.formState.isValid}
+            disabled={!isValid}
           >
             Guardar
             <SaveIcon />

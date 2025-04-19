@@ -1,16 +1,12 @@
 "use server";
+import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
+import { Category } from "@/interfaces/category/category";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
-export const getCategories = async (): Promise<{
-  ok: boolean;
-  categories: {
-    id: string;
-    name: string;
-  }[];
-  code?: string;
-  message?: string;
-}> => {
+export const getCategories = async (): Promise<
+  ErrorPrisma & { categories: Category[] }
+> => {
   try {
     const categories = await prisma.category.findMany({
       orderBy: { name: "asc" },

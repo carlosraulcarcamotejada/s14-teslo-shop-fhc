@@ -21,25 +21,20 @@ import { LoginFormProps } from "@/interfaces/auth/login-form-props";
 import { Login } from "@/interfaces/auth/login";
 import { LoginFormSchema } from "@/schema/login-form-schema";
 import { useCart } from "@/hooks/use-cart";
+import { loginDefaultValues } from "@/data/login-default-values";
 
 export const LoginForm = ({ className, ...props }: LoginFormProps) => {
   const { clearCart } = useCart();
 
   const router = useRouter();
 
-  // 1. Define your default values.
-  const defaultValues: Login = {
-    email: "",
-    password: "",
-  };
-
-  // 2. Define your form.
+  // Define your form.
   const form = useForm<Login>({
     resolver: zodResolver(LoginFormSchema),
-    defaultValues,
+    defaultValues: loginDefaultValues,
   });
 
-  // 3. Define a submit handler.
+  // Define a submit handler.
   async function onSubmit(values: Login) {
     try {
       // Crear un FormData y agregar los valores

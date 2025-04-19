@@ -20,25 +20,19 @@ import { SignIn } from "@/interfaces/auth/sign-in";
 import { SignInFormSchema } from "@/schema/signIn-form-schema";
 import { SignInFormProps } from "@/interfaces/auth/signIn-form-props";
 import { useCart } from "@/hooks/use-cart";
+import { signinDefaultValues } from "@/data/signin-default-values";
 
 export const SignInForm = ({ className, ...props }: SignInFormProps) => {
   const { clearCart } = useCart();
   const router = useRouter();
 
-  // 1. Define your default values.
-  const defaultValues: SignIn = {
-    email: "",
-    name: "",
-    password: "",
-  };
-
-  // 2. Define your form.
+  // Define your form.
   const form = useForm<SignIn>({
     resolver: zodResolver(SignInFormSchema),
-    defaultValues,
+    defaultValues: signinDefaultValues,
   });
 
-  // 3. Define a submit handler.
+  // Define a submit handler.
   async function onSubmit(values: SignIn) {
     try {
       const results = await register({ formData: values });
