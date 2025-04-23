@@ -33,7 +33,6 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
 import { ProductImage } from "@/interfaces/product/product-image";
 import { productSizes } from "@/seed/seed";
-import { Size } from "@/interfaces/shared/size";
 
 export const ProductForm = ({
   categories,
@@ -59,12 +58,15 @@ export const ProductForm = ({
   // 3. Define a submit handler.
   async function onSubmit(values: Product) {
     console.log(values);
+
+    if (values.id) {
+    } else {
+    }
   }
 
   const isValid: boolean = form.formState.isValid;
 
-  const { getValues } = form;
-  const { productImage, sizes } = product;
+  const { productImage } = product;
 
   return (
     <div className={cn("", className)} {...props}>
@@ -88,14 +90,15 @@ export const ProductForm = ({
             <FormField
               control={form.control}
               name="sizes"
-              render={({}) => (
+              render={({ field: { onChange, value } }) => (
                 <FormItem>
                   <FormLabel>Tallas</FormLabel>
                   <FormControl>
                     <ToggleGroup
                       className="flex flex-wrap justify-start items-center"
                       type="multiple"
-                      value={getValues("sizes")}
+                      onValueChange={onChange}
+                      value={value}
                     >
                       {productSizes.map((size: string, index: number) => (
                         <ToggleGroupItem

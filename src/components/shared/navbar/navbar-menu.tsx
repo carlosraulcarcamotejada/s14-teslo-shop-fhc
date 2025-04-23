@@ -98,11 +98,11 @@ export const NavbarMenu = ({ session }: NavbarMenuProps) => {
   return (
     <Sheet>
       <SheetTrigger className={cn("")} asChild>
-        <Button size="md" variant="outline">
+        <Button size="icon" variant="outline" >
           <MenuIcon />
         </Button>
       </SheetTrigger>
-      <SheetContent className="border bg-yellow-400 h-full px-0 bg-sidebar text-sidebar-foreground text-sm">
+      <SheetContent className="border bg-yellow-400 h-full px-2 bg-sidebar text-sidebar-foreground text-sm">
         <SheetHeader className="">
           <SheetTitle className="hidden" />
           <SheetDescription className="hidden" />

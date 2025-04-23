@@ -35,10 +35,7 @@ export const getProductBySlug = async ({
 
     const productData: Product & { productImage?: ProductImage[] } = {
       ...(showProductImage && {
-        productImage: productImage.map((image) => ({
-          url: image.url,
-          id: image.id,
-        })),
+        productImage: productImage.map((image) => ({ ...image })),
       }),
       images: showProductImage ? [] : productImage.map((image) => image.url),
       category: categoryId as CategoryOption,

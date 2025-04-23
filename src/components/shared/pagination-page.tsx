@@ -54,7 +54,7 @@ export const PaginationPage = ({
         <PaginationItem disabled={currentPage === 1}>
           <PaginationPrevious
             href={createPageUrl(currentPage - 1)}
-            label="Anterior"
+            // label="Anterior"
           />
         </PaginationItem>
 
@@ -76,7 +76,7 @@ export const PaginationPage = ({
         <PaginationItem disabled={currentPage === totalPages || totalPages === 0}>
           <PaginationNext
             href={createPageUrl(currentPage + 1)}
-            label="Siguiente"
+            // label="Siguiente"
           />
         </PaginationItem>
       </PaginationContent>
