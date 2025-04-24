@@ -1,7 +1,6 @@
 import { getCategories } from "@/actions/category/get-categories";
 import { getProductBySlug } from "@/actions/product/get-product-by-slug";
 import { getTypes } from "@/actions/types/get-types";
-import { PageContainer } from "@/components/page/page-container";
 import { ProductForm } from "@/components/products/product-form";
 import { TitlePage } from "@/components/shared/title-page";
 import { PageProps } from "@/interfaces/page/page-props";

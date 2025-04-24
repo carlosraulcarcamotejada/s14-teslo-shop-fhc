@@ -1,18 +1,13 @@
-import { Product } from "@/interfaces/product/product";
-import { ProductImage } from "@/interfaces/product/product-image";
+import { ProductFormValues } from "@/interfaces/product/product-form-values";
 
-export const productDefaultValues: Product & { productImage: ProductImage[] } =
-  {
-    category: "non-category",
-    description: "",
-    id: "",
-    images: [],
-    inStock: 0,
-    price: 0,
-    productImage: [],
-    sizes: [],
-    slug: "",
-    tags: [],
-    title: "",
-    type: "non-type",
-  };
+export const productDefaultValues: ProductFormValues = {
+  category: "non-category",
+  description: "",
+  images: [],
+  productImage: [],
+  sizes: [],
+  slug: "",
+  tags: [],
+  title: "",
+  type: "non-type",
+};

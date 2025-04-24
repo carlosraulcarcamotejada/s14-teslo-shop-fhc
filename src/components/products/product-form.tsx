@@ -45,18 +45,18 @@ export const ProductForm = ({
   ...props
 }: ProductFormProps) => {
   useEffect(() => {
-    console.log(product);
+    console.log(productValues);
   }, []);
 
   // 1. Define your default values.
-  const defaultValues: ProductFormValues = product
+  const productValues: ProductFormValues = product
     ? product
     : productDefaultValues;
 
   // 2. Define your form.
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productFormSchema),
-    defaultValues,
+    defaultValues: productValues,
   });
 
   // 3. Define a submit handler.
@@ -67,9 +67,12 @@ export const ProductForm = ({
 
     productFormData.append("category", restProductToSave.category);
     productFormData.append("description", restProductToSave.description);
-    productFormData.append("id", product?.id ?? "");
-    productFormData.append("inStock", restProductToSave.inStock.toString());
-    productFormData.append("price", restProductToSave.price.toString());
+    productFormData.append("id", productValues?.id ?? "");
+    productFormData.append(
+      "inStock",
+      (restProductToSave?.inStock ?? 0).toString()
+    );
+    productFormData.append("price", (restProductToSave?.price ?? 0).toString());
     productFormData.append("sizes", restProductToSave.sizes.toString());
     productFormData.append("slug", restProductToSave.slug);
     productFormData.append("tags", restProductToSave.tags.toString());
@@ -87,7 +90,7 @@ export const ProductForm = ({
 
   const isValid: boolean = form.formState.isValid;
 
-  const { productImage } = defaultValues;
+  const { productImage } = productValues;
 
   return (
     <div className={cn("", className)} {...props}>
