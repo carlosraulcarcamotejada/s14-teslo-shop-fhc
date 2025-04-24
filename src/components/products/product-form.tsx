@@ -33,11 +33,13 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
 import { ProductImage } from "@/interfaces/product/product-image";
 import { productSizes } from "@/seed/seed";
+import { createProduct } from "@/actions/product/create-product";
 
 export const ProductForm = ({
   categories,
   className,
   product,
+  types,
   ...props
 }: ProductFormProps) => {
   useEffect(() => {
@@ -56,12 +58,41 @@ export const ProductForm = ({
   });
 
   // 3. Define a submit handler.
-  async function onSubmit(values: Product) {
+  async function onSubmit(values: Product & { productImage?: ProductImage[] }) {
     console.log(values);
 
-    if (values.id) {
-    } else {
-    }
+    const { ...restProductToSave } = values;
+
+    const productFormData = new FormData();
+
+    productFormData.append("category", restProductToSave.category);
+    productFormData.append("description", restProductToSave.description);
+    productFormData.append("id", product.id ?? "");
+    // productFormData.append("images", restProductToSave.productImage);
+    // Array.from(restProductToSave.images).forEach((file) => {
+    //   productFormData.append("images", file);
+    // });
+    productFormData.append("inStock", restProductToSave.inStock.toString());
+    productFormData.append("price", restProductToSave.price.toString());
+    productFormData.append("sizes", restProductToSave.sizes.toString());
+    productFormData.append("slug", restProductToSave.slug);
+    productFormData.append("tags", restProductToSave.tags.toString());
+    productFormData.append("title", restProductToSave.title);
+    productFormData.append("type", restProductToSave.type);
+
+    console.log(productFormData);
+
+    const { ok } = await createProduct({
+      productFormData,
+    });
+
+    console.log(ok);
+
+    // if (values.id) {
+    //   // Update product
+    // } else {
+    //   // Create product
+    // }
   }
 
   const isValid: boolean = form.formState.isValid;
@@ -247,14 +278,44 @@ export const ProductForm = ({
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Seleccine una categoría" />
+                          <SelectValue placeholder="Seleccione una categoría" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         <SelectGroup>
                           <SelectLabel>Categoría</SelectLabel>
                           {categories.map(({ id, name }) => (
-                            <SelectItem key={id} value={name}>
+                            <SelectItem key={id} value={id}>
+                              {name}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel>Tipo</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Seleccione un tipo" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Tipo</SelectLabel>
+                          {types.map(({ id, name }) => (
+                            <SelectItem key={id} value={id}>
                               {name}
                             </SelectItem>
                           ))}
@@ -273,7 +334,7 @@ export const ProductForm = ({
               "w-full lg:w-1/3 mt-4"
             )}
             type="submit"
-            disabled={!isValid}
+            // disabled={!isValid}
           >
             Guardar
             <SaveIcon />

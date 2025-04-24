@@ -1,17 +1,17 @@
 import { z } from "zod";
 
 export const productFormSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().uuid().optional().nullable(),
   category: z.string().uuid(),
   description: z
     .string()
     .min(3, "La descripción debe contener al menos 3 caracteres")
     .max(500, "La descripción debe contener máximo 200 caracteres"),
-  images: z
-    .any()
-    .refine((files) => files instanceof FileList && files.length > 0, {
-      message: "Debes subir al menos una imagen",
-    }),
+  // images: z
+  //   .any()
+  //   .refine((files) => files instanceof FileList && files.length > 0, {
+  //     message: "Debes subir al menos una imagen",
+  //   }),
   inStock: z.coerce
     .number()
     .min(0)
@@ -20,13 +20,13 @@ export const productFormSchema = z.object({
     .number()
     .min(0)
     .transform((price) => Number(price).toFixed(2)),
-  sizes: z.coerce.string().array(),
+  sizes: z.coerce.string().transform((sizes) => sizes.split(",")),
   slug: z.coerce
     .string()
     .min(3, "El slug debe contener al menos 3 caracteres")
     .max(50, "El slug debe contener máximo 50 caracteres")
     .transform((slug) => slug.toLowerCase().replace(/ /g, "-").trim()),
-  tags: z.string().array(),
+  tags: z.coerce.string().transform((tags) => tags.split(",")),
   title: z
     .string()
     .min(3, "El título debe contener al menos 3 caracteres")

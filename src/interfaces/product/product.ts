@@ -1,6 +1,7 @@
-import { Type } from "@/interfaces/shared/type";
+import { Type } from "@/interfaces/type/type";
 import { CategoryOption } from "@/interfaces/category/category-option";
 import { Size } from "@/interfaces/shared/size";
+import { TypeOption } from "../type/type-option";
 
 interface Product {
   id: string;
@@ -13,7 +14,7 @@ interface Product {
   slug: string;
   tags: string[];
   title: string;
-  type: Type;
+  type: TypeOption;
 }
 
 export type { Product };

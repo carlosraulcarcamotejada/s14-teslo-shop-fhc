@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
-import { Type } from "@/interfaces/shared/type";
+import { Type } from "@/interfaces/type/type";
 import { CategoryOption } from "@/interfaces/category/category-option";
 import { GetProductBySlug } from "@/interfaces/actions/get-product-by-slug";
 import { ErrorPrisma } from "@/interfaces/actions/error-prisma";

@@ -1,26 +1,24 @@
 "use server";
 import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
-import { Category } from "@/interfaces/category/category";
-import { CategoryOption } from "@/interfaces/category/category-option";
+import { Type } from "@/interfaces/type/type";
+import { TypeOption } from "@/interfaces/type/type-option";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
-export const getCategories = async (): Promise<
-  ErrorPrisma & { categories: Category[] }
-> => {
+export const getTypes = async (): Promise<ErrorPrisma & { types: Type[] }> => {
   try {
-    const categories = await prisma.category.findMany({
+    const types = await prisma.type.findMany({
       orderBy: { name: "asc" },
     });
 
-    const categoriesData = categories.map(({ id, name }) => ({
+    const typeData = types.map(({ id, name }) => ({
       id,
-      name: name as CategoryOption,
+      name: name as TypeOption,
     }));
 
     return {
       ok: true,
-      categories: categoriesData,
+      types: typeData,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -28,19 +26,19 @@ export const getCategories = async (): Promise<
         code: error.code,
         message: `Prisma error: ${error.message}`,
         ok: false,
-        categories: [],
+        types: [],
       };
     } else if (error instanceof Error) {
       return {
         message: error.message,
         ok: false,
-        categories: [],
+        types: [],
       };
     } else {
       return {
         message: "An unknown error occurred.",
         ok: false,
-        categories: [],
+        types: [],
       };
     }
   }
