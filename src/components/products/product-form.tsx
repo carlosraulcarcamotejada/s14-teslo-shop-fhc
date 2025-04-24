@@ -34,12 +34,14 @@ import Image from "next/image";
 import { ProductImage } from "@/interfaces/product/product-image";
 import { productSizes } from "@/seed/seed";
 import { createProduct } from "@/actions/product/create-product";
+import { ProductFormValues } from "@/interfaces/product/product-form-values";
+import { updateProduct } from "@/actions/product/update-product";
 
 export const ProductForm = ({
-  categories,
+  categories = [],
   className,
   product,
-  types,
+  types = [],
   ...props
 }: ProductFormProps) => {
   useEffect(() => {
@@ -47,31 +49,25 @@ export const ProductForm = ({
   }, []);
 
   // 1. Define your default values.
-  const defaultValues: Product & { productImage?: ProductImage[] } = product
+  const defaultValues: ProductFormValues = product
     ? product
     : productDefaultValues;
 
   // 2. Define your form.
-  const form = useForm<Product & { productImage?: ProductImage[] }>({
+  const form = useForm<ProductFormValues>({
     resolver: zodResolver(productFormSchema),
     defaultValues,
   });
 
   // 3. Define a submit handler.
-  async function onSubmit(values: Product & { productImage?: ProductImage[] }) {
-    console.log(values);
-
+  async function onSubmit(values: ProductFormValues) {
     const { ...restProductToSave } = values;
 
     const productFormData = new FormData();
 
     productFormData.append("category", restProductToSave.category);
     productFormData.append("description", restProductToSave.description);
-    productFormData.append("id", product.id ?? "");
-    // productFormData.append("images", restProductToSave.productImage);
-    // Array.from(restProductToSave.images).forEach((file) => {
-    //   productFormData.append("images", file);
-    // });
+    productFormData.append("id", product?.id ?? "");
     productFormData.append("inStock", restProductToSave.inStock.toString());
     productFormData.append("price", restProductToSave.price.toString());
     productFormData.append("sizes", restProductToSave.sizes.toString());
@@ -80,24 +76,18 @@ export const ProductForm = ({
     productFormData.append("title", restProductToSave.title);
     productFormData.append("type", restProductToSave.type);
 
-    console.log(productFormData);
-
-    const { ok } = await createProduct({
-      productFormData,
-    });
-
-    console.log(ok);
-
-    // if (values.id) {
-    //   // Update product
-    // } else {
-    //   // Create product
-    // }
+    if (values.id) {
+      const { ok } = await updateProduct({ productFormData });
+    } else {
+      const { ok } = await createProduct({
+        productFormData,
+      });
+    }
   }
 
   const isValid: boolean = form.formState.isValid;
 
-  const { productImage } = product;
+  const { productImage } = defaultValues;
 
   return (
     <div className={cn("", className)} {...props}>
@@ -328,17 +318,19 @@ export const ProductForm = ({
               }}
             />
           </div>
-          <Button
-            className={cn(
-              buttonVariants({ variant: "default" }),
-              "w-full lg:w-1/3 mt-4"
-            )}
-            type="submit"
-            // disabled={!isValid}
-          >
-            Guardar
-            <SaveIcon />
-          </Button>
+          <div className="w-full flex justify-center mt-20">
+            <Button
+              className={cn(
+                buttonVariants({ variant: "default" }),
+                "w-full lg:w-1/3"
+              )}
+              type="submit"
+              // disabled={!isValid}
+            >
+              Guardar
+              <SaveIcon />
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

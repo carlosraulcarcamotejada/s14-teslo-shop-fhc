@@ -10,6 +10,7 @@ export const createProduct = async ({
   productFormData,
 }: CreateProduct): Promise<ErrorPrisma> => {
   try {
+    console.log("createProduct");
     // 1) Debug: ver qué tiene el iterador
     // console.log("Iterador entries():", Array.from(productFormData.entries()));
 
@@ -42,7 +43,6 @@ export const createProduct = async ({
 
     const prismaTx = prisma.$transaction(async (tx) => {
       if (!id) {
-        
       }
 
       return {};

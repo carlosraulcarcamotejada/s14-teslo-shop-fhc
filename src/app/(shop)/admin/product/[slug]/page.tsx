@@ -22,9 +22,9 @@ export default async function ProductPage({ params }: PageProps) {
     product?.title === "new" ? "Nuevo producto" : "Editar producto";
 
   return (
-    <PageContainer>
+    <>
       <TitlePage title={title} />
       <ProductForm product={product} categories={categories} types={types} />
-    </PageContainer>
+    </>
   );
 }

@@ -10,6 +10,7 @@ export const updateProduct = async ({
   productFormData,
 }: UpdateProduct): Promise<ErrorPrisma> => {
   try {
+    console.log("updateProduct");
     // 1) Debug: ver qué tiene el iterador
     // console.log("Iterador entries():", Array.from(productFormData.entries()));
 

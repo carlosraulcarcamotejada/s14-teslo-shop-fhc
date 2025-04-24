@@ -1,6 +1,6 @@
 "use client";
 import { ElementNotFound } from "@/components/shared/element-not-found";
-import { HomeIcon } from "lucide-react";
+import { BoxIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 
 export default function NotFoundPage() {
@@ -9,10 +9,10 @@ export default function NotFoundPage() {
       title="Producto no encontrado"
       subTitle="Lo sentimos, no pudimos encontrar el producto que estás buscando."
       buttonProps={{
-        label: "Regresar al inicio",
-        icon: HomeIcon,
+        label: "Regresar a productos",
+        icon: BoxIcon,
         onClick() {
-          redirect("/");
+          redirect("/admin/products");
         },
       }}
     />
