@@ -5,11 +5,10 @@ import { notFound } from "next/navigation";
 import { titleFont } from "@/config/fonts";
 import { ProductSlideshow } from "@/components/product/product-slideshow";
 import { PageProps } from "@/interfaces/page/page-props";
-import { getProductBySlug } from "@/actions/product/get-product-by-slug";
+import { getProduct } from "@/actions/product/get-product";
 import { StockLabel } from "@/components/product/stock-label";
 import { AddToCart } from "@/components/product/add-to-cart";
 import { FormatNumber } from "@/utils/format-number";
-import { getStockById } from "@/actions/product/get-stock-by-id";
 
 export async function generateMetadata({
   params,
@@ -18,7 +17,7 @@ export async function generateMetadata({
   const { slug } = await params;
 
   // fetch data
-  const { product } = await getProductBySlug({ slug });
+  const { product } = await getProduct({ slug });
 
   return {
     title: product?.title ?? "Producto no encontrado.",
@@ -34,13 +33,13 @@ export async function generateMetadata({
 export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
 
-  const { product } = await getProductBySlug({ slug });
+  const { product } = await getProduct({ slug });
 
   if (!product) notFound();
 
-  const { description, title, price, images, id } = product;
+  console.log(product);
 
-  const inStock: number | undefined = await getStockById({ id });
+  const { description, title, price = 0, images, inStock } = product;
 
   return (
     <>

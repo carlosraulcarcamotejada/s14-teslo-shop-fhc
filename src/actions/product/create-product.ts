@@ -5,6 +5,7 @@ import { CreateProduct } from "@/interfaces/actions/create-product";
 import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
 import { productFormSchema } from "@/schema/product-form-schema";
 import prisma from "@/lib/prisma";
+import { Size } from "@/interfaces/shared/size";
 
 export const createProduct = async ({
   productFormData,
@@ -14,7 +15,13 @@ export const createProduct = async ({
     // 1) Debug: ver qué tiene el iterador
     // console.log("Iterador entries():", Array.from(productFormData.entries()));
 
-    const imageFiles = productFormData.getAll("images");
+    const rawSizes = productFormData.getAll("sizes");
+
+    // Si rawSizes = ['XS,S,M,L'], entonces:
+    const sizes = rawSizes
+      .map((s) => (typeof s === "string" ? s.split(",") : [])) // dividir si es string
+      .flat()
+      .filter(Boolean); // eliminar strings vacíos
 
     // 2) Convertir en objeto plano
     const dataObject = Object.fromEntries(productFormData.entries());
@@ -23,12 +30,12 @@ export const createProduct = async ({
     // 3)
     const dataForZod = {
       ...dataObject,
-      images: imageFiles,
+      sizes,
     };
 
     // 4) Parsear con Zod
-    const productParsed = productFormSchema.safeParse(dataObject);
-    // console.log("productParsed: ", productParsed);
+    const productParsed = productFormSchema.safeParse(dataForZod);
+    console.log("productParsed: ", productParsed);
 
     if (!productParsed.success) {
       return {
@@ -37,15 +44,30 @@ export const createProduct = async ({
       };
     }
 
-    const product = productParsed.data;
+    const { category, type, id, ...restProduct } = productParsed.data;
 
-    const { id, ...restProduct } = product;
+    if (id) {
+      return {
+        ok: false,
+        message: "El producto no tiene que tener un id",
+      };
+    }
 
     const prismaTx = prisma.$transaction(async (tx) => {
-      if (!id) {
-      }
+      const createdProduct = await tx.product.create({
+        data: {
+          ...restProduct,
+          categoryId: category,
+          typeId: type,
+          sizes: {
+            set: restProduct.sizes as Size[],
+          },
+        },
+      });
 
-      return {};
+      return {
+        createdProduct,
+      };
     });
 
     return {

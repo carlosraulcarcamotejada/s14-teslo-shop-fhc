@@ -11,7 +11,7 @@ export const NavbarMenuItem = ({
   type = "link",
 }: NavbarMenuItemProps) => {
   const navbarItemClass =
-    "col-span-4 w-full px-4 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent transition-all duration-75";
+    "col-span-4 w-full px-4 flex justify-start items-center gap-x-3 h-10 rounded-md hover:bg-accent";
 
   return (
     <SheetClose asChild>

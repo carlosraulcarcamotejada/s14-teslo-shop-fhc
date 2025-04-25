@@ -1,5 +1,5 @@
 import { getCategories } from "@/actions/category/get-categories";
-import { getProductBySlug } from "@/actions/product/get-product-by-slug";
+import { getProduct } from "@/actions/product/get-product";
 import { getTypes } from "@/actions/types/get-types";
 import { ProductForm } from "@/components/products/product-form";
 import { TitlePage } from "@/components/shared/title-page";
@@ -10,20 +10,22 @@ export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
 
   const [{ product }, { categories }, { types }] = await Promise.all([
-    getProductBySlug({ slug, showProductImage: true }),
+    getProduct({ slug, showProductImage: true }),
     getCategories(),
     getTypes(),
   ]);
 
   if (!product) notFound();
 
-  const title: string =
-    product?.title === "new" ? "Nuevo producto" : "Editar producto";
-
   return (
     <>
-      <TitlePage title={title} />
-      <ProductForm product={product} categories={categories} types={types} />
+      <TitlePage title={"Editar producto"} />
+      <ProductForm
+        categories={categories}
+        className="mt-10"
+        product={product}
+        types={types}
+      />
     </>
   );
 }

@@ -20,22 +20,21 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { SaveIcon, Trash2Icon } from "lucide-react";
+import { RefreshCcwIcon, SaveIcon, Trash2Icon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ProductFormProps } from "@/interfaces/product/product-form-props";
 import { Textarea } from "@/components/ui/textarea";
 import { productFormSchema } from "@/schema/product-form-schema";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Product } from "@/interfaces/product/product";
 import { useEffect } from "react";
 import { productDefaultValues } from "@/data/product-default-values";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
-import { ProductImage } from "@/interfaces/product/product-image";
 import { productSizes } from "@/seed/seed";
 import { createProduct } from "@/actions/product/create-product";
 import { ProductFormValues } from "@/interfaces/product/product-form-values";
 import { updateProduct } from "@/actions/product/update-product";
+import Link from "next/link";
 
 export const ProductForm = ({
   categories = [],
@@ -45,7 +44,8 @@ export const ProductForm = ({
   ...props
 }: ProductFormProps) => {
   useEffect(() => {
-    console.log(productValues);
+    // console.log(productValues);
+    // console.log(FormDescription)
   }, []);
 
   // 1. Define your default values.
@@ -62,12 +62,12 @@ export const ProductForm = ({
   // 3. Define a submit handler.
   async function onSubmit(values: ProductFormValues) {
     const { ...restProductToSave } = values;
-
+    // console.log(values);
     const productFormData = new FormData();
 
     productFormData.append("category", restProductToSave.category);
     productFormData.append("description", restProductToSave.description);
-    productFormData.append("id", productValues?.id ?? "");
+    productValues?.id && productFormData.append("id", productValues?.id);
     productFormData.append(
       "inStock",
       (restProductToSave?.inStock ?? 0).toString()
@@ -81,10 +81,12 @@ export const ProductForm = ({
 
     if (values.id) {
       const { ok } = await updateProduct({ productFormData });
+      console.log(ok);
     } else {
       const { ok } = await createProduct({
         productFormData,
       });
+      console.log(ok);
     }
   }
 
@@ -94,6 +96,12 @@ export const ProductForm = ({
 
   return (
     <div className={cn("", className)} {...props}>
+      <Link
+        href={`/product/${productValues.slug}`}
+        className={buttonVariants({ variant: "link" })}
+      >
+        {productValues.title}
+      </Link>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 gap-2 sm:gap-5 sm:grid-cols-2 mt-8">
@@ -225,11 +233,16 @@ export const ProductForm = ({
             <FormField
               control={form.control}
               name="price"
-              render={({ field }) => (
+              render={({ field: { value = "", ...restField } }) => (
                 <FormItem>
                   <FormLabel>Precio</FormLabel>
                   <FormControl>
-                    <Input placeholder="Precio" type="number" {...field} />
+                    <Input
+                      {...restField}
+                      placeholder="Precio"
+                      type="number"
+                      value={value}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -251,11 +264,16 @@ export const ProductForm = ({
             <FormField
               control={form.control}
               name="inStock"
-              render={({ field }) => (
+              render={({ field: { value = "", ...restField } }) => (
                 <FormItem>
                   <FormLabel>inStock</FormLabel>
                   <FormControl>
-                    <Input placeholder="inStock" {...field} />
+                    <Input
+                      {...restField}
+                      placeholder="inStock"
+                      type="number"
+                      value={value}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -330,8 +348,8 @@ export const ProductForm = ({
               type="submit"
               // disabled={!isValid}
             >
-              Guardar
-              <SaveIcon />
+              {productValues?.id ? "Actualizar" : "Guardar"}
+              {productValues?.id ? <RefreshCcwIcon /> : <SaveIcon />}
             </Button>
           </div>
         </form>

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { coerce, z } from "zod";
 
 export const productFormSchema = z.object({
   id: z.string().uuid().optional().nullable(),
@@ -15,18 +15,25 @@ export const productFormSchema = z.object({
   inStock: z.coerce
     .number()
     .min(0)
-    .transform((inStock) => Number(inStock).toFixed(0)),
+    .transform((inStock) => Number(inStock.toFixed(0))),
   price: z.coerce
     .number()
     .min(0)
-    .transform((price) => Number(price).toFixed(2)),
-  sizes: z.coerce.string().transform((sizes) => sizes.split(",")),
+    .transform((price) => Number(price.toFixed(2))),
+  // sizes: z.coerce.string().transform((sizes) => sizes.split(",")),
+  sizes: z
+    .array(z.string().min(1))
+    .min(1, { message: "Debe seleccionar al menos una talla" }),
   slug: z.coerce
     .string()
     .min(3, "El slug debe contener al menos 3 caracteres")
     .max(50, "El slug debe contener máximo 50 caracteres")
     .transform((slug) => slug.toLowerCase().replace(/ /g, "-").trim()),
   tags: z.coerce.string().transform((tags) => tags.split(",")),
+  // tags: z.coerce
+  //   .string()
+  //   .min(1, { message: "Debe ingresar al menos un tag" })
+  //   .transform((tags) => tags.split("/")),
   title: z
     .string()
     .min(3, "El título debe contener al menos 3 caracteres")
