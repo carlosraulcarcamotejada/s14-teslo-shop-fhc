@@ -67,7 +67,7 @@ export const ProductForm = ({
 
     productFormData.append("category", restProductToSave.category);
     productFormData.append("description", restProductToSave.description);
-    productValues?.id && productFormData.append("id", productValues?.id);
+    if (productValues?.id) productFormData.append("id", productValues?.id);
     productFormData.append(
       "inStock",
       (restProductToSave?.inStock ?? 0).toString()
@@ -89,8 +89,6 @@ export const ProductForm = ({
       console.log(ok);
     }
   }
-
-  const isValid: boolean = form.formState.isValid;
 
   const { productImage } = productValues;
 

@@ -1,4 +1,4 @@
-import { coerce, z } from "zod";
+import { z } from "zod";
 
 export const productFormSchema = z.object({
   id: z.string().uuid().optional().nullable(),

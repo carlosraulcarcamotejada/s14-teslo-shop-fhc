@@ -6,7 +6,6 @@ import { CategoryOption } from "@/interfaces/category/category-option";
 import { GetProduct } from "@/interfaces/actions/get-product";
 import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
 import { Product } from "@/interfaces/product/product";
-import { ProductImage } from "@/interfaces/product/product-image";
 import { TypeOption } from "@/interfaces/type/type-option";
 
 export const getProduct = async ({
@@ -15,7 +14,7 @@ export const getProduct = async ({
   slug,
 }: GetProduct): Promise<
   ErrorPrisma & {
-    product: (Product & { productImage?: ProductImage[] }) | undefined;
+    product?: Product;
   }
 > => {
   try {
@@ -24,6 +23,12 @@ export const getProduct = async ({
         productImage: {
           select: { ...(showProductImage && { id: true }), url: true },
         },
+        category: {
+          select: { name: true },
+        },
+        type: {
+          select: { name: true },
+        },
       },
       where: {
         ...(slug && { slug }),
@@ -31,18 +36,27 @@ export const getProduct = async ({
       },
     });
 
-    if (!product) return { ok: false, product: undefined };
+    if (!product) {
+      return {
+        ok: false,
+        message: "No se encontró el producto",
+        product: undefined,
+      };
+    }
 
-    const { categoryId, typeId, productImage, ...restProduct } = product;
+    delete (product as Partial<typeof product>)?.categoryId;
+    delete (product as Partial<typeof product>)?.typeId;
 
-    const productData: Product & { productImage?: ProductImage[] } = {
+    const { category, type, productImage, ...restProduct } = product;
+
+    const productData: Product = {
       ...(showProductImage && {
         productImage: productImage.map((image) => ({ ...image })),
       }),
-      images: showProductImage ? [] : productImage.map((image) => image.url),
-      category: categoryId as CategoryOption,
-      type: typeId as TypeOption,
       ...restProduct,
+      category: category.name as CategoryOption,
+      images: showProductImage ? [] : productImage.map((image) => image.url),
+      type: type.name as TypeOption,
     };
 
     return {
@@ -55,19 +69,16 @@ export const getProduct = async ({
         code: error.code,
         message: `Prisma error: ${error.message}`,
         ok: false,
-        product: undefined,
       };
     } else if (error instanceof Error) {
       return {
         message: error.message,
         ok: false,
-        product: undefined,
       };
     } else {
       return {
         message: "An unknown error occurred.",
         ok: false,
-        product: undefined,
       };
     }
   }

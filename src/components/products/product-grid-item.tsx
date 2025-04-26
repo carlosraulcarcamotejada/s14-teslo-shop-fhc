@@ -12,7 +12,7 @@ const ProductGridItem = ({
   className,
   ...props
 }: ProductGridItemProps) => {
-  const { slug, title, images, price } = product;
+  const { slug, title, images, price = 0 } = product;
 
   const [displayImage, setDisplayImage] = useState(`/products/${images[0]}`);
 

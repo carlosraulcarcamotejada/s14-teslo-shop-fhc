@@ -37,9 +37,7 @@ export default async function ProductPage({ params }: PageProps) {
 
   if (!product) notFound();
 
-  console.log(product);
-
-  const { description, title, price = 0, images, inStock } = product;
+  const { description, title, price, images, inStock } = product;
 
   return (
     <>
@@ -60,7 +58,7 @@ export default async function ProductPage({ params }: PageProps) {
         </h1>
         {/* Stock */}
         <StockLabel inStock={inStock} />
-        <div className="text-lg mt-4">{FormatNumber(price)}</div>
+        <div className="text-lg mt-4">{FormatNumber(price ?? 0)}</div>
 
         <AddToCart product={product} />
 

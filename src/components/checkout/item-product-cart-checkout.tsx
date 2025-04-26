@@ -10,13 +10,17 @@ export const ItemProductCartCheckout = ({
   productInCart,
   ...props
 }: ItemProductCartCheckoutProps) => {
-  const { image, price, quantity, selectedSize, title, slug } = productInCart;
+  const {
+    image,
+    price = 0,
+    quantity,
+    selectedSize,
+    title,
+    slug,
+  } = productInCart;
 
   return (
-    <Card
-      className={cn("flex gap-x-2 overflow-hidden", className)}
-      {...props}
-    >
+    <Card className={cn("flex gap-x-2 overflow-hidden", className)} {...props}>
       {/* Image */}
       <Image
         className="h-52 w-40 object-cover lg:w-48"

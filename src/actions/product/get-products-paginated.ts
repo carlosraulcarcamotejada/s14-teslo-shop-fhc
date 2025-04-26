@@ -6,25 +6,18 @@ import { PaginationOptions } from "@/interfaces/components/pagination-options";
 import { Product } from "@/interfaces/product/product";
 import { CategoryOption } from "@/interfaces/category/category-option";
 import { TypeOption } from "@/interfaces/type/type-option";
+import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
 
 export const getProductsPaginated = async ({
   category,
   page = 1,
   take = 12,
 }: PaginationOptions = {}): Promise<
-  | {
-      categoriesMap: Map<CategoryOption, string>;
-      products: Product[];
-      totalPages: number;
-    }
-  | {
-      code?: string;
-      message: string;
-      ok: boolean;
-      products: Product[];
-      totalPages: number;
-      categoriesMap: Map<CategoryOption, string>;
-    }
+  ErrorPrisma & {
+    products: Product[];
+    totalPages: number;
+    categoriesMap?: Map<CategoryOption, string>;
+  }
 > => {
   if (isNaN(Number(page))) page = 1;
   if (page < 1) page = 1;
@@ -46,7 +39,17 @@ export const getProductsPaginated = async ({
     const products = await prisma.product.findMany({
       take,
       skip: (page - 1) * take,
-      include: { productImage: { take: 2, select: { url: true } } },
+      include: {
+        productImage: { take: 2, select: { url: true } },
+
+        category: {
+          select: { name: true },
+        },
+
+        type: {
+          select: { name: true },
+        },
+      },
 
       ...(category && {
         where: { categoryId: categoriesMap.get(category) },
@@ -61,21 +64,27 @@ export const getProductsPaginated = async ({
     });
 
     // 4. Calcular el total de páginas
-    const totalPages = Math.ceil(totalItems / take);
+    const totalPages: number = Math.ceil(totalItems / take);
+
+    const productsData: Product[] = products.map((product) => {
+      delete (product as Partial<typeof product>)?.categoryId;
+      delete (product as Partial<typeof product>)?.typeId;
+
+      const { category, type, productImage, ...restProduct } = product;
+
+      return {
+        ...restProduct,
+        images: productImage.map((image) => image.url),
+        category: category.name as CategoryOption,
+        type: type.name as TypeOption,
+      };
+    });
 
     return {
+      ok: true,
+      message: "Productos obtenidos correctamente",
       totalPages,
-      categoriesMap,
-      products: products.map((product) => {
-        const { categoryId, typeId, productImage, ...restProduct } = product;
-
-        return {
-          images: productImage.map((image) => image.url),
-          category: categoryId as CategoryOption,
-          type: typeId as TypeOption,
-          ...restProduct,
-        };
-      }),
+      products: productsData,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -85,7 +94,6 @@ export const getProductsPaginated = async ({
         ok: false,
         products: [],
         totalPages: 0,
-        categoriesMap: new Map(),
       };
     } else if (error instanceof Error) {
       return {
@@ -93,7 +101,6 @@ export const getProductsPaginated = async ({
         ok: false,
         products: [],
         totalPages: 0,
-        categoriesMap: new Map(),
       };
     } else {
       return {
@@ -101,7 +108,6 @@ export const getProductsPaginated = async ({
         ok: false,
         products: [],
         totalPages: 0,
-        categoriesMap: new Map(),
       };
     }
   }

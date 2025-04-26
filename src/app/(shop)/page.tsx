@@ -17,11 +17,15 @@ export default async function ShopPage({ searchParams }: PageProps) {
     page,
   });
 
+  console.log(products);
+
   return (
     <div className="col-start-1 col-span-4 md:col-span-8 lg:col-span-12 px-4">
       <TitlePage title="Tienda" subTitle="Todos los productos" />
       <ProductGrid className="mt-10" products={products} />
-      <PaginationPage totalPages={totalPages} className="mt-20" />
+      {products.length > 0 && (
+        <PaginationPage totalPages={totalPages} className="mt-20" />
+      )}
     </div>
   );
 }

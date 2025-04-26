@@ -27,10 +27,11 @@ export default async function CategoryPage({
   });
 
   const filteredProducts: Product[] = products.filter(
-    (product) => product.category === categoriesMap.get(category as CategoryOption)
+    (product) =>
+      product.category === categoriesMap?.get(category as CategoryOption)
   );
 
-  if (!categoriesMap.has(category as CategoryOption)) {
+  if (!categoriesMap?.has(category as CategoryOption)) {
     return notFound();
   }
 

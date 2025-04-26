@@ -9,7 +9,7 @@ export const ItemProductCheckout = ({
   className,
   ...props
 }: ItemProductCheckoutProps) => {
-  const { image, title, price, quantity } = product;
+  const { image, title, price = 0, quantity } = product;
   return (
     <Card className={cn("flex gap-x-2 overflow-hidden", className)} {...props}>
       <Image

@@ -1,19 +1,18 @@
 "use server";
 
-import { Prisma, ProductImage } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { UpdateProduct } from "@/interfaces/actions/update-product";
 import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
 import { productFormSchema } from "@/schema/product-form-schema";
 import prisma from "@/lib/prisma";
 import { Size } from "@/interfaces/shared/size";
 import { Product } from "@/interfaces/product/product";
-import { getProduct } from "./get-product";
+import { TypeOption } from "@/interfaces/type/type-option";
+import { CategoryOption } from "@/interfaces/category/category-option";
 
 export const updateProduct = async ({
   productFormData,
-}: UpdateProduct): Promise<
-  ErrorPrisma & { updatedProduct?: Product & { productImage?: ProductImage[] } }
-> => {
+}: UpdateProduct): Promise<ErrorPrisma & { updatedProduct?: Product }> => {
   try {
     console.log("updateProduct");
     // 1) Debug: ver qué tiene el iterador
@@ -68,6 +67,17 @@ export const updateProduct = async ({
             set: restProduct.sizes as Size[],
           },
         },
+        include: {
+          productImage: {
+            select: { url: true },
+          },
+          category: {
+            select: { name: true },
+          },
+          type: {
+            select: { name: true },
+          },
+        },
       });
 
       return {
@@ -75,8 +85,35 @@ export const updateProduct = async ({
       };
     });
 
+    const { updatedProduct } = prismaTx;
+
+    if (!updatedProduct) {
+      return {
+        ok: false,
+      };
+    }
+
+    delete (updatedProduct as Partial<typeof updatedProduct>)?.categoryId;
+    delete (updatedProduct as Partial<typeof updatedProduct>)?.typeId;
+
+    const {
+      category: categoryUpdatedProduct,
+      productImage,
+      type: typeUpdatedProduct,
+      ...restUpdatedProduct
+    } = updatedProduct;
+
+    const updatedProductData: Product = {
+      ...restUpdatedProduct,
+      category: categoryUpdatedProduct.name as CategoryOption,
+      type: typeUpdatedProduct.name as TypeOption,
+      images: productImage.map((image) => image.url),
+    };
+
     return {
+      message: "Producto actualizado correctamente",
       ok: true,
+      updatedProduct: updatedProductData,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {

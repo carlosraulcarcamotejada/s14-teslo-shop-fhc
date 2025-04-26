@@ -10,8 +10,14 @@ export const ItemProductCartOrders = ({
   productInCartOrders,
   ...props
 }: ItemProductCartOrdersProps) => {
-  const { image, price, quantity, selectedSize, title, slug } =
-    productInCartOrders;
+  const {
+    image,
+    price = 0,
+    quantity,
+    selectedSize,
+    title,
+    slug,
+  } = productInCartOrders;
 
   return (
     <Card className={cn("flex gap-x-2 overflow-hidden", className)} {...props}>

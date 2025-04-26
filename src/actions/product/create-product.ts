@@ -53,7 +53,7 @@ export const createProduct = async ({
       };
     }
 
-    const prismaTx = prisma.$transaction(async (tx) => {
+    prisma.$transaction(async (tx) => {
       const createdProduct = await tx.product.create({
         data: {
           ...restProduct,
@@ -72,6 +72,7 @@ export const createProduct = async ({
 
     return {
       ok: true,
+      message: "Producto creado correctamente",
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {

@@ -46,27 +46,44 @@ async function main() {
     typesMap.set(type.name, type.id);
   });
 
-  products.forEach(async (product) => {
-    const { type, category, images, ...restProduct } = product;
-    // create Product
-    const dbProduct = await prisma.product.create({
-      data: {
-        typeId: typesMap.get(type) ?? "non-type",
-        categoryId: categoriesMap.get(category) ?? "non-category",
-        ...restProduct,
-      },
-    });
+  for (const product of products) {
+    try {
+      const {
+        category,
+        images,
+        inStock = 0,
+        price = 0,
+        productImage,
+        type,
+        ...restProduct
+      } = product;
 
-    // Create Images
-    const imagesData = images.map((image) => ({
-      url: image,
-      productId: dbProduct.id,
-    }));
+      void productImage;
 
-    await prisma.productImage.createMany({
-      data: imagesData,
-    });
-  });
+      const dbProduct = await prisma.product.create({
+        data: {
+          ...restProduct,
+          inStock,
+          price,
+          typeId: typesMap.get(type) ?? "non-type",
+          categoryId: categoriesMap.get(category) ?? "non-category",
+        },
+      });
+
+      const imagesData = images.map((image) => ({
+        url: image,
+        productId: dbProduct.id,
+      }));
+
+      await prisma.productImage.createMany({
+        data: imagesData,
+      });
+
+      console.log(`✅ Producto creado: ${dbProduct.title}`);
+    } catch (error) {
+      console.error("❌ Error al crear producto:", error);
+    }
+  }
 
   console.log("seed efecutado exitosamente");
 }

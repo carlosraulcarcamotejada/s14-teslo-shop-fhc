@@ -12,7 +12,7 @@ export const selectSumaryInfomation = createSelector(
   selectCart,
   (cart): TotalSummary => {
     const subTotal = cart.reduce(
-      (accum, currVal) => accum + currVal.quantity * currVal.price,
+      (accum, currVal) => accum + currVal.quantity * (currVal.price ?? 0),
       0
     );
     const tax = subTotal * 0.15;
