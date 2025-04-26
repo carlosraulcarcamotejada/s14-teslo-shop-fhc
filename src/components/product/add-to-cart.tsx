@@ -75,8 +75,8 @@ export const AddToCart = ({ product }: AddToCartProps) => {
         size="lg"
         className="select-none mt-8"
       >
-        Agregar al carrrito
         <ShoppingCartIcon />
+        Agregar al carrrito
       </Button>
     </>
   );

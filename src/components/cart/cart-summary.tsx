@@ -38,8 +38,8 @@ export const CartSummary = ({ className, ...props }: CartSummaryProps) => {
         href="/checkout/address"
         className={cn(buttonVariants({ variant: "default" }), "mt-6 w-full")}
       >
-        Checkout
         <CheckSquareIcon />
+        Checkout
       </Link>
     </Card>
   );

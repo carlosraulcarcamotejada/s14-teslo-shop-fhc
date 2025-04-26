@@ -70,7 +70,7 @@ export const CheckoutAddressForm = ({
       await setUserAddress(values, userId);
     }
     if (!values.saveForm) {
-      await deleteUserAddress({userId});
+      await deleteUserAddress({ userId });
     }
 
     router.push("/checkout");
@@ -231,8 +231,8 @@ export const CheckoutAddressForm = ({
             type="submit"
             disabled={!form.formState.isValid}
           >
-            Siguiente
             <SaveIcon />
+            Siguiente
           </Button>
         </form>
       </Form>

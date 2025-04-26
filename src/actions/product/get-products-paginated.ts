@@ -4,8 +4,6 @@ import { Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { PaginationOptions } from "@/interfaces/components/pagination-options";
 import { Product } from "@/interfaces/product/product";
-import { CategoryOption } from "@/interfaces/category/category-option";
-import { TypeOption } from "@/interfaces/type/type-option";
 import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
 
 export const getProductsPaginated = async ({
@@ -28,10 +26,10 @@ export const getProductsPaginated = async ({
     // 1. Obtener las categorias
     const categories = await prisma.category.findMany();
 
-    const categoriesMap = new Map<CategoryOption, string>();
+    const categoriesMap = new Map<string, string>();
 
     categories.forEach((category) => {
-      categoriesMap.set(category.name as CategoryOption, category.id);
+      categoriesMap.set(category.name, category.id);
     });
 
     // 2. Obetener los productos
@@ -40,14 +38,6 @@ export const getProductsPaginated = async ({
       skip: (page - 1) * take,
       include: {
         productImage: { take: 2, select: { url: true } },
-
-        category: {
-          select: { name: true },
-        },
-
-        type: {
-          select: { name: true },
-        },
       },
 
       ...(category && {
@@ -66,16 +56,13 @@ export const getProductsPaginated = async ({
     const totalPages: number = Math.ceil(totalItems / take);
 
     const productsData: Product[] = products.map((product) => {
-      delete (product as Partial<typeof product>)?.categoryId;
-      delete (product as Partial<typeof product>)?.typeId;
-
-      const { category, type, productImage, ...restProduct } = product;
+      const { categoryId, typeId, productImage, ...restProduct } = product;
 
       return {
         ...restProduct,
         images: productImage.map((image) => image.url),
-        category: category.name as CategoryOption,
-        type: type.name as TypeOption,
+        category: categoryId,
+        type: typeId,
       };
     });
 

@@ -37,8 +37,8 @@ export const ElementNotFound = ({
             onClick={() => buttonProps.onClick()}
             className={buttonVariants({ variant: "default" })}
           >
-            {buttonProps.label}
             {Icon && <Icon />}
+            {buttonProps.label}
           </Button>
         </div>
       </div>

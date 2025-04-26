@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 export const productFormSchema = z.object({
-  id: z.string().uuid().optional().nullable(),
-  category: z.string().uuid(),
+  id: z.string().uuid({ message: "uuid no válido" }).optional().nullable(),
+  category: z.string().uuid({ message: "uuid no válido" }),
   description: z
     .string()
     .min(3, "La descripción debe contener al menos 3 caracteres")
@@ -38,5 +38,5 @@ export const productFormSchema = z.object({
     .string()
     .min(3, "El título debe contener al menos 3 caracteres")
     .max(50, "El título debe contener máximo 50 caracteres"),
-  type: z.string().uuid(),
+  type: z.string().uuid({ message: "uuid no válido" }),
 });

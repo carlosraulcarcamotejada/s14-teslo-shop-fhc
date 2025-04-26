@@ -44,7 +44,7 @@ export const ProductForm = ({
   ...props
 }: ProductFormProps) => {
   useEffect(() => {
-    // console.log(productValues);
+    console.log(productValues);
     // console.log(FormDescription)
   }, []);
 
@@ -96,7 +96,7 @@ export const ProductForm = ({
     <div className={cn("", className)} {...props}>
       <Link
         href={`/product/${productValues.slug}`}
-        className={buttonVariants({ variant: "link" })}
+        className={"underline-offset-4 hover:underline"}
       >
         {productValues.title}
       </Link>
@@ -346,8 +346,8 @@ export const ProductForm = ({
               type="submit"
               // disabled={!isValid}
             >
-              {productValues?.id ? "Actualizar" : "Guardar"}
               {productValues?.id ? <RefreshCcwIcon /> : <SaveIcon />}
+              {productValues?.id ? "Actualizar" : "Guardar"}
             </Button>
           </div>
         </form>

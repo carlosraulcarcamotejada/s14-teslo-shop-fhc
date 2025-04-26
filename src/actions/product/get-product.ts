@@ -2,11 +2,9 @@
 
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
-import { CategoryOption } from "@/interfaces/category/category-option";
 import { GetProduct } from "@/interfaces/actions/get-product";
 import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
 import { Product } from "@/interfaces/product/product";
-import { TypeOption } from "@/interfaces/type/type-option";
 
 export const getProduct = async ({
   id,
@@ -23,12 +21,6 @@ export const getProduct = async ({
         productImage: {
           select: { ...(showProductImage && { id: true }), url: true },
         },
-        category: {
-          select: { name: true },
-        },
-        type: {
-          select: { name: true },
-        },
       },
       where: {
         ...(slug && { slug }),
@@ -44,24 +36,24 @@ export const getProduct = async ({
       };
     }
 
-    delete (product as Partial<typeof product>)?.categoryId;
-    delete (product as Partial<typeof product>)?.typeId;
-
-    const { category, type, productImage, ...restProduct } = product;
+    const { categoryId, productImage, typeId, ...restProduct } = product;
 
     const productData: Product = {
       ...(showProductImage && {
         productImage: productImage.map((image) => ({ ...image })),
       }),
       ...restProduct,
-      category: category.name as CategoryOption,
+      category: categoryId,
       images: showProductImage ? [] : productImage.map((image) => image.url),
-      type: type.name as TypeOption,
+      type: typeId,
     };
+
+    console.log(productData);
 
     return {
       ok: true,
       product: productData,
+      message: "Producto obtenido correctamente",
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {

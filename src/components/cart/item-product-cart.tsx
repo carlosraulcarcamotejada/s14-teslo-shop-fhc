@@ -59,7 +59,8 @@ export const ItemProductCart = ({
           variant="default"
           className="flex items-center justify-center select-none"
         >
-          Remover <Trash2Icon />
+          <Trash2Icon />
+          Remover
         </Button>
       </div>
     </Card>

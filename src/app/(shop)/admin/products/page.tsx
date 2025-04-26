@@ -10,17 +10,19 @@ import { BoxIcon } from "lucide-react";
 export default async function ProductsPage() {
   const { products, totalPages } = await getProductsPaginated();
 
+  console.log(products);
+
   return (
-    <div className="col-start-1 col-span-full px-4">
+    <>
       <TitlePage title={`Mantenimiento de productos:`} size="m" />
       <Link
         href={"/admin/product/new"}
         className={cn(buttonVariants({ variant: "default" }), "my-4")}
       >
-        Nuevo Producto
         <BoxIcon />
+        Nuevo Producto
       </Link>
       <ProductsTable data={products} totalPages={totalPages} />
-    </div>
+    </>
   );
 }
