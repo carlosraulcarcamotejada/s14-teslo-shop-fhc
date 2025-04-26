@@ -1,4 +1,3 @@
-import { ProductImage } from "@/interfaces/product/product-image";
 import { Size } from "@/interfaces/shared/size";
 
 interface Product {
@@ -8,7 +7,6 @@ interface Product {
   images: string[];
   inStock?: number;
   price?: number;
-  productImage?: ProductImage[];
   sizes: Size[];
   slug: string;
   tags: string[];

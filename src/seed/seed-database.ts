@@ -53,12 +53,10 @@ async function main() {
         images,
         inStock = 0,
         price = 0,
-        productImage,
+
         type,
         ...restProduct
       } = product;
-
-      void productImage;
 
       const dbProduct = await prisma.product.create({
         data: {
