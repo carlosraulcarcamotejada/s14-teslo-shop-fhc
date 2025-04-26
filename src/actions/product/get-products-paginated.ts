@@ -9,14 +9,13 @@ import { TypeOption } from "@/interfaces/type/type-option";
 import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
 
 export const getProductsPaginated = async ({
-  category,
+  category = "non-category",
   page = 1,
   take = 12,
 }: PaginationOptions = {}): Promise<
   ErrorPrisma & {
     products: Product[];
     totalPages: number;
-    categoriesMap?: Map<CategoryOption, string>;
   }
 > => {
   if (isNaN(Number(page))) page = 1;

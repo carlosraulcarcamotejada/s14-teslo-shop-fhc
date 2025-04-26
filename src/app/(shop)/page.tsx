@@ -17,8 +17,6 @@ export default async function ShopPage({ searchParams }: PageProps) {
     page,
   });
 
-  console.log(products);
-
   return (
     <div className="col-start-1 col-span-4 md:col-span-8 lg:col-span-12 px-4">
       <TitlePage title="Tienda" subTitle="Todos los productos" />

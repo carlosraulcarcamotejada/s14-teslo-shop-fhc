@@ -6,7 +6,6 @@ import { PaginationPage } from "@/components/shared/pagination-page";
 import { TitlePage } from "@/components/shared/title-page";
 import { CategoryOption } from "@/interfaces/category/category-option";
 import { PageProps } from "@/interfaces/page/page-props";
-import { Product } from "@/interfaces/product/product";
 import { notFound } from "next/navigation";
 
 export default async function CategoryPage({
@@ -21,25 +20,20 @@ export default async function CategoryPage({
     ? parseInt(searchParamsData?.page ?? "1")
     : 1;
 
-  const { products, totalPages, categoriesMap } = await getProductsPaginated({
+  const { products, totalPages } = await getProductsPaginated({
     page,
     category: category as CategoryOption,
   });
 
-  const filteredProducts: Product[] = products.filter(
-    (product) =>
-      product.category === categoriesMap?.get(category as CategoryOption)
-  );
-
-  if (!categoriesMap?.has(category as CategoryOption)) {
+  if (products.length < 1) {
     return notFound();
   }
 
   return (
-    <div className="col-start-1 col-span-4 md:col-span-8 lg:col-span-12 px-4">
+    <>
       <TitlePage title={category} subTitle="todos los productos" />
-      <ProductGrid className="mt-10" products={filteredProducts} />
+      <ProductGrid className="mt-10" products={products} />
       <PaginationPage totalPages={totalPages} className="mt-20" />
-    </div>
+    </>
   );
 }
