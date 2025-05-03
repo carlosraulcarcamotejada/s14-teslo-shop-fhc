@@ -26,7 +26,6 @@ import { ProductFormProps } from "@/interfaces/product/product-form-props";
 import { Textarea } from "@/components/ui/textarea";
 import { productFormSchema } from "@/schema/product-form-schema";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { useEffect } from "react";
 import { productDefaultValues } from "@/data/product-default-values";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
@@ -43,10 +42,7 @@ export const ProductForm = ({
   types = [],
   ...props
 }: ProductFormProps) => {
-  useEffect(() => {
-    console.log(productValues);
-    // console.log(FormDescription)
-  }, []);
+
 
   // 1. Define your default values.
   const productValues: ProductFormValues = product

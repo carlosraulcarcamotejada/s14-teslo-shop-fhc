@@ -14,6 +14,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { cn } from "@/lib/utils";
 import { ProductSlideshowProps } from "@/interfaces/product/product-slideshow-props";
 import clsx from "clsx";
+import { ProductImage } from "./product-image";
 
 export const ProductSlideshow = ({
   autoPlay = undefined,
@@ -62,7 +63,7 @@ export const ProductSlideshow = ({
       {...props}
       className={cn("flex flex-col gap-y-4 base-styles# relative", className)}
     >
-      {/* Slideshow Principal */}
+      {/* Slideshow Escritorio */}
       <Carousel
         ref={emblaMainRef}
         setApi={setEmblaMainApi}
@@ -70,23 +71,34 @@ export const ProductSlideshow = ({
         plugins={autoPlay ? [Autoplay({ delay: autoPlay?.delay })] : []}
         className="overflow-hidden"
       >
-        <CarouselContent className="">
-          {images.map((image, index) => (
-            <CarouselItem
-              className={"flex justify-center overflow-hidden"}
-              key={image + index}
-            >
-              <Image
-                className="object-cover"
-                src={`/products/${image}`}
-                alt={title}
-                width={500}
-                height={500}
-              />
-            </CarouselItem>
-          ))}
+        <CarouselContent
+          className={cn(images.length < 1 && "flex justify-center")}
+        >
+          {images.length > 0 ? (
+            images.map((image, index) => (
+              <CarouselItem
+                className={"flex justify-center overflow-hidden"}
+                key={image + index}
+              >
+                <Image
+                  className="object-cover"
+                  src={`/products/${image}`}
+                  alt={title}
+                  width={500}
+                  height={500}
+                />
+              </CarouselItem>
+            ))
+          ) : (
+            <ProductImage
+              className="md:rounded-md"
+              alt={title}
+              width={500}
+              height={500}
+            />
+          )}
         </CarouselContent>
-        {showArrows && (
+        {showArrows && images.length > 0 && (
           <div className="hidden lg:block">
             <CarouselPrevious />
             <CarouselNext />
@@ -95,23 +107,25 @@ export const ProductSlideshow = ({
       </Carousel>
 
       {/* DotButtons Carousel (Mobile) */}
-      <div className="absolute bottom-1 -translate-x-1/2 left-1/2 flex gap-x-1.5 lg:hidden rounded-l-full rounded-r-full bg-black/30 p-1.5">
-        {images.map((dot, index) => {
-          const selected = index === selectedIndex;
-          return (
-            <button
-              onClick={() => onSelect(index)}
-              className={cn(
-                "rounded-full size-2",
-                selected
-                  ? "bg-white/80"
-                  : "border-gray-600/80 bg-neutral-500/80"
-              )}
-              key={`dot-${dot + index}`}
-            />
-          );
-        })}
-      </div>
+      {images.length > 0 && (
+        <div className="absolute bottom-1 -translate-x-1/2 left-1/2 flex gap-x-1.5 lg:hidden rounded-l-full rounded-r-full bg-black/30 p-1.5">
+          {images.map((dot, index) => {
+            const selected = index === selectedIndex;
+            return (
+              <button
+                onClick={() => onSelect(index)}
+                className={cn(
+                  "rounded-full size-2",
+                  selected
+                    ? "bg-white/80"
+                    : "border-gray-600/80 bg-neutral-500/80"
+                )}
+                key={`dot-${dot + index}`}
+              />
+            );
+          })}
+        </div>
+      )}
 
       {/* Thumbnails Carousel (Desktop) */}
       <Carousel

@@ -1,5 +1,5 @@
 import { ProductGridProps } from "@/interfaces/product/product-grid-props";
-import { ProductGridItem } from "@/components/products/product-grid-item";
+import { ProductCard } from "@/components/products/product-card";
 import { cn } from "@/lib/utils";
 
 const ProductGrid = ({ className, products, ...props }: ProductGridProps) => {
@@ -33,7 +33,7 @@ const ProductGrid = ({ className, products, ...props }: ProductGridProps) => {
       )}
     >
       {products.map((product) => (
-        <ProductGridItem key={product.slug} product={product} />
+        <ProductCard key={product.slug} product={product} />
       ))}
     </div>
   );

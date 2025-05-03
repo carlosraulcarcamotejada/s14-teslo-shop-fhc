@@ -6,11 +6,18 @@ import { TitlePage } from "@/components/shared/title-page";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { BoxIcon } from "lucide-react";
+import { PageProps } from "@/interfaces/page/page-props";
 
-export default async function ProductsPage() {
-  const { products, totalPages } = await getProductsPaginated();
+export default async function ProductsPage({ searchParams }: PageProps) {
+  const searchParamsData = await searchParams;
 
-  console.log(products);
+  const page = searchParamsData?.page
+    ? parseInt(searchParamsData?.page ?? "1")
+    : 1;
+
+  const take: number = 10;
+
+  const { products, totalPages } = await getProductsPaginated({ page, take });
 
   return (
     <>
@@ -22,7 +29,11 @@ export default async function ProductsPage() {
         <BoxIcon />
         Nuevo Producto
       </Link>
-      <ProductsTable data={products} totalPages={totalPages} />
+      <ProductsTable
+        data={products}
+        totalPages={totalPages}
+        pagination={{ pageSize: take, pageIndex: 0 }}
+      />
     </>
   );
 }

@@ -48,8 +48,6 @@ export const getProduct = async ({
       type: typeId,
     };
 
-    console.log(productData);
-
     return {
       ok: true,
       product: productData,

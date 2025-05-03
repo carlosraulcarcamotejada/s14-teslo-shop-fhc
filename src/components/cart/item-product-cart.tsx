@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Trash2Icon } from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
 import { ItemProductCartProps } from "@/interfaces/cart/item-product-cart-props";
+import { ProductImage } from "@/components/product/product-image";
 
 export const ItemProductCart = ({
   className,
@@ -21,9 +22,9 @@ export const ItemProductCart = ({
   return (
     <Card className={cn("flex gap-x-2 overflow-hidden", className)} {...props}>
       {/* Image */}
-      <Image
+      <ProductImage
         className="h-52 w-40 object-cover"
-        src={`/products/${image}`}
+        src={image}
         alt={title}
         height={200}
         width={200}

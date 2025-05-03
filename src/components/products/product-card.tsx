@@ -1,33 +1,35 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { FormatNumber } from "@/utils/format-number";
-import { ProductGridItemProps } from "@/interfaces/product/product-grid-item-props";
+import { ProductCardProps } from "@/interfaces/product/product-card-props";
+import { ProductImage } from "@/components/product/product-image";
 
-const ProductGridItem = ({
+export const ProductCard = ({
   product,
   className,
   ...props
-}: ProductGridItemProps) => {
+}: ProductCardProps) => {
   const { slug, title, images, price = 0 } = product;
 
-  const [displayImage, setDisplayImage] = useState(`/products/${images[0]}`);
+  const [displayImage, setDisplayImage] = useState<string | undefined>(
+    images[0] ? images[0] : undefined
+  );
 
   const handleMouseEnter = () => {
-    setDisplayImage(`/products/${images[1]}`);
+    if (images[0]) setDisplayImage(`${images[1]}`);
   };
 
   const handleMouseLeave = () => {
-    setDisplayImage(`/products/${images[0]}`);
+    if (images[0]) setDisplayImage(`${images[0]}`);
   };
 
   return (
     <Card {...props} className={cn("", className)}>
       <Link href={`/product/${slug}`}>
-        <Image
+        <ProductImage
           src={displayImage}
           alt={`image product ${title}`}
           className="w-full object-cover rounded-t-md"
@@ -49,5 +51,3 @@ const ProductGridItem = ({
     </Card>
   );
 };
-
-export { ProductGridItem };

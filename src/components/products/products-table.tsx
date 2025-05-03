@@ -41,6 +41,10 @@ import { Product } from "@/interfaces/product/product";
 export const ProductsTable = ({
   className,
   data = [],
+  pagination = {
+    pageIndex: 0,
+    pageSize: 0,
+  },
   totalPages = 0,
   ...props
 }: ProductTableProps) => {
@@ -138,6 +142,7 @@ export const ProductsTable = ({
       columnFilters,
       columnVisibility,
       rowSelection,
+      pagination,
     },
   });
 
