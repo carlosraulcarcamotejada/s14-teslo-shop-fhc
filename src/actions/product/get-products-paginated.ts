@@ -50,6 +50,10 @@ export const getProductsPaginated = async ({
 
       ...(category && {
         where: { categoryId: categoriesMap.get(category) },
+
+        orderBy: {
+          title: "asc",
+        },
       }),
     });
 

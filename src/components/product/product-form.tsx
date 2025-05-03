@@ -64,11 +64,10 @@ export const ProductForm = ({
 
   // 3. Define a submit handler.
   async function onSubmit(values: ProductFormValues) {
-    console.log("onSubmit");
     const { ...restProductToSave } = values;
     const productFormData = new FormData();
 
-    productFormData.append("category", restProductToSave.categoryId);
+    productFormData.append("categoryId", restProductToSave.categoryId);
     productFormData.append("description", restProductToSave.description);
     if (productValues?.id) productFormData.append("id", productValues?.id);
     productFormData.append(
@@ -80,7 +79,7 @@ export const ProductForm = ({
     productFormData.append("slug", restProductToSave.slug);
     productFormData.append("tags", restProductToSave.tags.toString());
     productFormData.append("title", restProductToSave.title);
-    productFormData.append("type", restProductToSave.typeId);
+    productFormData.append("typeId", restProductToSave.typeId);
 
     let ok: boolean;
     let message: string | undefined;
@@ -98,16 +97,21 @@ export const ProductForm = ({
       message = messageResp;
       product = updatedProductResp;
     } else {
-      const { ok: okResp, message: messageResp } = await createProduct({
+      const {
+        ok: okResp,
+        message: messageResp,
+        createdProduct,
+      } = await createProduct({
         productFormData,
       });
       ok = okResp;
       message = messageResp;
+      product = createdProduct;
     }
 
     console.log(message, product, ok);
-    if (!ok) return;
-    router.replace("/admin/products");
+    if (!ok || !product) return;
+    router.replace(`/admin/product/${product?.slug}`);
   }
 
   const { productImage } = productValues;
@@ -206,8 +210,8 @@ export const ProductForm = ({
                         variant={"destructive"}
                         onClick={() => {}}
                       >
-                        Eliminar
                         <Trash2Icon />
+                        Eliminar
                       </Button>
                     </CardFooter>
                   </Card>

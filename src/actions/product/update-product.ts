@@ -9,12 +9,12 @@ import { Size } from "@/interfaces/shared/size";
 import { Product } from "@/interfaces/product/product";
 import { TypeOption } from "@/interfaces/type/type-option";
 import { CategoryOption } from "@/interfaces/category/category-option";
+import { revalidatePath } from "next/cache";
 
 export const updateProduct = async ({
   productFormData,
 }: UpdateProduct): Promise<ErrorPrisma & { updatedProduct?: Product }> => {
   try {
-    console.log("updateProduct");
     // 1) Debug: ver qué tiene el iterador
     // console.log("Iterador entries():", Array.from(productFormData.entries()));
 
@@ -38,7 +38,7 @@ export const updateProduct = async ({
 
     // 4) Parsear con Zod
     const productParsed = productFormSchema.safeParse(dataForZod);
-    // console.log("productParsed: ", productParsed.data);
+    console.log("productParsed: ", productParsed.data);
 
     if (!productParsed.success) {
       return {
@@ -92,9 +92,6 @@ export const updateProduct = async ({
       };
     }
 
-    // delete (updatedProduct as Partial<typeof updatedProduct>)?.categoryId;
-    // delete (updatedProduct as Partial<typeof updatedProduct>)?.typeId;
-
     const {
       category: categoryUpdatedProduct,
       type: typeUpdatedProduct,
@@ -108,6 +105,10 @@ export const updateProduct = async ({
       typeOption: typeUpdatedProduct.name as TypeOption,
       images: productImage.map((image) => image.url),
     };
+
+    revalidatePath("/admin/products");
+    revalidatePath(`/admin/product/${updatedProductData.slug}`);
+    revalidatePath(`/product/${updatedProductData.slug}`);
 
     return {
       message: "Producto actualizado correctamente",

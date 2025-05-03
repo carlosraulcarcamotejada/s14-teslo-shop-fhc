@@ -1,8 +1,8 @@
-import { ProductGridProps } from "@/interfaces/product/product-grid-props";
-import { ProductCard } from "@/components/products/product-card";
+import { ProductsGridProps } from "@/interfaces/product/products-grid-props";
+import { ProductCard } from "@/components/product/product-card";
 import { cn } from "@/lib/utils";
 
-const ProductGrid = ({ className, products, ...props }: ProductGridProps) => {
+const ProductsGrid = ({ className, products, ...props }: ProductsGridProps) => {
   return (
     <div
       {...props}
@@ -39,4 +39,4 @@ const ProductGrid = ({ className, products, ...props }: ProductGridProps) => {
   );
 };
 
-export { ProductGrid };
+export { ProductsGrid };

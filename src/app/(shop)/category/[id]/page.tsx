@@ -1,7 +1,7 @@
 export const revalidate = 60;
 
 import { getProductsPaginated } from "@/actions/product/get-products-paginated";
-import { ProductGrid } from "@/components/products/product-grid";
+import { ProductsGrid } from "@/components/products/products-grid";
 import { PaginationPage } from "@/components/shared/pagination-page";
 import { TitlePage } from "@/components/shared/title-page";
 import { CategoryOption } from "@/interfaces/category/category-option";
@@ -32,7 +32,7 @@ export default async function CategoryPage({
   return (
     <>
       <TitlePage title={category} subTitle="todos los productos" />
-      <ProductGrid className="mt-10" products={products} />
+      <ProductsGrid className="mt-10" products={products} />
       <PaginationPage totalPages={totalPages} className="mt-20" />
     </>
   );

@@ -9,6 +9,7 @@ import { Size } from "@/interfaces/shared/size";
 import { Product } from "@/interfaces/product/product";
 import { CategoryOption } from "@/interfaces/category/category-option";
 import { TypeOption } from "@/interfaces/type/type-option";
+import { revalidatePath } from "next/cache";
 
 export const createProduct = async ({
   productFormData,
@@ -90,9 +91,6 @@ export const createProduct = async ({
       };
     }
 
-    delete (createdProduct as Partial<typeof createdProduct>)?.categoryId;
-    delete (createdProduct as Partial<typeof createdProduct>)?.typeId;
-
     const {
       category: categoryCreateddProduct,
       productImage,
@@ -100,17 +98,21 @@ export const createProduct = async ({
       ...restCreatedProduct
     } = createdProduct;
 
-    const updatedProductData: Product = {
+    const createdProductData: Product = {
       ...restCreatedProduct,
       categoryOption: categoryCreateddProduct.name as CategoryOption,
       typeOption: typeCreatedProduct.name as TypeOption,
       images: productImage.map((image) => image.url),
     };
 
+    revalidatePath("/admin/products");
+    revalidatePath(`/admin/product/${createdProductData.slug}`);
+    revalidatePath(`/product/${createdProductData.slug}`);
+
     return {
       ok: true,
       message: "Producto creado correctamente",
-      createdProduct: updatedProductData,
+      createdProduct: createdProductData,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
