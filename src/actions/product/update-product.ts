@@ -47,7 +47,7 @@ export const updateProduct = async ({
       };
     }
 
-    const { category, type, id, ...restProduct } = productParsed.data;
+    const { id, ...restProduct } = productParsed.data;
 
     if (!id) {
       return {
@@ -61,8 +61,7 @@ export const updateProduct = async ({
         where: { id },
         data: {
           ...restProduct,
-          categoryId: category,
-          typeId: type,
+
           sizes: {
             set: restProduct.sizes as Size[],
           },
@@ -93,20 +92,20 @@ export const updateProduct = async ({
       };
     }
 
-    delete (updatedProduct as Partial<typeof updatedProduct>)?.categoryId;
-    delete (updatedProduct as Partial<typeof updatedProduct>)?.typeId;
+    // delete (updatedProduct as Partial<typeof updatedProduct>)?.categoryId;
+    // delete (updatedProduct as Partial<typeof updatedProduct>)?.typeId;
 
     const {
       category: categoryUpdatedProduct,
-      productImage,
       type: typeUpdatedProduct,
+      productImage,
       ...restUpdatedProduct
     } = updatedProduct;
 
     const updatedProductData: Product = {
       ...restUpdatedProduct,
-      category: categoryUpdatedProduct.name as CategoryOption,
-      type: typeUpdatedProduct.name as TypeOption,
+      categoryOption: categoryUpdatedProduct.name as CategoryOption,
+      typeOption: typeUpdatedProduct.name as TypeOption,
       images: productImage.map((image) => image.url),
     };
 

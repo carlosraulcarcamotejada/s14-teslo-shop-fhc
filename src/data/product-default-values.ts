@@ -1,7 +1,7 @@
 import { ProductFormValues } from "@/interfaces/product/product-form-values";
 
 export const productDefaultValues: ProductFormValues = {
-  category: "non-category",
+  categoryOption: "non-category",
   description: "",
   images: [],
   productImage: [],
@@ -9,5 +9,7 @@ export const productDefaultValues: ProductFormValues = {
   slug: "",
   tags: [],
   title: "",
-  type: "non-type",
+  typeOption: "non-type",
+  categoryId: "",
+  typeId: "",
 };

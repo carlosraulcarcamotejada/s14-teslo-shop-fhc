@@ -6,10 +6,13 @@ import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
 import { productFormSchema } from "@/schema/product-form-schema";
 import prisma from "@/lib/prisma";
 import { Size } from "@/interfaces/shared/size";
+import { Product } from "@/interfaces/product/product";
+import { CategoryOption } from "@/interfaces/category/category-option";
+import { TypeOption } from "@/interfaces/type/type-option";
 
 export const createProduct = async ({
   productFormData,
-}: CreateProduct): Promise<ErrorPrisma> => {
+}: CreateProduct): Promise<ErrorPrisma & { createdProduct?: Product }> => {
   try {
     console.log("createProduct");
     // 1) Debug: ver qué tiene el iterador
@@ -53,7 +56,7 @@ export const createProduct = async ({
       };
     }
 
-    prisma.$transaction(async (tx) => {
+    const prismaTx = await prisma.$transaction(async (tx) => {
       const createdProduct = await tx.product.create({
         data: {
           ...restProduct,
@@ -63,6 +66,17 @@ export const createProduct = async ({
             set: restProduct.sizes as Size[],
           },
         },
+        include: {
+          productImage: {
+            select: { url: true },
+          },
+          category: {
+            select: { name: true },
+          },
+          type: {
+            select: { name: true },
+          },
+        },
       });
 
       return {
@@ -70,9 +84,35 @@ export const createProduct = async ({
       };
     });
 
+    const { createdProduct } = prismaTx;
+
+    if (!createdProduct) {
+      return {
+        ok: false,
+      };
+    }
+
+    delete (createdProduct as Partial<typeof createdProduct>)?.categoryId;
+    delete (createdProduct as Partial<typeof createdProduct>)?.typeId;
+
+    const {
+      category: categoryCreateddProduct,
+      productImage,
+      type: typeCreatedProduct,
+      ...restCreatedProduct
+    } = createdProduct;
+
+    const updatedProductData: Product = {
+      ...restCreatedProduct,
+      categoryOption: categoryCreateddProduct.name as CategoryOption,
+      typeOption: typeCreatedProduct.name as TypeOption,
+      images: productImage.map((image) => image.url),
+    };
+
     return {
       ok: true,
       message: "Producto creado correctamente",
+      createdProduct: updatedProductData,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {

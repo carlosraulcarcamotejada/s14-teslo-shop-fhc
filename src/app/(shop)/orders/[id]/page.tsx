@@ -7,6 +7,8 @@ import { getOrderById } from "@/actions/order/get-order-by-id";
 import { redirect } from "next/navigation";
 import { ProductsInCartOrders } from "@/components/orders/products-in-cart-orders";
 import { TotalSummary } from "@/interfaces/components/total-summary";
+import { TypeOption } from "@/interfaces/type/type-option";
+import { CategoryOption } from "@/interfaces/category/category-option";
 
 export default async function OrderPage({ params }: PageProps) {
   const { id } = await params;
@@ -28,6 +30,10 @@ export default async function OrderPage({ params }: PageProps) {
     image: orderItem.product.productImage[0].url,
     quantity: orderItem.quantity,
     selectedSize: orderItem.size,
+    categoryId: orderItem.product.categoryId,
+    typeId: orderItem.product.typeId,
+    typeOption: orderItem.product.type.name as TypeOption,
+    categoryOption: orderItem.product.category.name as CategoryOption,
   }));
 
   const totalSumary: TotalSummary = { ...order };

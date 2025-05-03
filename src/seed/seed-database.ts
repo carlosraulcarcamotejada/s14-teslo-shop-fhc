@@ -49,12 +49,10 @@ async function main() {
   for (const product of products) {
     try {
       const {
-        category,
         images,
         inStock = 0,
         price = 0,
-
-        type,
+        categoryId,
         ...restProduct
       } = product;
 
@@ -63,8 +61,7 @@ async function main() {
           ...restProduct,
           inStock,
           price,
-          typeId: typesMap.get(type) ?? "non-type",
-          categoryId: categoriesMap.get(category) ?? "non-category",
+          categoryId: categoryId,
         },
       });
 

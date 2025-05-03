@@ -3,9 +3,9 @@ import { ProductImageProps } from "@/interfaces/product/product-image-props";
 import { cn } from "@/lib/utils";
 
 export const ProductImage = ({
-  src,
-
+  alt,
   className,
+  src,
   ...rest
 }: ProductImageProps) => {
   const localSrc: string = src
@@ -19,7 +19,8 @@ export const ProductImage = ({
   return (
     <Image
       {...rest}
-      className={cn("", isMissingSrc && "h-[305px]", className)}
+      alt={alt}
+      className={cn("", isMissingSrc && "", className)}
       src={localSrc}
     />
   );

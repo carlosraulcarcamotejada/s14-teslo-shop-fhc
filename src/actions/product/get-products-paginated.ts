@@ -5,6 +5,8 @@ import prisma from "@/lib/prisma";
 import { PaginationOptions } from "@/interfaces/components/pagination-options";
 import { Product } from "@/interfaces/product/product";
 import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
+import { CategoryOption } from "@/interfaces/category/category-option";
+import { TypeOption } from "@/interfaces/type/type-option";
 
 export const getProductsPaginated = async ({
   category = "non-category",
@@ -38,6 +40,12 @@ export const getProductsPaginated = async ({
       skip: (page - 1) * take,
       include: {
         productImage: { take: 2, select: { url: true } },
+        category: {
+          select: { name: true },
+        },
+        type: {
+          select: { name: true },
+        },
       },
 
       ...(category && {
@@ -56,13 +64,13 @@ export const getProductsPaginated = async ({
     const totalPages: number = Math.ceil(totalItems / take);
 
     const productsData: Product[] = products.map((product) => {
-      const { categoryId, typeId, productImage, ...restProduct } = product;
+      const { category, type, productImage, ...restProduct } = product;
 
       return {
         ...restProduct,
         images: productImage.map((image) => image.url),
-        category: categoryId,
-        type: typeId,
+        categoryOption: category.name as CategoryOption,
+        typeOption: type.name as TypeOption,
       };
     });
 

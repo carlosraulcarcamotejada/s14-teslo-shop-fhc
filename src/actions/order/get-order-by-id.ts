@@ -31,11 +31,23 @@ export const getOrderById = async ({ id }: GetOrderById) => {
                 id: true,
                 slug: true,
                 title: true,
+                categoryId: true,
+                typeId: true,
+                category: true,
+                type: true,
                 productImage: {
                   select: {
                     url: true,
                   },
                   take: 1,
+                },
+              },
+              include: {
+                category: {
+                  select: { name: true },
+                },
+                type: {
+                  select: { name: true },
                 },
               },
             },

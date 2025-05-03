@@ -33,7 +33,10 @@ import { productSizes } from "@/seed/seed";
 import { createProduct } from "@/actions/product/create-product";
 import { ProductFormValues } from "@/interfaces/product/product-form-values";
 import { updateProduct } from "@/actions/product/update-product";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Product } from "@/interfaces/product/product";
+import { Link } from "@/components/ui/link";
+import { useEffect } from "react";
 
 export const ProductForm = ({
   categories = [],
@@ -42,12 +45,16 @@ export const ProductForm = ({
   types = [],
   ...props
 }: ProductFormProps) => {
-
+  const router = useRouter();
 
   // 1. Define your default values.
   const productValues: ProductFormValues = product
     ? product
     : productDefaultValues;
+
+  // useEffect(() => {
+  //   console.log(productValues);
+  // }, [productValues]);
 
   // 2. Define your form.
   const form = useForm<ProductFormValues>({
@@ -57,11 +64,11 @@ export const ProductForm = ({
 
   // 3. Define a submit handler.
   async function onSubmit(values: ProductFormValues) {
+    console.log("onSubmit");
     const { ...restProductToSave } = values;
-    // console.log(values);
     const productFormData = new FormData();
 
-    productFormData.append("category", restProductToSave.category);
+    productFormData.append("category", restProductToSave.categoryId);
     productFormData.append("description", restProductToSave.description);
     if (productValues?.id) productFormData.append("id", productValues?.id);
     productFormData.append(
@@ -73,29 +80,41 @@ export const ProductForm = ({
     productFormData.append("slug", restProductToSave.slug);
     productFormData.append("tags", restProductToSave.tags.toString());
     productFormData.append("title", restProductToSave.title);
-    productFormData.append("type", restProductToSave.type);
+    productFormData.append("type", restProductToSave.typeId);
+
+    let ok: boolean;
+    let message: string | undefined;
+    let product: Product | undefined;
 
     if (values.id) {
-      const { ok } = await updateProduct({ productFormData });
-      console.log(ok);
-    } else {
-      const { ok } = await createProduct({
+      const {
+        ok: okResp,
+        message: messageResp,
+        updatedProduct: updatedProductResp,
+      } = await updateProduct({
         productFormData,
       });
-      console.log(ok);
+      ok = okResp;
+      message = messageResp;
+      product = updatedProductResp;
+    } else {
+      const { ok: okResp, message: messageResp } = await createProduct({
+        productFormData,
+      });
+      ok = okResp;
+      message = messageResp;
     }
+
+    console.log(message, product, ok);
+    if (!ok) return;
+    router.replace("/admin/products");
   }
 
   const { productImage } = productValues;
 
   return (
     <div className={cn("", className)} {...props}>
-      <Link
-        href={`/product/${productValues.slug}`}
-        className={"underline-offset-4 hover:underline"}
-      >
-        {productValues.title}
-      </Link>
+      <Link href={`/product/${productValues.slug}`}>{productValues.title}</Link>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 gap-2 sm:gap-5 sm:grid-cols-2 mt-8">
@@ -275,7 +294,7 @@ export const ProductForm = ({
             />
             <FormField
               control={form.control}
-              name="category"
+              name="categoryId"
               render={({ field }) => {
                 return (
                   <FormItem>
@@ -305,7 +324,7 @@ export const ProductForm = ({
 
             <FormField
               control={form.control}
-              name="type"
+              name="typeId"
               render={({ field }) => {
                 return (
                   <FormItem>
@@ -340,7 +359,7 @@ export const ProductForm = ({
                 "w-full lg:w-1/3"
               )}
               type="submit"
-              // disabled={!isValid}
+              // disabled={}
             >
               {productValues?.id ? <RefreshCcwIcon /> : <SaveIcon />}
               {productValues?.id ? "Actualizar" : "Guardar"}

@@ -5,6 +5,8 @@ import { Prisma } from "@prisma/client";
 import { GetProduct } from "@/interfaces/actions/get-product";
 import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
 import { Product } from "@/interfaces/product/product";
+import { CategoryOption } from "@/interfaces/category/category-option";
+import { TypeOption } from "@/interfaces/type/type-option";
 
 export const getProduct = async ({
   id,
@@ -21,6 +23,12 @@ export const getProduct = async ({
         productImage: {
           select: { ...(showProductImage && { id: true }), url: true },
         },
+        category: {
+          select: { name: true },
+        },
+        type: {
+          select: { name: true },
+        },
       },
       where: {
         ...(slug && { slug }),
@@ -36,16 +44,16 @@ export const getProduct = async ({
       };
     }
 
-    const { categoryId, productImage, typeId, ...restProduct } = product;
+    const { category, type, productImage, ...restProduct } = product;
 
     const productData: Product = {
       ...(showProductImage && {
         productImage: productImage.map((image) => ({ ...image })),
       }),
       ...restProduct,
-      category: categoryId,
       images: showProductImage ? [] : productImage.map((image) => image.url),
-      type: typeId,
+      categoryOption: category.name as CategoryOption,
+      typeOption: type.name as TypeOption,
     };
 
     return {
