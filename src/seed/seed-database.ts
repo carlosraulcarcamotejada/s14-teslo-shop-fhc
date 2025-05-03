@@ -1,3 +1,5 @@
+import { CategoryOption } from "../interfaces/category/category-option";
+import { TypeOption } from "../interfaces/type/type-option";
 import prisma from "../lib/prisma";
 import { initialData } from "./seed";
 
@@ -34,16 +36,16 @@ async function main() {
 
   const typesDB = await prisma.type.findMany();
 
-  const categoriesMap = new Map<string, string>();
+  const categoriesMap = new Map<CategoryOption, string>();
 
-  const typesMap = new Map<string, string>();
+  const typesMap = new Map<TypeOption, string>();
 
-  categoriesDB.forEach((category) => {
-    categoriesMap.set(category.name, category.id);
+  categoriesDB.forEach(({ id, name }) => {
+    categoriesMap.set(name as CategoryOption, id);
   });
 
-  typesDB.forEach((type) => {
-    typesMap.set(type.name, type.id);
+  typesDB.forEach(({ id, name }) => {
+    typesMap.set(name as TypeOption, id);
   });
 
   for (const product of products) {
@@ -53,15 +55,23 @@ async function main() {
         inStock = 0,
         price = 0,
         categoryId,
+        typeId,
+        categoryOption,
+        typeOption,
         ...restProduct
       } = product;
+
+      void categoryOption;
+      void typeOption;
 
       const dbProduct = await prisma.product.create({
         data: {
           ...restProduct,
           inStock,
           price,
-          categoryId: categoryId,
+          categoryId:
+            categoriesMap.get(categoryId as CategoryOption) ?? "non-category",
+          typeId: typesMap.get(typeId as TypeOption) ?? "non-type",
         },
       });
 
@@ -80,7 +90,7 @@ async function main() {
     }
   }
 
-  console.log("seed efecutado exitosamente");
+  console.log("¡Seed efecutado exitosamente!");
 }
 
 (() => {

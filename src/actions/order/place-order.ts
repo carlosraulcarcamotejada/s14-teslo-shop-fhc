@@ -27,11 +27,15 @@ export const placeOrder = async ({ address, productsToOrder }: PlaceOrder) => {
     };
   }
 
+  const productIds = productsToOrder
+    .map((p) => p.id)
+    .filter((id): id is string => typeof id === "string");
+
   // Obtener la información de los productos
   const products = await prisma.product.findMany({
     where: {
       id: {
-        in: productsToOrder.map((productInOrder) => productInOrder.id),
+        in: productIds,
       },
     },
   });
@@ -103,14 +107,19 @@ export const placeOrder = async ({ address, productsToOrder }: PlaceOrder) => {
           itemsInOrder: totalItemsInOrder,
           OrderItem: {
             createMany: {
-              data: productsToOrder.map((productToOrder) => ({
-                quantity: productToOrder.quantity,
-                size: productToOrder.selectedSize,
-                productId: productToOrder.id,
-                price:
-                  products.find((product) => product.id === productToOrder.id)
-                    ?.price ?? 0,
-              })),
+              data: productsToOrder
+                .filter(
+                  (p): p is typeof p & { id: string } =>
+                    typeof p.id === "string"
+                )
+                .map((productToOrder) => ({
+                  quantity: productToOrder.quantity,
+                  size: productToOrder.selectedSize,
+                  productId: productToOrder.id,
+                  price:
+                    products.find((product) => product.id === productToOrder.id)
+                      ?.price ?? 0,
+                })),
             },
           },
           subTotal,

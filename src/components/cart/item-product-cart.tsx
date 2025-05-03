@@ -13,8 +13,16 @@ export const ItemProductCart = ({
   product,
   ...props
 }: ItemProductCartProps) => {
-  const { id, image, price, quantity, selectedSize, slug, title, inStock } =
-    product;
+  const {
+    id = "",
+    image,
+    inStock,
+    price,
+    quantity,
+    selectedSize,
+    slug,
+    title,
+  } = product;
 
   const { removeCartProduct, updateCartProductQuantity } = useCart();
 

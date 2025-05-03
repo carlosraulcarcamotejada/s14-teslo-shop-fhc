@@ -47,7 +47,7 @@ export const createProduct = async ({
       };
     }
 
-    const { category, type, id, ...restProduct } = productParsed.data;
+    const { id, ...restProduct } = productParsed.data;
 
     if (id) {
       return {
@@ -60,8 +60,6 @@ export const createProduct = async ({
       const createdProduct = await tx.product.create({
         data: {
           ...restProduct,
-          categoryId: category,
-          typeId: type,
           sizes: {
             set: restProduct.sizes as Size[],
           },

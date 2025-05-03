@@ -36,7 +36,7 @@ import { updateProduct } from "@/actions/product/update-product";
 import { useRouter } from "next/navigation";
 import { Product } from "@/interfaces/product/product";
 import { Link } from "@/components/ui/link";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 export const ProductForm = ({
   categories = [],
