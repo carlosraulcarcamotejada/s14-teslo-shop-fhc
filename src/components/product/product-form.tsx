@@ -28,7 +28,6 @@ import { productFormSchema } from "@/schema/product-form-schema";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { productDefaultValues } from "@/data/product-default-values";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import Image from "next/image";
 import { productSizes } from "@/seed/seed";
 import { createProduct } from "@/actions/product/create-product";
 import { ProductFormValues } from "@/interfaces/product/product-form-values";
@@ -36,7 +35,7 @@ import { updateProduct } from "@/actions/product/update-product";
 import { useRouter } from "next/navigation";
 import { Product } from "@/interfaces/product/product";
 import { Link } from "@/components/ui/link";
-// import { useEffect } from "react";
+import { ProductImage } from "@/components/product/product-image";
 
 export const ProductForm = ({
   categories = [],
@@ -64,7 +63,7 @@ export const ProductForm = ({
 
   // 3. Define a submit handler.
   async function onSubmit(values: ProductFormValues) {
-    const { ...restProductToSave } = values;
+    const { imagesFile, ...restProductToSave } = values;
     const productFormData = new FormData();
 
     productFormData.append("categoryId", restProductToSave.categoryId);
@@ -80,6 +79,13 @@ export const ProductForm = ({
     productFormData.append("tags", restProductToSave.tags.toString());
     productFormData.append("title", restProductToSave.title);
     productFormData.append("typeId", restProductToSave.typeId);
+
+    console.log(imagesFile);
+    if (imagesFile) {
+      for (let index = 0; index < imagesFile.length; index++) {
+        productFormData.append("imagesFile", imagesFile[index]);
+      }
+    }
 
     let ok: boolean;
     let message: string | undefined;
@@ -168,18 +174,22 @@ export const ProductForm = ({
 
             <FormField
               control={form.control}
-              name="images"
+              name="imagesFile"
               render={({ field: { onChange, ref, name } }) => (
                 <FormItem>
                   <FormLabel>Fotos</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Fotos"
-                      type="file"
+                      accept="image/png, image/jpeg, image/avif"
                       multiple
                       name={name}
+                      placeholder="Fotos"
                       ref={ref}
-                      onChange={(e) => onChange(e.target.files)}
+                      type="file"
+                      onChange={(e) => {
+                        const files = Array.from(e.target.files ?? []);
+                        form.setValue("imagesFile", files);
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -195,9 +205,9 @@ export const ProductForm = ({
                 {productImage?.map(({ id, url }) => (
                   <Card className={"w-max"} key={id}>
                     <CardContent className="p-0 overflow-hidden">
-                      <Image
+                      <ProductImage
                         className="size-40 rounded-t-md"
-                        src={`/products/${url}`}
+                        src={url}
                         alt={url}
                         width={500}
                         height={500}

@@ -10,6 +10,10 @@ import { Product } from "@/interfaces/product/product";
 import { TypeOption } from "@/interfaces/type/type-option";
 import { CategoryOption } from "@/interfaces/category/category-option";
 import { revalidatePath } from "next/cache";
+import { v2 as cloudinary } from "cloudinary";
+
+// Configuration
+cloudinary.config(process.env.CLOUDINARY_URL ?? "");
 
 export const updateProduct = async ({
   productFormData,
@@ -38,13 +42,29 @@ export const updateProduct = async ({
 
     // 4) Parsear con Zod
     const productParsed = productFormSchema.safeParse(dataForZod);
-    console.log("productParsed: ", productParsed.data);
+    // console.log("productParsed: ", productParsed.data);
 
     if (!productParsed.success) {
       return {
         ok: false,
         message: "No pudo ser parseado",
       };
+    }
+
+    // Agregación de imagenes:
+    if (productFormData.getAll("imagesFile") as File[]) {
+      const imageFiles = productFormData.getAll("imagesFile") as File[];
+
+      const images = await uploadImages(imageFiles);
+
+      if (!images) throw new Error("No se pudo subir las imágenes");
+
+      await prisma.productImage.createMany({
+        data: images.map((image) => ({
+          url: image,
+          productId: productParsed.data.id ?? "",
+        })),
+      });
     }
 
     const { id, ...restProduct } = productParsed.data;
@@ -133,5 +153,29 @@ export const updateProduct = async ({
         ok: false,
       };
     }
+  }
+};
+
+const uploadImages = async (
+  imagesFile: File[]
+): Promise<string[] | undefined> => {
+  try {
+    console.log("imagesFile: ", imagesFile);
+
+    const uploadPromises = imagesFile.map(async (image) => {
+      const buffer = await image.arrayBuffer();
+      const base64Image = Buffer.from(buffer).toString("base64");
+
+      return cloudinary.uploader
+        .upload(`data:image/png;base64,${base64Image}`)
+        .then((r) => r.secure_url);
+    });
+
+    const uploadedImages = await Promise.all(uploadPromises);
+
+    return uploadedImages;
+  } catch (error) {
+    // console.log("error en uploadImages ", error);
+    return undefined;
   }
 };

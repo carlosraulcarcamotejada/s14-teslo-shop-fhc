@@ -80,9 +80,9 @@ export const ProductSlideshow = ({
                 className={"flex justify-center overflow-hidden"}
                 key={image + index}
               >
-                <Image
+                <ProductImage
                   className="object-cover"
-                  src={`/products/${image}`}
+                  src={image}
                   alt={title}
                   width={500}
                   height={500}
@@ -144,8 +144,8 @@ export const ProductSlideshow = ({
                   "flex flex-shrink-0 basis-24 justify-center items-center overflow-hidden px-0 rounded-md"
                 }
               >
-                <Image
-                  src={`/products/${image}`}
+                <ProductImage
+                  src={image}
                   alt={title}
                   height={100}
                   width={100}
