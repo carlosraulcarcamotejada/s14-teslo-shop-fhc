@@ -20,14 +20,13 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { RefreshCcwIcon, SaveIcon, Trash2Icon } from "lucide-react";
+import { RefreshCcwIcon, SaveIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ProductFormProps } from "@/interfaces/product/product-form-props";
 import { Textarea } from "@/components/ui/textarea";
 import { productFormSchema } from "@/schema/product-form-schema";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { productDefaultValues } from "@/data/product-default-values";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { productSizes } from "@/seed/seed";
 import { createProduct } from "@/actions/product/create-product";
 import { ProductFormValues } from "@/interfaces/product/product-form-values";
@@ -35,7 +34,7 @@ import { updateProduct } from "@/actions/product/update-product";
 import { useRouter } from "next/navigation";
 import { Product } from "@/interfaces/product/product";
 import { Link } from "@/components/ui/link";
-import { ProductImage } from "@/components/product/product-image";
+import { ProductImageCard } from "@/components/product/product-image-card";
 
 export const ProductForm = ({
   categories = [],
@@ -80,7 +79,7 @@ export const ProductForm = ({
     productFormData.append("title", restProductToSave.title);
     productFormData.append("typeId", restProductToSave.typeId);
 
-    console.log(imagesFile);
+    // console.log(imagesFile);
     if (imagesFile) {
       for (let index = 0; index < imagesFile.length; index++) {
         productFormData.append("imagesFile", imagesFile[index]);
@@ -115,7 +114,7 @@ export const ProductForm = ({
       product = createdProduct;
     }
 
-    console.log(message, product, ok);
+    // console.log(message, product, ok);
     if (!ok || !product) return;
     router.replace(`/admin/product/${product?.slug}`);
   }
@@ -201,30 +200,9 @@ export const ProductForm = ({
               <span className="mb-5 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                 Imágenes
               </span>
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-4">
                 {productImage?.map(({ id, url }) => (
-                  <Card className={"w-max"} key={id}>
-                    <CardContent className="p-0 overflow-hidden">
-                      <ProductImage
-                        className="size-40 rounded-t-md"
-                        src={url}
-                        alt={url}
-                        width={500}
-                        height={500}
-                      />
-                    </CardContent>
-                    <CardFooter className="flex justify-center p-0">
-                      <Button
-                        className="w-full rounded-b-md rounded-t-none"
-                        type="button"
-                        variant={"destructive"}
-                        onClick={() => {}}
-                      >
-                        <Trash2Icon />
-                        Eliminar
-                      </Button>
-                    </CardFooter>
-                  </Card>
+                  <ProductImageCard key={id} url={url} id={id} />
                 ))}
               </div>
             </div>

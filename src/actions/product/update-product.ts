@@ -67,7 +67,7 @@ export const updateProduct = async ({
       });
     }
 
-    const { id, ...restProduct } = productParsed.data;
+    const { id, imagesFile, ...restProduct } = productParsed.data;
 
     if (!id) {
       return {
@@ -130,6 +130,8 @@ export const updateProduct = async ({
     revalidatePath(`/admin/product/${updatedProductData.slug}`);
     revalidatePath(`/product/${updatedProductData.slug}`);
 
+    // console.log("ejecutó los revalidates");
+
     return {
       message: "Producto actualizado correctamente",
       ok: true,
@@ -160,7 +162,7 @@ const uploadImages = async (
   imagesFile: File[]
 ): Promise<string[] | undefined> => {
   try {
-    console.log("imagesFile: ", imagesFile);
+    // console.log("imagesFile: ", imagesFile);
 
     const uploadPromises = imagesFile.map(async (image) => {
       const buffer = await image.arrayBuffer();
