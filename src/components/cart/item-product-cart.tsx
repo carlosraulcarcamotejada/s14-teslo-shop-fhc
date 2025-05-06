@@ -2,11 +2,11 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { QuantitySelector } from "@/components/product/quantity-selector";
-import { Button } from "@/components/ui/button";
 import { Trash2Icon } from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
 import { ItemProductCartProps } from "@/interfaces/cart/item-product-cart-props";
 import { ProductImage } from "@/components/product/product-image";
+import { ModalDialog } from "@/components/shared/modal-dialog";
 
 export const ItemProductCart = ({
   className,
@@ -60,16 +60,30 @@ export const ItemProductCart = ({
             }}
           />
         </div>
-        <Button
-          onClick={() => {
-            removeCartProduct(product);
+        <ModalDialog
+          buttonTrigger={{
+            className: "flex items-center justify-center select-none",
+            icon: Trash2Icon,
+            text: "Remover",
           }}
-          variant="default"
-          className="flex items-center justify-center select-none"
-        >
-          <Trash2Icon />
-          Remover
-        </Button>
+          modalArgs={{
+            description:
+              "¿Está seguro que desea eliminar el producto del carrito de compras?",
+            title: "Eliminar producto",
+            primaryActionButton: {
+              icon: Trash2Icon,
+              onClick: () => {
+                removeCartProduct(product);
+              },
+              text: "Eliminar",
+              variant: "destructive",
+            },
+            secondaryActionButton: {
+              text: "Cancelar",
+              variant: "outline",
+            },
+          }}
+        />
       </div>
     </Card>
   );

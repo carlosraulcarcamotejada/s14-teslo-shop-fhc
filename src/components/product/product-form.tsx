@@ -118,7 +118,7 @@ export const ProductForm = ({
       product = createdProduct;
     }
 
-    console.log(message, product, ok);
+    // console.log(message, product, ok);
     setIsLoading(false);
     if (ok && product) router.replace(`/admin/product/${product?.slug}`);
 
@@ -130,6 +130,8 @@ export const ProductForm = ({
         },
       },
     });
+
+    form.reset();
   }
 
   const { productImage } = productValues;
@@ -389,7 +391,7 @@ export const ProductForm = ({
                 "w-full lg:w-1/3"
               )}
               type="submit"
-              disabled={isLoading || !form.formState.isDirty}
+              disabled={isLoading}
             >
               {productValues?.id ? (
                 <RefreshCcwIcon className={cn(isLoading && "animate-spin")} />
