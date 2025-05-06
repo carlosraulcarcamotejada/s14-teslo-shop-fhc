@@ -3,6 +3,7 @@ import { Provider } from "react-redux";
 import { persistor, store } from "@/store/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { SessionProvider } from "next-auth/react";
+import { Toaster } from "@/components/ui/sonner";
 import {
   PayPalScriptProvider,
   ScriptProviderProps,
@@ -23,6 +24,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <SessionProvider>
           <PayPalScriptProvider options={providerProps.options}>
             {children}
+            <Toaster />
           </PayPalScriptProvider>
         </SessionProvider>
       </Provider>

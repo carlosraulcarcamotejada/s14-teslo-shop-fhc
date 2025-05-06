@@ -1,14 +1,11 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+import { Prisma } from "@prisma/client";
+import prisma from "@/lib/prisma";
 import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
 import { DeleteProductImageArgs } from "@/interfaces/product/delete-product-image-args";
-import { Prisma } from "@prisma/client";
-import { revalidatePath } from "next/cache";
-import { v2 as cloudinary } from "cloudinary";
-import prisma from "@/lib/prisma";
-
-// Configuration
-cloudinary.config(process.env.CLOUDINARY_URL ?? "");
+import { cloudinary } from "@/config/cloudinary";
 
 export const deleteProductImage = async ({
   id,
@@ -21,10 +18,8 @@ export const deleteProductImage = async ({
         message: "No se pueden borrar imágenes de filesystem",
       };
     }
-    console.log({ url });
-    const imageName: string = url.split("/").at(-1)?.split(".")[0] ?? "no-name";
 
-    console.log({ imageName });
+    const imageName: string = url.split("/").at(-1)?.split(".")[0] ?? "no-name";
 
     await cloudinary.uploader.destroy(imageName);
 
@@ -43,15 +38,17 @@ export const deleteProductImage = async ({
 
     if (!deletedImage) {
       return {
+        message: "No se pudo borrar la imágen",
         ok: false,
       };
     }
 
     revalidatePath("/admin/products");
     revalidatePath(`/admin/product/${deletedImage.product.slug}`);
-    revalidatePath(`/product/${deletedImage.product.slug }`);
+    revalidatePath(`/product/${deletedImage.product.slug}`);
 
     return {
+      message: "Imágen eliminada correctamente",
       ok: true,
     };
   } catch (error) {

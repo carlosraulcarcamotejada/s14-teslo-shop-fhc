@@ -10,10 +10,7 @@ import { Product } from "@/interfaces/product/product";
 import { TypeOption } from "@/interfaces/type/type-option";
 import { CategoryOption } from "@/interfaces/category/category-option";
 import { revalidatePath } from "next/cache";
-import { v2 as cloudinary } from "cloudinary";
-
-// Configuration
-cloudinary.config(process.env.CLOUDINARY_URL ?? "");
+import { cloudinary } from "@/config/cloudinary";
 
 export const updateProduct = async ({
   productFormData,
@@ -68,6 +65,8 @@ export const updateProduct = async ({
     }
 
     const { id, imagesFile, ...restProduct } = productParsed.data;
+
+    void imagesFile;
 
     if (!id) {
       return {
@@ -177,7 +176,7 @@ const uploadImages = async (
 
     return uploadedImages;
   } catch (error) {
-    // console.log("error en uploadImages ", error);
+    console.log("error en uploadImages ", error);
     return undefined;
   }
 };

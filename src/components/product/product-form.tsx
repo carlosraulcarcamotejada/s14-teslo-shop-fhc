@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -20,7 +21,7 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { RefreshCcwIcon, SaveIcon } from "lucide-react";
+import { RefreshCcwIcon, SaveIcon, XIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ProductFormProps } from "@/interfaces/product/product-form-props";
 import { Textarea } from "@/components/ui/textarea";
@@ -34,7 +35,8 @@ import { updateProduct } from "@/actions/product/update-product";
 import { useRouter } from "next/navigation";
 import { Product } from "@/interfaces/product/product";
 import { Link } from "@/components/ui/link";
-import { ProductImageCard } from "@/components/product/product-image-card";
+import { ProductDeleteImageCard } from "@/components/product/product-delete-image-card";
+import { toast } from "sonner";
 
 export const ProductForm = ({
   categories = [],
@@ -43,6 +45,7 @@ export const ProductForm = ({
   types = [],
   ...props
 }: ProductFormProps) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   // 1. Define your default values.
@@ -62,6 +65,7 @@ export const ProductForm = ({
 
   // 3. Define a submit handler.
   async function onSubmit(values: ProductFormValues) {
+    setIsLoading(true);
     const { imagesFile, ...restProductToSave } = values;
     const productFormData = new FormData();
 
@@ -114,9 +118,18 @@ export const ProductForm = ({
       product = createdProduct;
     }
 
-    // console.log(message, product, ok);
-    if (!ok || !product) return;
-    router.replace(`/admin/product/${product?.slug}`);
+    console.log(message, product, ok);
+    setIsLoading(false);
+    if (ok && product) router.replace(`/admin/product/${product?.slug}`);
+
+    toast(message, {
+      action: {
+        label: <XIcon className="w-4 h-4" />,
+        onClick: () => {
+          toast.dismiss();
+        },
+      },
+    });
   }
 
   const { productImage } = productValues;
@@ -134,7 +147,11 @@ export const ProductForm = ({
                 <FormItem>
                   <FormLabel>Título</FormLabel>
                   <FormControl>
-                    <Input placeholder="Título" {...field} />
+                    <Input
+                      placeholder="Título"
+                      {...field}
+                      disabled={isLoading}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -153,6 +170,7 @@ export const ProductForm = ({
                       type="multiple"
                       onValueChange={onChange}
                       value={value}
+                      disabled={isLoading}
                     >
                       {productSizes.map((size: string, index: number) => (
                         <ToggleGroupItem
@@ -174,7 +192,7 @@ export const ProductForm = ({
             <FormField
               control={form.control}
               name="imagesFile"
-              render={({ field: { onChange, ref, name } }) => (
+              render={({ field: { ref, name } }) => (
                 <FormItem>
                   <FormLabel>Fotos</FormLabel>
                   <FormControl>
@@ -189,6 +207,7 @@ export const ProductForm = ({
                         const files = Array.from(e.target.files ?? []);
                         form.setValue("imagesFile", files);
                       }}
+                      disabled={isLoading}
                     />
                   </FormControl>
                   <FormMessage />
@@ -202,7 +221,12 @@ export const ProductForm = ({
               </span>
               <div className="flex flex-wrap gap-4">
                 {productImage?.map(({ id, url }) => (
-                  <ProductImageCard key={id} url={url} id={id} />
+                  <ProductDeleteImageCard
+                    key={id}
+                    url={url}
+                    id={id}
+                    isDisabled={isLoading}
+                  />
                 ))}
               </div>
             </div>
@@ -214,7 +238,7 @@ export const ProductForm = ({
                 <FormItem>
                   <FormLabel>Slug</FormLabel>
                   <FormControl>
-                    <Input placeholder="Slug" {...field} />
+                    <Input placeholder="Slug" {...field} disabled={isLoading} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -228,7 +252,11 @@ export const ProductForm = ({
                 <FormItem>
                   <FormLabel>Descripción</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Descripción" {...field} />
+                    <Textarea
+                      placeholder="Descripción"
+                      {...field}
+                      disabled={isLoading}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -247,6 +275,7 @@ export const ProductForm = ({
                       placeholder="Precio"
                       type="number"
                       value={value}
+                      disabled={isLoading}
                     />
                   </FormControl>
                   <FormMessage />
@@ -260,7 +289,7 @@ export const ProductForm = ({
                 <FormItem>
                   <FormLabel>Tags</FormLabel>
                   <FormControl>
-                    <Input placeholder="Tags" {...field} />
+                    <Input placeholder="Tags" {...field} disabled={isLoading} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -278,6 +307,7 @@ export const ProductForm = ({
                       placeholder="inStock"
                       type="number"
                       value={value}
+                      disabled={isLoading}
                     />
                   </FormControl>
                   <FormMessage />
@@ -291,7 +321,11 @@ export const ProductForm = ({
                 return (
                   <FormItem>
                     <FormLabel>Categoría</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      disabled={isLoading}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Seleccione una categoría" />
@@ -321,7 +355,11 @@ export const ProductForm = ({
                 return (
                   <FormItem>
                     <FormLabel>Tipo</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      disabled={isLoading}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Seleccione un tipo" />
@@ -351,9 +389,13 @@ export const ProductForm = ({
                 "w-full lg:w-1/3"
               )}
               type="submit"
-              // disabled={}
+              disabled={isLoading || !form.formState.isDirty}
             >
-              {productValues?.id ? <RefreshCcwIcon /> : <SaveIcon />}
+              {productValues?.id ? (
+                <RefreshCcwIcon className={cn(isLoading && "animate-spin")} />
+              ) : (
+                <SaveIcon className={cn(isLoading && "animate-pulse")} />
+              )}
               {productValues?.id ? "Actualizar" : "Guardar"}
             </Button>
           </div>
