@@ -12,7 +12,7 @@ import {
   OnApproveData,
 } from "@paypal/paypal-js";
 import { PayPalButtonsProps } from "@/interfaces/paypal/paypal-buttons-props";
-import { setTransactionId } from "@/actions/payments/set-transaction-id";
+import { updateTransactionId } from "@/actions/payments/update-transaction-id";
 import { paypalCheckPayment } from "@/actions/payments/paypal-payment";
 import { useAddress } from "@/hooks/use-address";
 
@@ -44,12 +44,12 @@ export const PayPalButtons = ({
       ],
     });
 
-    const { ok } = await setTransactionId({
+    const { success } = await updateTransactionId({
       orderId,
       transactionId,
     });
 
-    if (!ok) {
+    if (!success) {
       throw new Error("No se pudo actualizar la orden");
     }
 
@@ -68,7 +68,7 @@ export const PayPalButtons = ({
       paypalTransactionId: details.id,
     });
 
-    if (results.ok) {
+    if (results.success) {
       clearAddress();
     }
   };

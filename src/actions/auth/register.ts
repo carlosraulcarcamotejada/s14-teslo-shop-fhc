@@ -2,18 +2,17 @@
 import prisma from "@/lib/prisma";
 import bcryptjs from "bcryptjs";
 import { AuthError } from "next-auth";
-import { Register } from "@/interfaces/actions/register";
+import { RegisterArgs } from "@/interfaces/actions/register-args";
+import { ApiResponse } from "@/interfaces/actions/api-response";
 
 export const register = async ({
   formData,
-}: Register): Promise<{
-  status: string;
-  user?: {
-    email: string;
-    name: string;
-    id: string;
-  };
-}> => {
+}: RegisterArgs): Promise<
+  ApiResponse & {
+    status: string;
+    user?: { email: string; name: string; id: string };
+  }
+> => {
   try {
     const user = await prisma.user.create({
       data: {
@@ -28,16 +27,35 @@ export const register = async ({
       },
     });
 
-    return { status: "success", user };
+    return {
+      status: "success",
+      message: "Usuario registrado exitosamente",
+      success: true,
+      user,
+    };
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return { status: "Invalid credentials." };
+          return {
+            code: error.message,
+            message: "Invalid credentials",
+            status: "unsuccessful",
+            success: false,
+          };
         default:
-          return { status: "Something went wrong." };
+          return {
+            code: error.message,
+            message: "Invalid credentials",
+            status: "unsuccessful",
+            success: false,
+          };
       }
     }
-    throw error;
+    return {
+      message: "Error desconocido",
+      status: "unsuccessful",
+      success: false,
+    };
   }
 };

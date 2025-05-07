@@ -6,9 +6,9 @@ import { Order } from "@/interfaces/order/order";
 import { redirect } from "next/navigation";
 
 export default async function OrdersPage() {
-  const { ok, orders = [] } = await getOrdersByUserPaginated();
+  const { success, orders = [] } = await getOrdersByUserPaginated();
 
-  if (!ok) {
+  if (!success) {
     redirect("/auth/login");
   }
 

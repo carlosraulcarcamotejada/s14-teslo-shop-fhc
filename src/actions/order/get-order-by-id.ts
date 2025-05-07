@@ -2,16 +2,19 @@
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { auth } from "@/config/auth.config";
-import { GetOrderById } from "@/interfaces/actions/get-order-by-id";
+import { GetOrderByIdArgs } from "@/interfaces/actions/get-order-by-id-args";
+// import { ApiResponse } from "@/interfaces/actions/api-response";
 
-export const getOrderById = async ({ id }: GetOrderById) => {
+export const getOrderById = async ({
+  id,
+}: GetOrderByIdArgs) => {
   try {
     const session = await auth();
 
     if (!session?.user) {
       return {
-        ok: false,
         message: "Debe de estar autenticado",
+        success: false,
       };
     }
 
@@ -56,7 +59,7 @@ export const getOrderById = async ({ id }: GetOrderById) => {
       },
     });
 
-    // console.log(order)
+   
 
     if (!order) {
       throw `${id} no existe`;
@@ -67,25 +70,26 @@ export const getOrderById = async ({ id }: GetOrderById) => {
     }
 
     return {
-      ok: true,
+      message: "Orden obtenida exitosamente",
       order,
+      success: true,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
-        ok: false,
+        code: error.code,
         message: `Prisma error: ${error.message}`,
-        code: error.code, // PrismaClientKnownRequestError tiene un código de error
+        success: false,
       };
     } else if (error instanceof Error) {
       return {
-        ok: false,
         message: error.message,
+        success: false,
       };
     } else {
       return {
-        ok: false,
-        message: "An unknown error occurred.",
+        message: "Se produjo un error desconocido",
+        success: false,
       };
     }
   }

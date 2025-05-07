@@ -23,11 +23,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { SaveIcon } from "lucide-react";
 import { useAddress } from "@/hooks/use-address";
-import { setUserAddress } from "@/actions/address/set-user-address";
 import { deleteUserAddress } from "@/actions/address/delete-user-address";
 import { addressFormSchema } from "@/schema/address-form-schema";
 import { CheckoutAddressProps } from "@/interfaces/checkout/checkout-address-form";
 import { cn } from "@/lib/utils";
+import { getUserAddress } from "@/actions/address/get-user-address";
+import { createUserAddress } from "@/actions/address/create-user-address";
+import { updateUserAddress } from "@/actions/address/update-user-address";
 
 export const CheckoutAddressForm = ({
   countries,
@@ -66,11 +68,19 @@ export const CheckoutAddressForm = ({
   async function onSubmit(values: Address) {
     setCheckoutAddress(values);
 
-    if (values.saveForm) {
-      await setUserAddress(values, userId);
-    }
     if (!values.saveForm) {
       await deleteUserAddress({ userId });
+    }
+
+    const userAddressFound = await getUserAddress({ userId });
+
+    if (!userAddressFound) {
+      await createUserAddress({ address, userId });
+    } else if (userAddressFound) {
+      await updateUserAddress({ address, userId });
+    }
+
+    if (!values.saveForm) {
     }
 
     router.push("/checkout");

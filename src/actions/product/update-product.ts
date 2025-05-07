@@ -1,8 +1,8 @@
 "use server";
 
 import { Prisma } from "@prisma/client";
-import { UpdateProduct } from "@/interfaces/actions/update-product";
-import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
+import { UpdateProductArgs } from "@/interfaces/actions/update-product-args";
+import { ApiResponse } from "@/interfaces/actions/api-response";
 import { productFormSchema } from "@/schema/product-form-schema";
 import prisma from "@/lib/prisma";
 import { Size } from "@/interfaces/shared/size";
@@ -14,7 +14,7 @@ import { cloudinary } from "@/config/cloudinary";
 
 export const updateProduct = async ({
   productFormData,
-}: UpdateProduct): Promise<ErrorPrisma & { updatedProduct?: Product }> => {
+}: UpdateProductArgs): Promise<ApiResponse & { updatedProduct?: Product }> => {
   try {
     // 1) Debug: ver qué tiene el iterador
     // console.log("Iterador entries():", Array.from(productFormData.entries()));
@@ -43,7 +43,7 @@ export const updateProduct = async ({
 
     if (!productParsed.success) {
       return {
-        ok: false,
+        success: false,
         message: "No pudo ser parseado",
       };
     }
@@ -70,7 +70,7 @@ export const updateProduct = async ({
 
     if (!id) {
       return {
-        ok: false,
+        success: false,
         message: "El producto no tiene un id",
       };
     }
@@ -107,7 +107,8 @@ export const updateProduct = async ({
 
     if (!updatedProduct) {
       return {
-        ok: false,
+        success: false,
+        message: "No se pudo actualizó el producto",
       };
     }
 
@@ -129,11 +130,9 @@ export const updateProduct = async ({
     revalidatePath(`/admin/product/${updatedProductData.slug}`);
     revalidatePath(`/product/${updatedProductData.slug}`);
 
-    // console.log("ejecutó los revalidates");
-
     return {
       message: "Producto actualizado correctamente",
-      ok: true,
+      success: true,
       updatedProduct: updatedProductData,
     };
   } catch (error) {
@@ -141,17 +140,17 @@ export const updateProduct = async ({
       return {
         code: error.code,
         message: `Prisma error: ${error.message}`,
-        ok: false,
+        success: false,
       };
     } else if (error instanceof Error) {
       return {
         message: error.message,
-        ok: false,
+        success: false,
       };
     } else {
       return {
         message: "An unknown error occurred.",
-        ok: false,
+        success: false,
       };
     }
   }

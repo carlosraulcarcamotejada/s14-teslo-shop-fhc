@@ -1,27 +1,21 @@
 "use server";
-
-import { auth } from "@/config/auth.config";
-import { GetUserById } from "@/interfaces/actions/get-user-by-id";
-import { User } from "@/interfaces/user/user";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
+import { auth } from "@/config/auth.config";
+import { ApiResponse } from "@/interfaces/actions/api-response";
+import { GetUserByIdArgs } from "@/interfaces/actions/get-user-by-id-args";
+import { User } from "@/interfaces/user/user";
 
 export const getUserById = async ({
   id,
-}: GetUserById): Promise<{
-  user: User | null;
-  ok: boolean;
-  message?: string;
-  code?: string;
-}> => {
+}: GetUserByIdArgs): Promise<ApiResponse & { user?: User }> => {
   try {
     const session = await auth();
 
     if (!session?.user) {
       return {
-        ok: false,
         message: "No está autenticado.",
-        user: null,
+        success: false,
       };
     }
 
@@ -29,35 +23,32 @@ export const getUserById = async ({
 
     if (!user) {
       return {
-        ok: false,
         message: "Usuario no encontrado",
-        user: null,
+        success: false,
       };
     }
 
     return {
-      ok: true,
+      message: "Usuario obtenido exitosamente",
+      success: true,
       user,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
-        ok: false,
+        success: false,
         message: `Prisma error: ${error.message}`,
-        code: error.code, // PrismaClientKnownRequestError tiene un código de error
-        user: null,
+        code: error.code,
       };
     } else if (error instanceof Error) {
       return {
-        ok: false,
+        success: false,
         message: error.message,
-        user: null,
       };
     } else {
       return {
-        ok: false,
-        message: "An unknown error occurred.",
-        user: null,
+        success: false,
+        message: "No hay productos en el pedido",
       };
     }
   }

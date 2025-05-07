@@ -61,13 +61,12 @@ export const CheckoutSummary = ({
 
     const resp = await placeOrder({ address: addressStore, productsToOrder });
 
-    if (!resp?.ok) {
+    if (!resp?.success) {
       setErrorMessage(resp?.message);
       setIsPlacingOrder(false);
       return;
     }
 
-    // todo salió bien
     clearCart();
     router.replace("/orders/" + resp?.order?.id);
   };

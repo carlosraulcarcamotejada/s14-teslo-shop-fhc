@@ -90,37 +90,37 @@ export const ProductForm = ({
       }
     }
 
-    let ok: boolean;
+    let success: boolean;
     let message: string | undefined;
     let product: Product | undefined;
 
     if (values.id) {
       const {
-        ok: okResp,
+        success: successResp,
         message: messageResp,
         updatedProduct: updatedProductResp,
       } = await updateProduct({
         productFormData,
       });
-      ok = okResp;
+      success = successResp;
       message = messageResp;
       product = updatedProductResp;
     } else {
       const {
-        ok: okResp,
+        success: successResp,
         message: messageResp,
         createdProduct,
       } = await createProduct({
         productFormData,
       });
-      ok = okResp;
+      success = successResp;
       message = messageResp;
       product = createdProduct;
     }
 
     // console.log(message, product, ok);
     setIsLoading(false);
-    if (ok && product) router.replace(`/admin/product/${product?.slug}`);
+    if (success && product) router.replace(`/admin/product/${product?.slug}`);
 
     toast(message, {
       action: {

@@ -3,19 +3,19 @@
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
-import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
+import { ApiResponse } from "@/interfaces/actions/api-response";
 import { DeleteProductImageArgs } from "@/interfaces/product/delete-product-image-args";
 import { cloudinary } from "@/config/cloudinary";
 
 export const deleteProductImage = async ({
   id,
   url,
-}: DeleteProductImageArgs): Promise<ErrorPrisma> => {
+}: DeleteProductImageArgs): Promise<ApiResponse> => {
   try {
     if (!url.startsWith("http")) {
       return {
-        ok: false,
         message: "No se pueden borrar imágenes de filesystem",
+        success: false,
       };
     }
 
@@ -39,7 +39,7 @@ export const deleteProductImage = async ({
     if (!deletedImage) {
       return {
         message: "No se pudo borrar la imágen",
-        ok: false,
+        success: false,
       };
     }
 
@@ -49,24 +49,24 @@ export const deleteProductImage = async ({
 
     return {
       message: "Imágen eliminada correctamente",
-      ok: true,
+      success: true,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
         code: error.code,
         message: `Prisma error: ${error.message}`,
-        ok: false,
+        success: false,
       };
     } else if (error instanceof Error) {
       return {
         message: error.message,
-        ok: false,
+        success: false,
       };
     } else {
       return {
-        message: "An unknown error occurred.",
-        ok: false,
+        message: "No hay productos en el pedido.",
+        success: false,
       };
     }
   }

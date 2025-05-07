@@ -41,6 +41,7 @@ export const ModalDialog = ({
   } = {},
 }: ModalDialogProps) => {
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const IconButtonTrigger: IconTypeLucideProps | undefined = buttonTrigger.icon;
@@ -55,11 +56,12 @@ export const ModalDialog = ({
       await primaryActionButton?.onClick();
     }
     setIsLoading(false);
+    setIsOpen(false);
   };
 
   return (
     <>
-      <Drawer open={isLoading} onOpenChange={setIsLoading}>
+      <Drawer open={isOpen} onOpenChange={setIsOpen}>
         <DrawerTrigger asChild>
           <Button
             className={cn("", buttonTrigger?.className)}
@@ -89,6 +91,7 @@ export const ModalDialog = ({
             <div className="px-4">
               <Button
                 className={cn("w-full", primaryActionButton?.className)}
+                disabled={isLoading}
                 onClick={onClickPrimaryActionButton}
                 size={primaryActionButton?.size ?? "default"}
                 variant={primaryActionButton?.variant ?? "default"}
@@ -101,6 +104,7 @@ export const ModalDialog = ({
               <DrawerClose asChild>
                 <Button
                   className={cn("", secondaryActionButton?.className)}
+                  disabled={isLoading}
                   size={secondaryActionButton?.size ?? "default"}
                   variant={secondaryActionButton?.variant ?? "default"}
                 >
@@ -113,7 +117,7 @@ export const ModalDialog = ({
         )}
       </Drawer>
       {isDesktop && (
-        <Dialog open={isLoading} onOpenChange={setIsLoading}>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle className="text-center">{title}</DialogTitle>
@@ -124,6 +128,7 @@ export const ModalDialog = ({
             <div className="flex flex-col gap-y-2">
               <Button
                 className={cn("w-full", primaryActionButton?.className)}
+                disabled={isLoading}
                 onClick={onClickPrimaryActionButton}
                 size={primaryActionButton?.size ?? "default"}
                 variant={primaryActionButton?.variant ?? "default"}
@@ -133,10 +138,11 @@ export const ModalDialog = ({
               </Button>
               <Button
                 className={cn("", secondaryActionButton?.className)}
+                disabled={isLoading}
                 size={secondaryActionButton?.size ?? "default"}
                 variant={secondaryActionButton?.variant ?? "default"}
                 onClick={() => {
-                  setIsLoading(false);
+                  setIsOpen(false);
                 }}
               >
                 {IconSecondaryButton && <IconSecondaryButton />}

@@ -1,8 +1,8 @@
 import { UserRole } from "@/interfaces/user/user";
 
-interface ChangeUserRole {
+interface ChangeUserRoleArgs {
   userId: string;
   role: UserRole;
 }
 
-export type { ChangeUserRole };
+export type { ChangeUserRoleArgs };

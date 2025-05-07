@@ -1,35 +1,56 @@
 "use server";
-import { signIn } from "@/config/auth.config";
-import { Login } from "@/interfaces/auth/login";
 import { AuthError } from "next-auth";
+import { signIn } from "@/config/auth.config";
+import { AuthenticateArgs } from "@/interfaces/actions/authenticate-args";
+import { Login } from "@/interfaces/auth/login";
+import { ApiResponse } from "@/interfaces/actions/api-response";
 
-export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData
-) {
+export const authenticate = async ({
+  formData,
+}: AuthenticateArgs): Promise<
+  ApiResponse & { result: "success" | "unsuccess" }
+> => {
   try {
     await signIn("credentials", {
       ...Object.fromEntries(formData),
       redirect: false,
     });
-    return "success";
+    return {
+      success: true,
+      message: "Autenticado exitosamente",
+      result: "success",
+    };
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return "Invalid credentials.";
+          return {
+            code: error.message,
+            message: "Invalid credentials",
+            success: false,
+            result: "unsuccess",
+          };
         default:
-          return "Something went wrong.";
+          return {
+            code: error.message,
+            message: "Something went wrong",
+            success: false,
+            result: "unsuccess",
+          };
       }
     }
-    throw error;
+    return {
+      message: "Error desconocido",
+      success: false,
+      result: "unsuccess",
+    };
   }
-}
+};
 
-export const login = async (formData: Login) => {
+export const login = async ({ ...restformData }: Login) => {
   try {
     await signIn("credentials", {
-      ...formData,
+      ...restformData,
       redirect: false,
     });
 

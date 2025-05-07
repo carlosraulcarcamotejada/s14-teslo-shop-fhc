@@ -1,7 +1,7 @@
 import { SignIn } from "@/interfaces/auth/sign-in";
 
-interface Register {
+interface RegisterArgs {
   formData: SignIn;
 }
 
-export type { Register };
+export type { RegisterArgs };

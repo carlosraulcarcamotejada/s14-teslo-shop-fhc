@@ -1,8 +1,8 @@
 "use server";
 
 import { Prisma } from "@prisma/client";
-import { CreateProduct } from "@/interfaces/actions/create-product";
-import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
+import { CreateProductArgs } from "@/interfaces/actions/create-product-args";
+import { ApiResponse } from "@/interfaces/actions/api-response";
 import { productFormSchema } from "@/schema/product-form-schema";
 import prisma from "@/lib/prisma";
 import { Size } from "@/interfaces/shared/size";
@@ -13,9 +13,8 @@ import { revalidatePath } from "next/cache";
 
 export const createProduct = async ({
   productFormData,
-}: CreateProduct): Promise<ErrorPrisma & { createdProduct?: Product }> => {
+}: CreateProductArgs): Promise<ApiResponse & { createdProduct?: Product }> => {
   try {
-    console.log("createProduct");
     // 1) Debug: ver qué tiene el iterador
     // console.log("Iterador entries():", Array.from(productFormData.entries()));
 
@@ -43,8 +42,8 @@ export const createProduct = async ({
 
     if (!productParsed.success) {
       return {
-        ok: false,
         message: "No pudo ser parseado",
+        success: false,
       };
     }
 
@@ -52,8 +51,8 @@ export const createProduct = async ({
 
     if (id) {
       return {
-        ok: false,
         message: "El producto no tiene que tener un id",
+        success: false,
       };
     }
 
@@ -83,11 +82,12 @@ export const createProduct = async ({
       };
     });
 
-    const { createdProduct } = prismaTx;
+    const { createdProduct: createdProductData } = prismaTx;
 
-    if (!createdProduct) {
+    if (!createdProductData) {
       return {
-        ok: false,
+        message: "No se pudo crear el producto",
+        success: false,
       };
     }
 
@@ -96,9 +96,9 @@ export const createProduct = async ({
       productImage,
       type: typeCreatedProduct,
       ...restCreatedProduct
-    } = createdProduct;
+    } = createdProductData;
 
-    const createdProductData: Product = {
+    const createdProduct: Product = {
       ...restCreatedProduct,
       categoryOption: categoryCreateddProduct.name as CategoryOption,
       typeOption: typeCreatedProduct.name as TypeOption,
@@ -110,26 +110,26 @@ export const createProduct = async ({
     revalidatePath(`/product/${createdProductData.slug}`);
 
     return {
-      ok: true,
+      createdProduct,
       message: "Producto creado correctamente",
-      createdProduct: createdProductData,
+      success: true,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
         code: error.code,
         message: `Prisma error: ${error.message}`,
-        ok: false,
+        success: false,
       };
     } else if (error instanceof Error) {
       return {
         message: error.message,
-        ok: false,
+        success: false,
       };
     } else {
       return {
-        message: "An unknown error occurred.",
-        ok: false,
+        message: "No hay productos en el pedido.",
+        success: false,
       };
     }
   }

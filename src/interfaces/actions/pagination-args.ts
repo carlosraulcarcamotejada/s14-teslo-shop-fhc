@@ -1,9 +1,9 @@
 import { CategoryOption } from "@/interfaces/category/category-option";
 
-interface PaginationOptions {
+interface PaginationArgs {
   page?: number;
   take?: number;
   category?: CategoryOption;
 }
 
-export type { PaginationOptions };
+export type { PaginationArgs };

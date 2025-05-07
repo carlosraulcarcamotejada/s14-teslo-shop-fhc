@@ -13,11 +13,13 @@ import { CategoryOption } from "@/interfaces/category/category-option";
 export default async function OrderPage({ params }: PageProps) {
   const { id } = await params;
 
-  const { ok, order } = await getOrderById({ id });
+  const { success, order } = await getOrderById({ id });
+  console.log(order)
 
-  if (!ok || !order) {
+  if (!success || !order) {
     redirect("/");
   }
+
 
   const { OrderAddress: address, OrderItem } = order;
 

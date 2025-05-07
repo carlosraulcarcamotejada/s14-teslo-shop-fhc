@@ -1,23 +1,16 @@
 "use server";
-
 import { Prisma } from "@prisma/client";
-import { auth } from "@/config/auth.config";
 import prisma from "@/lib/prisma";
-import { PaginationOptions } from "@/interfaces/components/pagination-options";
+import { auth } from "@/config/auth.config";
+import { PaginationArgs } from "@/interfaces/actions/pagination-args";
 import { User } from "@/interfaces/user/user";
+import { ApiResponse } from "@/interfaces/actions/api-response";
 
 export const getUsersPaginated = async ({
   page = 1,
   take = 12,
-}: PaginationOptions = {}): Promise<
-  | { currentPage: number; totalPages: number; users: User[] }
-  | {
-      code?: string;
-      message: string;
-      ok: boolean;
-      totalPages: number;
-      users: User[];
-    }
+}: PaginationArgs = {}): Promise<
+  ApiResponse & { currentPage: number; totalPages: number; users: User[] }
 > => {
   try {
     if (isNaN(Number(page))) page = 1;
@@ -29,11 +22,11 @@ export const getUsersPaginated = async ({
 
     if (!session?.user && session?.user.role !== "admin") {
       return {
-        ok: false,
-        message: "Permisos de aministrador necesarios.",
-        users: [],
-        totalPages: 0,
         currentPage: 0,
+        message: "Se nececitan permisos de aministrador",
+        success: false,
+        totalPages: 0,
+        users: [],
       };
     }
 
@@ -50,17 +43,18 @@ export const getUsersPaginated = async ({
 
     return {
       currentPage: 0,
-      ok: true,
+      message: "Usuarios obtenidos exitosamente",
+      success: true,
       totalPages,
       users: dataUser,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
-        code: error.code, // PrismaClientKnownRequestError tiene un código de error
+        code: error.code,
         currentPage: 0,
         message: `Prisma error: ${error.message}`,
-        ok: false,
+        success: false,
         totalPages: 0,
         users: [],
       };
@@ -68,15 +62,15 @@ export const getUsersPaginated = async ({
       return {
         currentPage: 0,
         message: error.message,
-        ok: false,
+        success: false,
         totalPages: 0,
         users: [],
       };
     } else {
       return {
         currentPage: 0,
-        message: "An unknown error occurred.",
-        ok: false,
+        message: "No hay productos en el pedido",
+        success: false,
         totalPages: 0,
         users: [],
       };

@@ -41,9 +41,9 @@ export const LoginForm = ({ className, ...props }: LoginFormProps) => {
       const formData = new FormData();
       formData.append("email", values.email);
       formData.append("password", values.password);
-      const results = await authenticate(undefined, formData);
+      const { result } = await authenticate({ formData });
 
-      if (results === "success") {
+      if (result === "success") {
         clearCart();
         router.replace("/");
       }

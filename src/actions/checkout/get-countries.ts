@@ -1,38 +1,49 @@
 "use server";
-import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
+import prisma from "@/lib/prisma";
 import { Country } from "@/interfaces/shared/country";
+import { ApiResponse } from "@/interfaces/actions/api-response";
 
-export const getCountries = async (): Promise<{
-  ok: boolean;
-  countries: Country[];
-  message?: string;
-  code?: string;
-}> => {
+export const getCountries = async (): Promise<
+  ApiResponse & { countries: Country[] }
+> => {
   try {
     const countries = await prisma.country.findMany({
       orderBy: { name: "asc" },
     });
-    return { ok: true, countries };
+
+    if (!countries) {
+      return {
+        countries: [],
+        message: "No se pudieron obtener los países",
+        success: false,
+      };
+    }
+
+    return {
+      message: "Países obtenidos exitosamente",
+      success: true,
+      countries,
+    };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
         code: error.code,
-        message: `Prisma error: ${error.message}`,
-        ok: false,
         countries: [],
+        message: `Prisma error: ${error.message}`,
+        success: false,
       };
     } else if (error instanceof Error) {
       return {
-        message: error.message,
-        ok: false,
         countries: [],
+        message: error.message,
+        success: false,
       };
     } else {
       return {
-        message: "An unknown error occurred.",
-        ok: false,
         countries: [],
+        message: "Se produjo un error desconocido",
+        success: false,
       };
     }
   }

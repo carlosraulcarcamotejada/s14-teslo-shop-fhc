@@ -2,11 +2,15 @@
 
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
+import { ApiResponse } from "@/interfaces/actions/api-response";
 import { auth } from "@/config/auth.config";
-import { PlaceOrder } from "@/interfaces/actions/place-order";
+import { Order } from "@/interfaces/order/order";
+import { PlaceOrderArgs } from "@/interfaces/actions/place-order-args";
 
-export const placeOrder = async ({ address, productsToOrder }: PlaceOrder) => {
-  console.log("placeOrder");
+export const placeOrder = async ({
+  address,
+  productsToOrder,
+}: PlaceOrderArgs): Promise<ApiResponse & { order?: Order }> => {
   const session = await auth();
 
   const userId = session?.user.id;
@@ -14,16 +18,16 @@ export const placeOrder = async ({ address, productsToOrder }: PlaceOrder) => {
   // Verificar sesión de usuario
   if (!userId) {
     return {
-      ok: false,
-      message: "There is no user logged in.",
+      message: "El usuario no está autenticado",
+      success: false,
     };
   }
 
   // Verificar que hayan productos en la orden
   if (productsToOrder.length === 0) {
     return {
-      ok: false,
-      message: "No products in order.",
+      success: false,
+      message: "No hay productos en el pedido",
     };
   }
 
@@ -122,10 +126,18 @@ export const placeOrder = async ({ address, productsToOrder }: PlaceOrder) => {
                 })),
             },
           },
+
           subTotal,
           tax,
           total,
           userId,
+        },
+        include: {
+          user: {
+            select: {
+              name: true,
+            },
+          },
         },
       });
 
@@ -149,27 +161,38 @@ export const placeOrder = async ({ address, productsToOrder }: PlaceOrder) => {
       };
     });
 
+    const {
+      user: { name },
+      ...restOrder
+    } = prismaTx.order;
+
+    const order: Order = {
+      ...restOrder,
+      completeName: name,
+    };
+
     return {
-      ok: true,
-      order: prismaTx.order,
-      prismaTx,
+      success: true,
+      order,
+      message: "Orden colocada exitosamente",
+      // prismaTx,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
-        ok: false,
+        code: error.code,
         message: `Prisma error: ${error.message}`,
-        code: error.code, // PrismaClientKnownRequestError tiene un código de error
+        success: false,
       };
     } else if (error instanceof Error) {
       return {
-        ok: false,
         message: error.message,
+        success: false,
       };
     } else {
       return {
-        ok: false,
-        message: "An unknown error occurred.",
+        message: "Se produjo un error desconocido",
+        success: false,
       };
     }
   }

@@ -1,19 +1,21 @@
 "use server";
-
-import { auth } from "@/config/auth.config";
-import { DeleteOrder } from "@/interfaces/actions/delete-order";
-import prisma from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { Prisma } from "@prisma/client";
+import prisma from "@/lib/prisma";
+import { ApiResponse } from "@/interfaces/actions/api-response";
+import { auth } from "@/config/auth.config";
+import { DeleteOrderArgs } from "@/interfaces/actions/delete-order-args";
 
-export const deleteOrder = async ({ orderId }: DeleteOrder) => {
+export const deleteOrder = async ({
+  orderId,
+}: DeleteOrderArgs): Promise<ApiResponse> => {
   try {
     const session = await auth();
 
     if (!session?.user) {
       return {
-        ok: false,
         message: "Debe de estar autenticado",
+        success: false,
       };
     }
 
@@ -23,12 +25,21 @@ export const deleteOrder = async ({ orderId }: DeleteOrder) => {
 
     if (order?.isPaid) {
       return {
-        ok: false,
         message: "La orden ya fue pagada",
+        success: false,
       };
     }
 
-    await prisma.orderAddress.deleteMany({ where: { orderId } });
+    const deletedOrderData = await prisma.orderAddress.deleteMany({
+      where: { orderId },
+    });
+
+    if (!deletedOrderData) {
+      return {
+        message: "No se pudo borrar la orden",
+        success: false,
+      };
+    }
 
     // Obtener la información de los productos
     const productsInOrder = await prisma.orderItem.findMany({
@@ -61,25 +72,25 @@ export const deleteOrder = async ({ orderId }: DeleteOrder) => {
     revalidatePath("/orders");
 
     return {
-      ok: true,
-      message: "orden eliminada",
+      message: "orden eliminada exitosamente",
+      success: true,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
-        ok: false,
-        message: `Prisma error: ${error.message}`,
         code: error.code, // PrismaClientKnownRequestError tiene un código de error
+        message: `Prisma error: ${error.message}`,
+        success: false,
       };
     } else if (error instanceof Error) {
       return {
-        ok: false,
         message: error.message,
+        success: false,
       };
     } else {
       return {
-        ok: false,
-        message: "An unknown error occurred.",
+        message: "Se produjo un error desconocido",
+        success: false,
       };
     }
   }

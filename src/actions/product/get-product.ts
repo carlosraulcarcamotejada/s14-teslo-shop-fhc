@@ -2,8 +2,8 @@
 
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
-import { GetProduct } from "@/interfaces/actions/get-product";
-import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
+import { GetProductArgs } from "@/interfaces/actions/get-product-args";
+import { ApiResponse } from "@/interfaces/actions/api-response";
 import { Product } from "@/interfaces/product/product";
 import { CategoryOption } from "@/interfaces/category/category-option";
 import { TypeOption } from "@/interfaces/type/type-option";
@@ -12,13 +12,13 @@ export const getProduct = async ({
   id,
   showProductImage,
   slug,
-}: GetProduct): Promise<
-  ErrorPrisma & {
+}: GetProductArgs): Promise<
+  ApiResponse & {
     product?: Product;
   }
 > => {
   try {
-    const product = await prisma.product.findFirst({
+    const productData = await prisma.product.findFirst({
       include: {
         productImage: {
           select: { ...(showProductImage && { id: true }), url: true },
@@ -36,29 +36,28 @@ export const getProduct = async ({
       },
     });
 
-    if (!product) {
+    if (!productData) {
       return {
-        ok: false,
         message: "No se encontró el producto",
-        product: undefined,
+        success: false,
       };
     }
 
-    const { category, type, productImage, ...restProduct } = product;
+    const { category, type, productImage, ...restProductData } = productData;
 
-    const productData: Product = {
+    const product: Product = {
       ...(showProductImage && {
         productImage: productImage.map((image) => ({ ...image })),
       }),
-      ...restProduct,
+      ...restProductData,
       images: showProductImage ? [] : productImage.map((image) => image.url),
       categoryOption: category.name as CategoryOption,
       typeOption: type.name as TypeOption,
     };
 
     return {
-      ok: true,
-      product: productData,
+      success: true,
+      product,
       message: "Producto obtenido correctamente",
     };
   } catch (error) {
@@ -66,17 +65,17 @@ export const getProduct = async ({
       return {
         code: error.code,
         message: `Prisma error: ${error.message}`,
-        ok: false,
+        success: false,
       };
     } else if (error instanceof Error) {
       return {
         message: error.message,
-        ok: false,
+        success: false,
       };
     } else {
       return {
-        message: "An unknown error occurred.",
-        ok: false,
+        message: "No hay productos en el pedido.",
+        success: false,
       };
     }
   }

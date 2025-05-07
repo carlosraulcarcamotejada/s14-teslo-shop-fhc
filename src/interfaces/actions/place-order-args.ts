@@ -1,9 +1,9 @@
 import { ProductToOrder } from "@/interfaces/product/product-to-order";
 import { Address } from "@/interfaces/shared/address";
 
-interface PlaceOrder {
+interface PlaceOrderArgs {
   productsToOrder: ProductToOrder[];
   address: Address;
 }
 
-export type { PlaceOrder };
+export type { PlaceOrderArgs };

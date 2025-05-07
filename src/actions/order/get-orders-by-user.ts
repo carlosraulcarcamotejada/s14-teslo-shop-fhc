@@ -2,36 +2,25 @@
 
 import { Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
+import { ApiResponse } from "@/interfaces/actions/api-response";
 import { auth } from "@/config/auth.config";
 import { Order } from "@/interfaces/order/order";
-import { PaginationOptions } from "@/interfaces/components/pagination-options";
+import { PaginationArgs } from "@/interfaces/actions/pagination-args";
 
 export const getOrdersByUserPaginated = async ({
   page = 1,
   take = 12,
-}: PaginationOptions = {}): Promise<
-  | {
-      ok: boolean;
-      message: string;
-      orders: Order[];
-      totalPages: number;
-    }
-  | {
-      ok: boolean;
-      message: string;
-      orders: Order[];
-      code?: string;
-      totalPages: number;
-    }
+}: PaginationArgs = {}): Promise<
+  ApiResponse & { orders: Order[]; totalPages: number }
 > => {
   try {
     const session = await auth();
 
     if (!session?.user) {
       return {
-        ok: false,
         message: "Debe de estar autenticado",
         orders: [],
+        success: false,
         totalPages: 0,
       };
     }
@@ -76,32 +65,32 @@ export const getOrdersByUserPaginated = async ({
     }));
 
     return {
-      ok: true,
+      message: "Ordenes del usuario obtenidas exitosamente",
       orders: orderData,
-      message: "",
+      success: true,
       totalPages,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
-        ok: false,
+        code: error.code,
         message: `Prisma error: ${error.message}`,
-        code: error.code, // PrismaClientKnownRequestError tiene un código de error
         orders: [],
+        success: false,
         totalPages: 0,
       };
     } else if (error instanceof Error) {
       return {
-        ok: false,
         message: error.message,
         orders: [],
+        success: false,
         totalPages: 0,
       };
     } else {
       return {
-        ok: false,
-        message: "An unknown error occurred.",
+        message: "Se produjo un error desconocido",
         orders: [],
+        success: false,
         totalPages: 0,
       };
     }

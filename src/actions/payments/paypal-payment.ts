@@ -1,26 +1,23 @@
 "use server";
-import {
-  PaypalCheckPayment,
-  PaypalVerifyPayment,
-} from "@/interfaces/paypal/paypal-payment";
-import { PaypalOrderStatusResp } from "@/interfaces/paypal/paypal-order-status-response";
-import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
+import prisma from "@/lib/prisma";
+import { ApiResponse } from "@/interfaces/actions/api-response";
+import { PaypalOrderStatusResp } from "@/interfaces/paypal/paypal-order-status-response";
+import {
+  PaypalCheckPaymentArgs,
+  PaypalVerifyPaymentArgs,
+} from "@/interfaces/paypal/paypal-payment-args";
 
 export const paypalCheckPayment = async ({
   paypalTransactionId,
-}: PaypalCheckPayment): Promise<{
-  ok: boolean;
-  message?: string;
-  code?: string;
-}> => {
+}: PaypalCheckPaymentArgs): Promise<ApiResponse> => {
   const bearerToken = await getPaypalBearerToken();
 
   if (!bearerToken || typeof bearerToken === "object") {
     return {
-      ok: false,
       message: "No se pudo obtener el token de verificación.",
+      success: false,
     };
   }
 
@@ -31,8 +28,8 @@ export const paypalCheckPayment = async ({
 
   if (!("status" in resp) || !("purchase_units" in resp)) {
     return {
-      ok: false,
       message: "Error al verificar el pago.",
+      success: false,
     };
   }
 
@@ -41,7 +38,7 @@ export const paypalCheckPayment = async ({
 
   if (status !== "COMPLETED") {
     return {
-      ok: false,
+      success: false,
       message: "Aún no se ha pagado en PayPayl.",
     };
   }
@@ -59,24 +56,25 @@ export const paypalCheckPayment = async ({
     revalidatePath(`/orders/${orderId}`);
 
     return {
-      ok: true,
+      message: "Pago realizado",
+      success: true,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
-        ok: false,
+        code: error.code,
         message: `Prisma error: ${error.message}`,
-        code: error.code, // PrismaClientKnownRequestError tiene un código de error
+        success: false,
       };
     } else if (error instanceof Error) {
       return {
-        ok: false,
         message: error.message,
+        success: false,
       };
     } else {
       return {
-        ok: false,
-        message: "An unknown error occurred.",
+        message: "Se produjo un error desconocido",
+        success: false,
       };
     }
   }
@@ -133,7 +131,7 @@ const getPaypalBearerToken = async (): Promise<
 const paypalVerifyPayment = async ({
   bearerToken,
   paypalTransactionId,
-}: PaypalVerifyPayment): Promise<
+}: PaypalVerifyPaymentArgs): Promise<
   PaypalOrderStatusResp | { ok: boolean; message: string; code?: string }
 > => {
   try {

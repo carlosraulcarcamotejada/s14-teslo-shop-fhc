@@ -1,43 +1,52 @@
 "use server";
-import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
-import { Type } from "@/interfaces/type/type";
-import { TypeOption } from "@/interfaces/type/type-option";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
+import { ApiResponse } from "@/interfaces/actions/api-response";
+import { Type } from "@/interfaces/type/type";
+import { TypeOption } from "@/interfaces/type/type-option";
 
-export const getTypes = async (): Promise<ErrorPrisma & { types: Type[] }> => {
+export const getTypes = async (): Promise<ApiResponse & { types: Type[] }> => {
   try {
-    const types = await prisma.type.findMany({
+    const typesData = await prisma.type.findMany({
       orderBy: { name: "asc" },
     });
 
-    const typeData = types.map(({ id, name }) => ({
+    if (!typesData) {
+      return {
+        message: "No se pudieron obtener los tipos",
+        success: false,
+        types: [],
+      };
+    }
+
+    const types = typesData.map(({ id, name }) => ({
       id,
       name: name as TypeOption,
     }));
 
     return {
-      ok: true,
-      types: typeData,
+      message: "Tipos de producto obtenidos exitosamente",
+      success: true,
+      types,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
         code: error.code,
         message: `Prisma error: ${error.message}`,
-        ok: false,
+        success: false,
         types: [],
       };
     } else if (error instanceof Error) {
       return {
         message: error.message,
-        ok: false,
+        success: false,
         types: [],
       };
     } else {
       return {
-        message: "An unknown error occurred.",
-        ok: false,
+        message: "No hay productos en el pedido",
+        success: false,
         types: [],
       };
     }

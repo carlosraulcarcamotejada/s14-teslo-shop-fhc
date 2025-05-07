@@ -1,46 +1,55 @@
 "use server";
-import { ErrorPrisma } from "@/interfaces/actions/error-prisma";
+import { Prisma } from "@prisma/client";
+import prisma from "@/lib/prisma";
+import { ApiResponse } from "@/interfaces/actions/api-response";
 import { Category } from "@/interfaces/category/category";
 import { CategoryOption } from "@/interfaces/category/category-option";
-import prisma from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
 
 export const getCategories = async (): Promise<
-  ErrorPrisma & { categories: Category[] }
+  ApiResponse & { categories: Category[] }
 > => {
   try {
-    const categories = await prisma.category.findMany({
+    const categoriesData = await prisma.category.findMany({
       orderBy: { name: "asc" },
     });
 
-    const categoriesData = categories.map(({ id, name }) => ({
+    if (!categoriesData) {
+      return {
+        message: "No se pudieron obtener las categorías",
+        success: false,
+        categories: [],
+      };
+    }
+
+    const categories = categoriesData.map(({ id, name }) => ({
       id,
       name: name as CategoryOption,
     }));
 
     return {
-      ok: true,
-      categories: categoriesData,
+      categories,
+      message: "Categorías obtenidas exitosamente",
+      success: true,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
         code: error.code,
-        message: `Prisma error: ${error.message}`,
-        ok: false,
         categories: [],
+        message: `Prisma error: ${error.message}`,
+        success: false,
       };
     } else if (error instanceof Error) {
       return {
-        message: error.message,
-        ok: false,
         categories: [],
+        message: error.message,
+        success: false,
       };
     } else {
       return {
-        message: "An unknown error occurred.",
-        ok: false,
         categories: [],
+        message: "Se produjo un error desconocido",
+        success: false,
       };
     }
   }

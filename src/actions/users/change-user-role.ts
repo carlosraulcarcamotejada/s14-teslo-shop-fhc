@@ -1,20 +1,23 @@
 "use server";
-
-import { auth } from "@/config/auth.config";
-import { ChangeUserRole } from "@/interfaces/actions/change-user-role";
-import { UserRole } from "@/interfaces/user/user";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
+import { auth } from "@/config/auth.config";
+import { ApiResponse } from "@/interfaces/actions/api-response";
+import { ChangeUserRoleArgs } from "@/interfaces/actions/change-user-role-args";
+import { User, UserRole } from "@/interfaces/user/user";
 import { revalidatePath } from "next/cache";
 
-export const changeUserRole = async ({ role, userId }: ChangeUserRole) => {
+export const changeUserRole = async ({
+  role,
+  userId,
+}: ChangeUserRoleArgs): Promise<ApiResponse & { updatedUser?: User }> => {
   try {
     const session = await auth();
 
     if (session?.user.role !== "admin") {
       return {
-        ok: false,
         message: "Necesita privilegios de administrador.",
+        success: false,
       };
     }
 
@@ -26,29 +29,36 @@ export const changeUserRole = async ({ role, userId }: ChangeUserRole) => {
       data: { role: newRole },
     });
 
+    if (!updatedUser) {
+      return {
+        message: "No se pudo actualizar el rol del usuario",
+        success: false,
+      };
+    }
+
     revalidatePath("/admin/users");
 
     return {
-      ok: true,
-      updatedUser,
       message: "usuario actualizado correctamente.",
+      success: true,
+      updatedUser,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
-        ok: false,
+        code: error.code,
         message: `Prisma error: ${error.message}`,
-        code: error.code, // PrismaClientKnownRequestError tiene un código de error
+        success: false,
       };
     } else if (error instanceof Error) {
       return {
-        ok: false,
         message: error.message,
+        success: false,
       };
     } else {
       return {
-        ok: false,
-        message: "An unknown error occurred.",
+        message: "No hay productos en el pedido",
+        success: false,
       };
     }
   }

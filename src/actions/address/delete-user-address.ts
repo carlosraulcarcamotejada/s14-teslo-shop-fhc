@@ -1,34 +1,72 @@
 "use server";
+import { Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
-import { DeleteUserAddress } from "@/interfaces/actions/delete-user-address";
+import { DeleteUserAddressArgs } from "@/interfaces/actions/delete-user-address-args";
+import { ApiResponse } from "@/interfaces/actions/api-response";
+import { Address } from "@/interfaces/shared/address";
 
-export const deleteUserAddress = async ({ userId }: DeleteUserAddress) => {
+export const deleteUserAddress = async ({
+  userId,
+}: DeleteUserAddressArgs): Promise<
+  ApiResponse & { deletedAddress?: Address }
+> => {
   try {
     const foundAddress = await prisma.userAddress.findUnique({
       where: { userId },
     });
 
-    if (foundAddress) {
-      const resultAddress = await prisma.userAddress.delete({
-        where: { userId },
-      });
+    if (!foundAddress) {
       return {
-        ok: true,
-        deletedAddress: resultAddress ?? "The address could not be deleted",
+        message: "No se encontró la dirección",
+        success: false,
       };
     }
 
-    if (!foundAddress) {
+    const deletedAddressData = await prisma.userAddress.delete({
+      where: { userId },
+    });
+
+    if (!deletedAddressData) {
       return {
-        ok: true,
-        message: "The address could not be deleted",
+        message: "No se pudo eliminar la dirección del usuario",
+        success: false,
       };
     }
-  } catch (error) {
-    console.log(error);
-    return {
-      ok: false,
-      message: "The address could not be deleted",
+
+    const {
+      address2 = undefined,
+      countryId,
+      ...restResultAddress
+    } = deletedAddressData;
+
+    const deletedAddress: Address = {
+      country: countryId,
+      address2: address2 ?? undefined,
+      ...restResultAddress,
     };
+
+    return {
+      deletedAddress,
+      message: "La dirección no pudo ser eliminada",
+      success: true,
+    };
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      return {
+        code: error.code,
+        message: `Prisma error: ${error.message}`,
+        success: false,
+      };
+    } else if (error instanceof Error) {
+      return {
+        message: error.message,
+        success: false,
+      };
+    } else {
+      return {
+        message: "Ocurrió un Error desconocido",
+        success: false,
+      };
+    }
   }
 };

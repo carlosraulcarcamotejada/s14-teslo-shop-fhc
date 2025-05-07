@@ -1,7 +1,7 @@
-interface GetProduct {
+interface GetProductArgs {
   slug?: string;
   showProductImage?: boolean;
   id?: string;
 }
 
-export type { GetProduct };
+export type { GetProductArgs };
