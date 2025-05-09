@@ -49,6 +49,8 @@ export const createProduct = async ({
 
     const { id, imagesFile, ...restProduct } = productParsed.data;
 
+    void imagesFile;
+
     if (id) {
       return {
         message: "El producto no tiene que tener un id",

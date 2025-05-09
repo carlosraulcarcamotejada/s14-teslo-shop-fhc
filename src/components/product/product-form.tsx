@@ -22,7 +22,6 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
-  LoaderCircleIcon,
   RefreshCcwIcon,
   SaveIcon,
   XIcon,
