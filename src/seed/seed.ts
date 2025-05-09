@@ -2,11 +2,19 @@ import bcryptjs from "bcryptjs";
 import { User, UserRole } from "../interfaces/user/user";
 import { Product } from "../interfaces/product/product";
 import { Country } from "../interfaces/shared/country";
-import { Size } from "../interfaces/shared/size";
+import { SizeOption } from "../interfaces/shared/size-option";
 import { CategoryOption } from "../interfaces/category/category-option";
 import { TypeOption } from "../interfaces/type/type-option";
 
-export const productSizes: Size[] = ["L", "M", "S", "XL", "XS", "XXL", "XXXL"];
+export const productSizes: SizeOption[] = [
+  "L",
+  "M",
+  "S",
+  "XL",
+  "XS",
+  "XXL",
+  "XXXL",
+];
 
 export const userRoles: UserRole[] = ["admin", "user"];
 

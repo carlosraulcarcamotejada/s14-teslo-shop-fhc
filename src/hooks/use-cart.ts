@@ -14,6 +14,7 @@ export const useCart = () => {
 
   const addProductToCart = (product: ProductInCart) => {
     dispatch(addProduct(product));
+    return { message: "Producto agregado al carrito" };
   };
 
   const updateCartProductQuantity = (

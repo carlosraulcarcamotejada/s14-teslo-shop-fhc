@@ -1,15 +1,15 @@
 "use server";
-
 import { Prisma } from "@prisma/client";
 import { CreateProductArgs } from "@/interfaces/actions/create-product-args";
 import { ApiResponse } from "@/interfaces/actions/api-response";
 import { productFormSchema } from "@/schema/product-form-schema";
 import prisma from "@/lib/prisma";
-import { Size } from "@/interfaces/shared/size";
+import { SizeOption } from "@/interfaces/shared/size-option";
 import { Product } from "@/interfaces/product/product";
 import { CategoryOption } from "@/interfaces/category/category-option";
 import { TypeOption } from "@/interfaces/type/type-option";
 import { revalidatePath } from "next/cache";
+import { uploadImages } from "@/lib/upload-images";
 
 export const createProduct = async ({
   productFormData,
@@ -30,7 +30,7 @@ export const createProduct = async ({
     const dataObject = Object.fromEntries(productFormData.entries());
     // console.log("Objeto para Zod:", dataObject);
 
-    // 3)
+    // 3) prepara objeto para ser parseado por zod
     const dataForZod = {
       ...dataObject,
       sizes,
@@ -47,7 +47,7 @@ export const createProduct = async ({
       };
     }
 
-    const { id, ...restProduct } = productParsed.data;
+    const { id, imagesFile, ...restProduct } = productParsed.data;
 
     if (id) {
       return {
@@ -61,7 +61,7 @@ export const createProduct = async ({
         data: {
           ...restProduct,
           sizes: {
-            set: restProduct.sizes as Size[],
+            set: restProduct.sizes as SizeOption[],
           },
         },
         include: {
@@ -108,6 +108,22 @@ export const createProduct = async ({
     revalidatePath("/admin/products");
     revalidatePath(`/admin/product/${createdProductData.slug}`);
     revalidatePath(`/product/${createdProductData.slug}`);
+
+    // Agregación de imagenes:
+    if (productFormData.getAll("imagesFile") as File[]) {
+      const imageFiles = productFormData.getAll("imagesFile") as File[];
+
+      const images = await uploadImages(imageFiles);
+
+      if (!images) throw new Error("No se pudo subir las imágenes");
+
+      await prisma.productImage.createMany({
+        data: images.map((image) => ({
+          url: image,
+          productId: createdProduct.id ?? "",
+        })),
+      });
+    }
 
     return {
       createdProduct,

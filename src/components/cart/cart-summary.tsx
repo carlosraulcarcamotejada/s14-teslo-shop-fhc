@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { useSelector } from "react-redux";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
@@ -9,6 +8,7 @@ import { CheckSquareIcon } from "lucide-react";
 import { selectSumaryInfomation, selectTotalItems } from "@/store/selectors";
 import { FormatNumber } from "@/utils/format-number";
 import { CartSummaryProps } from "@/interfaces/cart/cart-summary-props";
+import { Link } from "@/components/ui/link";
 
 export const CartSummary = ({ className, ...props }: CartSummaryProps) => {
   const { subTotal, tax, total } = useSelector(selectSumaryInfomation);
@@ -35,8 +35,12 @@ export const CartSummary = ({ className, ...props }: CartSummaryProps) => {
         <span className="text-right text-2xl">{FormatNumber(total)}</span>
       </div>
       <Link
-        href="/checkout/address"
-        className={cn(buttonVariants({ variant: "default" }), "mt-6 w-full")}
+        disabled={totalItems < 1}
+        href={"/checkout/address"}
+        className={cn(
+          buttonVariants({ variant: "default" }),
+          "mt-6 w-full flex items-center justify-center gap-2"
+        )}
       >
         <CheckSquareIcon />
         Checkout

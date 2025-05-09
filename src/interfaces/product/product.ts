@@ -1,4 +1,4 @@
-import { Size } from "@/interfaces/shared/size";
+import { SizeOption } from "@/interfaces/shared/size-option";
 import { CategoryOption } from "@/interfaces/category/category-option";
 import { TypeOption } from "@/interfaces/type/type-option";
 
@@ -10,7 +10,7 @@ interface Product {
   images: string[];
   inStock?: number;
   price?: number;
-  sizes: Size[];
+  sizes: SizeOption[];
   slug: string;
   tags: string[];
   title: string;

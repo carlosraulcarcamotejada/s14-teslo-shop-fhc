@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { CheckoutSummary } from "@/components/checkout/checkout-summary";
 import { TitlePage } from "@/components/shared/title-page";
 import { ProductsInCartCheckout } from "@/components/checkout/products-in-cart-checkout";
+import { Link } from "@/components/ui/link";
 
 export default function CheckoutPage() {
   return (
@@ -9,7 +9,7 @@ export default function CheckoutPage() {
       <div className="col-start-1 px-4 md:px-0 col-span-4 md:ml-4 md:col-span-4">
         <TitlePage title="Verificar orden" />
         <div className="text-xl mt-8">Ajustar elementos</div>
-        <Link href="/cart" className="underline mt-2">
+        <Link href="/cart" className="mt-2">
           Editar carrito
         </Link>
 

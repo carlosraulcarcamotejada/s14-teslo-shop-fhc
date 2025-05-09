@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { QuantitySelector } from "@/components/product/quantity-selector";
@@ -7,6 +6,7 @@ import { useCart } from "@/hooks/use-cart";
 import { ItemProductCartProps } from "@/interfaces/cart/item-product-cart-props";
 import { ProductImage } from "@/components/product/product-image";
 import { ModalDialog } from "@/components/shared/modal-dialog";
+import { Link } from "@/components/ui/link";
 
 export const ItemProductCart = ({
   className,
@@ -39,7 +39,7 @@ export const ItemProductCart = ({
       <div className="flex flex-col gap-y-2 items-start justify-between py-2">
         <div className="flex flex-col gap-y-2">
           {/* Title */}
-          <Link href={`/product/${slug}`} className="font-bold hover:underline">
+          <Link href={`/product/${slug}`}>
             {`${selectedSize} - ${title}`}
           </Link>
           {/* Price */}

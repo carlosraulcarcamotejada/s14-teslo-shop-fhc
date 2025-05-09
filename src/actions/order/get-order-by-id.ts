@@ -1,13 +1,18 @@
 "use server";
-import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
+import prisma from "@/lib/prisma";
 import { auth } from "@/config/auth.config";
 import { GetOrderByIdArgs } from "@/interfaces/actions/get-order-by-id-args";
-// import { ApiResponse } from "@/interfaces/actions/api-response";
+import { ApiResponse } from "@/interfaces/actions/api-response";
+import { GetOrderByIDPrismaResponse } from "@/interfaces/order/get-order-by-id-prisma-response";
 
 export const getOrderById = async ({
-  id,
-}: GetOrderByIdArgs) => {
+  orderId,
+}: GetOrderByIdArgs): Promise<
+  ApiResponse & {
+    order?: GetOrderByIDPrismaResponse;
+  }
+> => {
   try {
     const session = await auth();
 
@@ -19,9 +24,7 @@ export const getOrderById = async ({
     }
 
     const order = await prisma.order.findUnique({
-      where: { id },
-
-      // include: { productImage: { select: { url: true } } },
+      where: { id: orderId },
       include: {
         OrderAddress: true,
         OrderItem: {
@@ -36,21 +39,25 @@ export const getOrderById = async ({
                 title: true,
                 categoryId: true,
                 typeId: true,
-                category: true,
-                type: true,
+
+                category: {
+                  select: {
+                    name: true,
+                  },
+                },
+                type: {
+                  select: {
+                    name: true,
+                  },
+                },
                 productImage: {
                   select: {
                     url: true,
                   },
                   take: 1,
-                },
-              },
-              include: {
-                category: {
-                  select: { name: true },
-                },
-                type: {
-                  select: { name: true },
+                  orderBy: {
+                    id: "asc",
+                  },
                 },
               },
             },
@@ -59,14 +66,18 @@ export const getOrderById = async ({
       },
     });
 
-   
-
     if (!order) {
-      throw `${id} no existe`;
+      return {
+        message: `Orden con ${orderId} no existe.`,
+        success: false,
+      };
     }
 
-    if (session.user.role === "user" && session.user.id !== order.userId) {
-      throw `${id} no pertenece al usuario`;
+    if (session?.user?.role === "user" && session.user.id !== order.userId) {
+      return {
+        message: `La orden ${orderId} no pertenece al usuario`,
+        success: false,
+      };
     }
 
     return {

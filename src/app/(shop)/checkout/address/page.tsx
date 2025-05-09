@@ -9,7 +9,7 @@ export default async function AddressPage() {
   const {
     user: { id: userId },
   } = (await auth()) ?? { user: { id: "no-id" } };
-  const { userAddress } = await getUserAddress({ userId });
+  const { userAddressFound } = await getUserAddress({ userId });
 
   return (
     <div className="col-start-1 px-4 col-span-4 md:col-span-8 lg:col-span-12 ">
@@ -17,7 +17,7 @@ export default async function AddressPage() {
       <CheckoutAddressForm
         countries={countries}
         userId={userId}
-        userStoredAddress={userAddress}
+        userStoredAddress={userAddressFound}
       />
     </div>
   );

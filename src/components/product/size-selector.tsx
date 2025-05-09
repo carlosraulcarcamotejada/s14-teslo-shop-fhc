@@ -1,7 +1,7 @@
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
 import { SizeSelectorProps } from "@/interfaces/components/size-selector-props";
-import { Size } from "@/interfaces/shared/size";
+import { SizeOption } from "@/interfaces/shared/size-option";
 
 export const SizeSelector = ({
   availableSizes,
@@ -17,7 +17,7 @@ export const SizeSelector = ({
     >
       <h3 className="font-bold">Tallas disponibles:</h3>
       <ToggleGroup
-        onValueChange={(size: Size) => setSize(size)}
+        onValueChange={(size: SizeOption) => setSize(size)}
         defaultValue={selectedSize}
         className="flex flex-wrap justify-start items-center"
         type="single"

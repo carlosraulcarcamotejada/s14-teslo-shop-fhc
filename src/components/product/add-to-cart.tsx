@@ -3,19 +3,20 @@ import { useState } from "react";
 import { QuantitySelector } from "@/components/product/quantity-selector";
 import { SizeSelector } from "@/components/product/size-selector";
 import { Button } from "@/components/ui/button";
-import { AlertCircle, ShoppingCartIcon } from "lucide-react";
+import { AlertCircle, ShoppingCartIcon, XIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useCart } from "@/hooks/use-cart";
 import { ProductInCart } from "@/interfaces/product/product-in-cart";
 import { AddToCartProps } from "@/interfaces/cart/add-to-cart-props";
-import { Size } from "@/interfaces/shared/size";
+import { SizeOption } from "@/interfaces/shared/size-option";
+import { toast } from "sonner";
 
 export const AddToCart = ({ product }: AddToCartProps) => {
   const { addProductToCart } = useCart();
 
   const { sizes } = product;
 
-  const [selectedSize, setSelectedSize] = useState<Size | undefined>(undefined);
+  const [selectedSize, setSelectedSize] = useState<SizeOption | undefined>(undefined);
   const [quantity, setQuantity] = useState<number>(1);
   const [posted, setPosted] = useState<boolean>(false);
 
@@ -35,10 +36,19 @@ export const AddToCart = ({ product }: AddToCartProps) => {
       image: product.images[0],
     };
 
-    addProductToCart(productInCart);
+    const { message } = addProductToCart(productInCart);
     setPosted(false);
     setQuantity(1);
     setSelectedSize(undefined);
+
+    toast(message, {
+      action: {
+        label: <XIcon className="w-4 h-4" />,
+        onClick: () => {
+          toast.dismiss();
+        },
+      },
+    });
   };
 
   return (

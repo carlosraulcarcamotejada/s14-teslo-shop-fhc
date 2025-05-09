@@ -1,5 +1,5 @@
 import { Product } from "@/interfaces/product/product";
-import { Size } from "@/interfaces/shared/size";
+import { SizeOption } from "@/interfaces/shared/size-option";
 
 interface ProductInCart
   extends Omit<
@@ -16,7 +16,7 @@ interface ProductInCart
   > {
   image: string;
   quantity: number;
-  selectedSize: Size;
+  selectedSize: SizeOption;
 }
 
 export type { ProductInCart };

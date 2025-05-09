@@ -1,5 +1,5 @@
 interface GetOrderByIdArgs {
-  id: string;
+  orderId: string;
 }
 
 export type { GetOrderByIdArgs };

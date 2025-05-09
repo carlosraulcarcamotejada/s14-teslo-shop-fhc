@@ -47,7 +47,7 @@ export const deleteUserAddress = async ({
 
     return {
       deletedAddress,
-      message: "La dirección no pudo ser eliminada",
+      message: "La dirección fue eliminada exitosamente",
       success: true,
     };
   } catch (error) {

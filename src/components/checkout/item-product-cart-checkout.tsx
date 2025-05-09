@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { ItemProductCartCheckoutProps } from "@/interfaces/cart/item-product-cart-checkout-props";
 import { cn } from "@/lib/utils";
 import { FormatNumber } from "@/utils/format-number";
-import Link from "next/link";
+import { Link } from "@/components/ui/link";
 
 export const ItemProductCartCheckout = ({
   className,
@@ -32,7 +32,7 @@ export const ItemProductCartCheckout = ({
       <div className="flex flex-col gap-y-2 items-start justify-between py-2">
         <div className="flex flex-col gap-y-2">
           {/* Title */}
-          <Link href={slug} className="font-bold hover:underline">
+          <Link href={slug}>
             {`${selectedSize} - ${title}`} ({quantity})
           </Link>
           {/* Price */}

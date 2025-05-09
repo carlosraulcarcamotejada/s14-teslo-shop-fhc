@@ -1,16 +1,15 @@
 "use server";
-
+import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { UpdateProductArgs } from "@/interfaces/actions/update-product-args";
 import { ApiResponse } from "@/interfaces/actions/api-response";
 import { productFormSchema } from "@/schema/product-form-schema";
-import prisma from "@/lib/prisma";
-import { Size } from "@/interfaces/shared/size";
+import { SizeOption } from "@/interfaces/shared/size-option";
 import { Product } from "@/interfaces/product/product";
 import { TypeOption } from "@/interfaces/type/type-option";
 import { CategoryOption } from "@/interfaces/category/category-option";
 import { revalidatePath } from "next/cache";
-import { cloudinary } from "@/config/cloudinary";
+import { uploadImages } from "@/lib/upload-images";
 
 export const updateProduct = async ({
   productFormData,
@@ -48,22 +47,6 @@ export const updateProduct = async ({
       };
     }
 
-    // Agregación de imagenes:
-    if (productFormData.getAll("imagesFile") as File[]) {
-      const imageFiles = productFormData.getAll("imagesFile") as File[];
-
-      const images = await uploadImages(imageFiles);
-
-      if (!images) throw new Error("No se pudo subir las imágenes");
-
-      await prisma.productImage.createMany({
-        data: images.map((image) => ({
-          url: image,
-          productId: productParsed.data.id ?? "",
-        })),
-      });
-    }
-
     const { id, imagesFile, ...restProduct } = productParsed.data;
 
     void imagesFile;
@@ -82,7 +65,7 @@ export const updateProduct = async ({
           ...restProduct,
 
           sizes: {
-            set: restProduct.sizes as Size[],
+            set: restProduct.sizes as SizeOption[],
           },
         },
         include: {
@@ -103,9 +86,9 @@ export const updateProduct = async ({
       };
     });
 
-    const { updatedProduct } = prismaTx;
+    const { updatedProduct: updatedProductData } = prismaTx;
 
-    if (!updatedProduct) {
+    if (!updatedProductData) {
       return {
         success: false,
         message: "No se pudo actualizó el producto",
@@ -117,9 +100,9 @@ export const updateProduct = async ({
       type: typeUpdatedProduct,
       productImage,
       ...restUpdatedProduct
-    } = updatedProduct;
+    } = updatedProductData;
 
-    const updatedProductData: Product = {
+    const updatedProduct: Product = {
       ...restUpdatedProduct,
       categoryOption: categoryUpdatedProduct.name as CategoryOption,
       typeOption: typeUpdatedProduct.name as TypeOption,
@@ -130,10 +113,26 @@ export const updateProduct = async ({
     revalidatePath(`/admin/product/${updatedProductData.slug}`);
     revalidatePath(`/product/${updatedProductData.slug}`);
 
+    // Agregación de imagenes:
+    if (productFormData.getAll("imagesFile") as File[]) {
+      const imageFiles = productFormData.getAll("imagesFile") as File[];
+
+      const images = await uploadImages(imageFiles);
+
+      if (!images) throw new Error("No se pudo subir las imágenes");
+
+      await prisma.productImage.createMany({
+        data: images.map((image) => ({
+          url: image,
+          productId: updatedProduct.id ?? "",
+        })),
+      });
+    }
+
     return {
       message: "Producto actualizado correctamente",
       success: true,
-      updatedProduct: updatedProductData,
+      updatedProduct,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -153,29 +152,5 @@ export const updateProduct = async ({
         success: false,
       };
     }
-  }
-};
-
-const uploadImages = async (
-  imagesFile: File[]
-): Promise<string[] | undefined> => {
-  try {
-    // console.log("imagesFile: ", imagesFile);
-
-    const uploadPromises = imagesFile.map(async (image) => {
-      const buffer = await image.arrayBuffer();
-      const base64Image = Buffer.from(buffer).toString("base64");
-
-      return cloudinary.uploader
-        .upload(`data:image/png;base64,${base64Image}`)
-        .then((r) => r.secure_url);
-    });
-
-    const uploadedImages = await Promise.all(uploadPromises);
-
-    return uploadedImages;
-  } catch (error) {
-    console.log("error en uploadImages ", error);
-    return undefined;
   }
 };

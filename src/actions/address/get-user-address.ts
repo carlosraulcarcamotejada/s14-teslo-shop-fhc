@@ -7,7 +7,9 @@ import { ApiResponse } from "@/interfaces/actions/api-response";
 
 export const getUserAddress = async ({
   userId,
-}: GetUserAddressArgs): Promise<ApiResponse & { userAddress?: Address }> => {
+}: GetUserAddressArgs): Promise<
+  ApiResponse & { userAddressFound?: Address }
+> => {
   try {
     const userAddressData = await prisma.userAddress.findUnique({
       where: { userId },
@@ -22,7 +24,7 @@ export const getUserAddress = async ({
 
     const { address2, countryId, ...restResultAddress } = userAddressData;
 
-    const userAddress: Address = {
+    const userAddressFound: Address = {
       address2: address2 ?? undefined,
       country: countryId,
       ...restResultAddress,
@@ -31,7 +33,7 @@ export const getUserAddress = async ({
     return {
       message: "La dirección del usuario fue obtenida exitosamente",
       success: true,
-      userAddress,
+      userAddressFound,
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {

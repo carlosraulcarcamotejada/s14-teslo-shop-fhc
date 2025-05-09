@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -21,7 +21,12 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { RefreshCcwIcon, SaveIcon, XIcon } from "lucide-react";
+import {
+  LoaderCircleIcon,
+  RefreshCcwIcon,
+  SaveIcon,
+  XIcon,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ProductFormProps } from "@/interfaces/product/product-form-props";
 import { Textarea } from "@/components/ui/textarea";
@@ -46,7 +51,9 @@ export const ProductForm = ({
   ...props
 }: ProductFormProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isCreating, setIsCreating] = useState<boolean>(false);
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // 1. Define your default values.
   const productValues: ProductFormValues = product
@@ -63,8 +70,26 @@ export const ProductForm = ({
     defaultValues: productValues,
   });
 
+  const isDirty: boolean = !form.formState.isDirty;
+
+  // Para que isDirty se restablezca
+  useEffect(() => {
+    if (product) {
+      form.reset(product);
+    }
+  }, [product]);
+
+  // Para saber si está en modo desa
+  useEffect(() => {
+    if (product?.id) {
+      setIsCreating(false);
+    } else if (!product?.id) {
+      setIsCreating(true);
+    }
+  }, [product]);
+
   // 3. Define a submit handler.
-  async function onSubmit(values: ProductFormValues) {
+  const onSubmit = async (values: ProductFormValues) => {
     setIsLoading(true);
     const { imagesFile, ...restProductToSave } = values;
     const productFormData = new FormData();
@@ -116,6 +141,7 @@ export const ProductForm = ({
       success = successResp;
       message = messageResp;
       product = createdProduct;
+      console.log("createProduct: ", successResp, messageResp, createdProduct);
     }
 
     // console.log(message, product, ok);
@@ -131,14 +157,24 @@ export const ProductForm = ({
       },
     });
 
-    form.reset();
-  }
+    form.reset(productDefaultValues);
+    // Limpia manualmente el input de tipo file
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+
+    if (isCreating) {
+      router.push(`/product/${values.slug}`);
+    }
+  };
 
   const { productImage } = productValues;
 
   return (
     <div className={cn("", className)} {...props}>
-      <Link href={`/product/${productValues.slug}`}>{productValues.title}</Link>
+      <Link disabled={isLoading} href={`/product/${productValues.slug}`}>
+        {productValues.title}
+      </Link>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 gap-2 sm:gap-5 sm:grid-cols-2 mt-8">
@@ -202,12 +238,19 @@ export const ProductForm = ({
                       accept="image/png, image/jpeg, image/avif"
                       multiple
                       name={name}
+                      ref={(e) => {
+                        ref(e); // esto mantiene la conexión con RHF
+                        fileInputRef.current = e; // esto guarda la ref para limpiar
+                      }}
                       placeholder="Fotos"
-                      ref={ref}
+                      // ref={ref}
                       type="file"
                       onChange={(e) => {
                         const files = Array.from(e.target.files ?? []);
-                        form.setValue("imagesFile", files);
+                        form.setValue("imagesFile", files, {
+                          shouldDirty: true,
+                          shouldValidate: true,
+                        });
                       }}
                       disabled={isLoading}
                     />
@@ -391,14 +434,15 @@ export const ProductForm = ({
                 "w-full lg:w-1/3"
               )}
               type="submit"
-              disabled={isLoading}
+              disabled={isDirty || isLoading}
             >
-              {productValues?.id ? (
-                <RefreshCcwIcon className={cn(isLoading && "animate-spin")} />
-              ) : (
+              {isCreating ? (
                 <SaveIcon className={cn(isLoading && "animate-pulse")} />
+              ) : (
+                <RefreshCcwIcon className={cn(isLoading && "animate-spin")} />
               )}
-              {productValues?.id ? "Actualizar" : "Guardar"}
+
+              {isCreating ? "Guardar" : "Actualizar"}
             </Button>
           </div>
         </form>

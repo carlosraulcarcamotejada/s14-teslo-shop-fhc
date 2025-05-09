@@ -1,9 +1,9 @@
-import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { FormatNumber } from "@/utils/format-number";
 import { ItemProductCartOrdersProps } from "@/interfaces/cart/item-product-cart-orders-props";
-import Link from "next/link";
+import { ProductImage } from "@/components/product/product-image";
+import { Link } from "@/components/ui/link";
 
 export const ItemProductCartOrders = ({
   className,
@@ -22,9 +22,9 @@ export const ItemProductCartOrders = ({
   return (
     <Card className={cn("flex gap-x-2 overflow-hidden", className)} {...props}>
       {/* Image */}
-      <Image
+      <ProductImage
         className="h-52 w-40 object-cover lg:w-48"
-        src={`/products/${image}`}
+        src={image}
         alt={title}
         height={200}
         width={200}

@@ -1,10 +1,10 @@
 import { ComponentPropsWithoutRef, Dispatch, SetStateAction } from "react";
-import { Size } from "@/interfaces/shared/size";
+import { SizeOption } from "@/interfaces/shared/size-option";
 
 interface SizeSelectorProps extends ComponentPropsWithoutRef<"div"> {
-  selectedSize: Size | undefined;
-  setSize: Dispatch<SetStateAction<Size | undefined>>;
-  availableSizes: Size[];
+  selectedSize: SizeOption | undefined;
+  setSize: Dispatch<SetStateAction<SizeOption | undefined>>;
+  availableSizes: SizeOption[];
 }
 
 export type { SizeSelectorProps };

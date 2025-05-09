@@ -21,7 +21,7 @@ import {
 import { Address } from "@/interfaces/shared/address";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { SaveIcon } from "lucide-react";
+import { SaveIcon, XIcon } from "lucide-react";
 import { useAddress } from "@/hooks/use-address";
 import { deleteUserAddress } from "@/actions/address/delete-user-address";
 import { addressFormSchema } from "@/schema/address-form-schema";
@@ -30,6 +30,9 @@ import { cn } from "@/lib/utils";
 import { getUserAddress } from "@/actions/address/get-user-address";
 import { createUserAddress } from "@/actions/address/create-user-address";
 import { updateUserAddress } from "@/actions/address/update-user-address";
+import { checkAddressValues } from "@/data/check-address-values";
+import { toast } from "sonner";
+import { useEffect, useState } from "react";
 
 export const CheckoutAddressForm = ({
   countries,
@@ -40,23 +43,14 @@ export const CheckoutAddressForm = ({
 }: CheckoutAddressProps) => {
   const router = useRouter();
   const { address, setCheckoutAddress } = useAddress();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // 1. Define your default values.
   const defaultCheckoutAddressValues: Address = userStoredAddress
     ? userStoredAddress
     : !userStoredAddress && address
     ? address
-    : {
-        address: "",
-        address2: "",
-        city: "",
-        country: "",
-        lastNames: "",
-        mobilePhone: "",
-        names: "",
-        saveForm: false,
-        zipCode: "",
-      };
+    : checkAddressValues;
 
   // 2. Define your form.
   const form = useForm<Address>({
@@ -64,27 +58,59 @@ export const CheckoutAddressForm = ({
     defaultValues: defaultCheckoutAddressValues,
   });
 
+  const isDirty: boolean = !form.formState.isDirty;
+  const isValid: boolean = !form.formState.isValid;
+
+  // Para que isDirty se restablezca
+  useEffect(() => {
+    if (userStoredAddress) {
+      form.reset(userStoredAddress);
+    }
+  }, [userStoredAddress]);
+
   // 3. Define a submit handler.
-  async function onSubmit(values: Address) {
+  const onSubmit = async (values: Address) => {
+    setIsLoading(true);
     setCheckoutAddress(values);
 
-    if (!values.saveForm) {
-      await deleteUserAddress({ userId });
+    if (isDirty) {
+      router.push("/checkout");
+      return;
     }
 
-    const userAddressFound = await getUserAddress({ userId });
-
+    const { userAddressFound } = await getUserAddress({ userId });
+    let message: string = "";
     if (!userAddressFound) {
-      await createUserAddress({ address, userId });
+      const { message: messageResp } = await createUserAddress({
+        address: values,
+        userId,
+      });
+      message = messageResp;
     } else if (userAddressFound) {
-      await updateUserAddress({ address, userId });
+      const { message: messageResp } = await updateUserAddress({
+        address: values,
+        userId,
+      });
+      message = messageResp;
     }
 
     if (!values.saveForm) {
+      const { message: messageResp } = await deleteUserAddress({ userId });
+      message = messageResp;
     }
 
+    toast(message, {
+      action: {
+        label: <XIcon className="w-4 h-4" />,
+        onClick: () => {
+          toast.dismiss();
+        },
+      },
+    });
+
+    setIsLoading(true);
     router.push("/checkout");
-  }
+  };
 
   return (
     <div className={cn("", className)} {...props}>
@@ -98,7 +124,11 @@ export const CheckoutAddressForm = ({
                 <FormItem>
                   <FormLabel>Nombres</FormLabel>
                   <FormControl>
-                    <Input placeholder="Nombres" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      placeholder="Nombres"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -112,7 +142,11 @@ export const CheckoutAddressForm = ({
                 <FormItem>
                   <FormLabel>Apellidos</FormLabel>
                   <FormControl>
-                    <Input placeholder="Apellidos" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      placeholder="Apellidos"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -126,7 +160,11 @@ export const CheckoutAddressForm = ({
                 <FormItem>
                   <FormLabel>Dirección</FormLabel>
                   <FormControl>
-                    <Input placeholder="Dirección" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      placeholder="Dirección"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -140,7 +178,11 @@ export const CheckoutAddressForm = ({
                 <FormItem>
                   <FormLabel>Dirección 2 (opcional)</FormLabel>
                   <FormControl>
-                    <Input placeholder="Dirección 2 (opcional)" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      placeholder="Dirección 2 (opcional)"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -154,7 +196,11 @@ export const CheckoutAddressForm = ({
                 <FormItem>
                   <FormLabel>Código postal</FormLabel>
                   <FormControl>
-                    <Input placeholder="Código postal" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      placeholder="Código postal"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -168,7 +214,11 @@ export const CheckoutAddressForm = ({
                 <FormItem>
                   <FormLabel>Ciudad</FormLabel>
                   <FormControl>
-                    <Input placeholder="Ciudad" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      placeholder="Ciudad"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -182,7 +232,11 @@ export const CheckoutAddressForm = ({
                 return (
                   <FormItem>
                     <FormLabel>País</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select
+                      disabled={isLoading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Seleccine un país" />
@@ -209,7 +263,11 @@ export const CheckoutAddressForm = ({
                 <FormItem>
                   <FormLabel>Teléfono</FormLabel>
                   <FormControl>
-                    <Input placeholder="Teléfono" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      placeholder="Teléfono"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -224,6 +282,7 @@ export const CheckoutAddressForm = ({
                   <FormControl>
                     <Checkbox
                       checked={field.value}
+                      disabled={isLoading}
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
@@ -239,7 +298,7 @@ export const CheckoutAddressForm = ({
               "w-full lg:w-1/3 mt-4"
             )}
             type="submit"
-            disabled={!form.formState.isValid}
+            disabled={isValid || isLoading}
           >
             <SaveIcon />
             Siguiente
